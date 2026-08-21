@@ -6,7 +6,7 @@
 ## 当前状态
 
 - [x] 仓库公开 + Release v0.1.0
-- [x] CI 全绿（红线扫描 / 891 测试 / 前端构建 / Docker 镜像构建）
+- [x] CI 全绿（红线扫描 / 894 测试 / 前端构建 / Docker 镜像构建）
 - [x] GitHub Discussions 已开启，发射公告已发：
   <https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions/1>
 - [x] 文档站已上线：<https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/>

@@ -5,7 +5,7 @@
 
 ## 发射前检查单（D-3）
 
-- [ ] 仓库 CI 全绿（红线扫描 / 891 测试 / 前端构建 / Docker 镜像构建）
+- [ ] 仓库 CI 全绿（红线扫描 / 894 测试 / 前端构建 / Docker 镜像构建）
 - [ ] Release v0.1.0 已发布且含截图
 - [ ] 60 秒演示视频已上传 YouTube / Bilibili（脚本见 demo-video-script.md）
 - [ ] 社交预览图已上传：仓库 Settings → Social preview（`docs/social-preview.png`）

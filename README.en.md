@@ -17,7 +17,7 @@ calls, and your audio and minutes **never leave your machine**.
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
-![Tests](https://img.shields.io/badge/tests-891%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-894%20passed-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -88,7 +88,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8080
 - Original-layout DOCX/PDF export for five scene types
 - Local meeting history, search and “ask your meetings” Q&A
 - Optional signed DingTalk bot push (disabled by default)
-- 891 automated tests, rate limiting, security headers, audit logs
+- 894 automated tests, rate limiting, security headers, audit logs
 - Docker one-command deployment
 
 ## Privacy
@@ -109,7 +109,7 @@ python scripts/check_open_source_hygiene.py
 
 - [x] Recording → transcript → scene → minutes → export
 - [x] Local history and meeting Q&A
-- [ ] Streaming realtime subtitles
+- [x] Realtime subtitles (experimental: `JKINCO_REALTIME_LOCAL_ASR=1`)
 - [ ] Speaker diarization
 - [ ] Desktop installers (macOS / Windows)
 - [ ] More languages

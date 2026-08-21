@@ -41,7 +41,7 @@ engineering evidence, which the rule gate enforces.
 Docker one-command:
 docker compose up -d --build  →  http://localhost:8080
 
-891 automated tests, MIT license, CI green (backend tests, frontend build,
+894 automated tests, MIT license, CI green (backend tests, frontend build,
 docker image build, plus a red-line scanner that blocks cloud-service traces
 and secrets from entering the repo).
 

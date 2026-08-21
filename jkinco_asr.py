@@ -34,6 +34,11 @@ ASR_MODEL_LOCK = threading.Lock()
 # 可选：指定本地模型目录，避免每次重建容器后重新下载。
 ASR_MODEL_DIR = os.getenv("JKINCO_ASR_MODEL_DIR", "").strip() or None
 
+# 实时流式识别模型（paraformer-zh-streaming）。与整段识别模型分开懒加载，
+# 只有启用 JKINCO_REALTIME_LOCAL_ASR 时才会真正下载/占用内存。
+STREAMING_MODEL = None
+STREAMING_MODEL_LOCK = threading.Lock()
+
 
 def get_asr_model():
     """懒加载本地语音识别模型（线程安全）。"""
@@ -60,6 +65,67 @@ def get_asr_model():
             )
             LOGGER.info("本地语音识别模型已就绪")
     return ASR_MODEL
+
+
+def get_streaming_asr_model():
+    """懒加载本地流式识别模型（实验性，线程安全）。"""
+    global STREAMING_MODEL
+    if STREAMING_MODEL is not None:
+        return STREAMING_MODEL
+
+    with STREAMING_MODEL_LOCK:
+        if STREAMING_MODEL is None:
+            if AutoModel is None:
+                raise RuntimeError("本地 FunASR 未安装。请先安装依赖：pip install -r requirements.txt")
+            LOGGER.info("正在加载本地流式识别模型 paraformer-zh-streaming（首次运行需下载模型）")
+            kwargs = {}
+            if ASR_MODEL_DIR:
+                kwargs["model_dir"] = ASR_MODEL_DIR
+            STREAMING_MODEL = AutoModel(
+                model="paraformer-zh-streaming",
+                vad_model="fsmn-vad",
+                punc_model="ct-punc",
+                disable_update=True,
+                **kwargs,
+            )
+            LOGGER.info("本地流式识别模型已就绪")
+    return STREAMING_MODEL
+
+
+STREAMING_CHUNK_SIZE = [0, 10, 5]
+STREAMING_ENCODER_LOOK_BACK = 4
+STREAMING_DECODER_LOOK_BACK = 1
+
+
+def streaming_transcribe(
+    pcm_bytes: bytes,
+    cache: dict | None = None,
+    is_final: bool = False,
+    sample_rate: int = 16000,
+) -> tuple[str, dict]:
+    """流式识别一段 16kHz 单声道 PCM（s16le）音频。
+
+    返回 (识别文本, 更新后的 cache)。cache 必须在同一路会话内持续透传，
+    is_final=True 时刷新最终句。实验性能力：默认关闭，由
+    JKINCO_REALTIME_LOCAL_ASR=1 开启。
+    """
+    if not pcm_bytes:
+        return "", dict(cache or {})
+    samples = np.frombuffer(pcm_bytes, dtype=np.int16).astype(np.float32) / 32768.0
+    if samples.size == 0:
+        return "", dict(cache or {})
+    model = get_streaming_asr_model()
+    state = dict(cache or {})
+    result = model.generate(
+        input=samples,
+        cache=state,
+        is_final=is_final,
+        chunk_size=STREAMING_CHUNK_SIZE,
+        encoder_chunk_look_back=STREAMING_ENCODER_LOOK_BACK,
+        decoder_chunk_look_back=STREAMING_DECODER_LOOK_BACK,
+    )
+    text = "".join(item.get("text", "") for item in result if item.get("text"))
+    return correct_domain_terms(text), state
 
 
 # ================= 核心处理函数 =================

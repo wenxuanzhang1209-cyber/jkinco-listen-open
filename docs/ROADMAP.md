@@ -10,7 +10,7 @@
 
 ## v0.2
 
-- [ ] 本地实时流式字幕（FunASR streaming / sherpa-onnx）
+- [x] 本地实时流式字幕（实验性：`JKINCO_REALTIME_LOCAL_ASR=1`，FunASR streaming）
 - [ ] 说话人分离与角色识别
 - [ ] 录音自动备份（WebDAV / SMB）
 - [ ] 桌面安装包（macOS / Windows）

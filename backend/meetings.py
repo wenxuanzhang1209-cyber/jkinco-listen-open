@@ -21,6 +21,7 @@ from livekit.api import AccessToken, DeleteRoomRequest, LiveKitAPI, VideoGrants
 from pydantic import BaseModel, Field
 
 from backend import core
+import jkinco_asr
 from jkinco_lexicon import correct_domain_terms
 from jkinco_text import clean_display_title, clean_message_text, clean_speaker_name, has_meaningful_speech
 from backend.auth import is_admin, is_guest, read_profile
@@ -49,6 +50,11 @@ SCHEDULED_START_GRACE_SECONDS = int(os.getenv("JKINCO_SCHEDULED_START_GRACE", st
 # 会议聊天单次返回的最大条数。取 400 与前端的保留条数一致 —— 两处不一致时,
 # 要么白传一批立刻被丢掉的消息,要么用户滚不到自己刚看过的那条。
 CHAT_HISTORY_LIMIT = int(os.getenv("JKINCO_CHAT_HISTORY_LIMIT", "400"))
+# 实验性本地实时字幕：默认关闭。开启后 WebSocket 字幕走本机
+# paraformer-zh-streaming，不依赖任何外部服务。
+REALTIME_LOCAL_ASR = os.getenv("JKINCO_REALTIME_LOCAL_ASR", "0").strip().lower() not in {"0", "false", "no", "off"}
+# 实时转写空闲超时：一段时间收不到音频就结束会话，避免连接悬挂。
+ASR_IDLE_TIMEOUT_SECONDS = max(10.0, float(os.getenv("JKINCO_ASR_IDLE_TIMEOUT", "120") or 120))
 # 单次转写拉取的最大条数。取 200 略高于前端保留的 120 条,给「刚进会时想往回翻
 # 一点」留余量,同时把百人同时进会的首屏开销压下来。增量轮询每次只有几条,
 # 这个上限对它不生效。
@@ -1726,9 +1732,89 @@ def _register_meeting_content_routes(router: APIRouter, require_user: Callable[[
 def _register_realtime_asr_route(app: FastAPI, verify_session: Callable[[str | None], str | None]) -> None:
     """实时转写 WebSocket（开源版）。
 
-    开源版暂不提供实时流式字幕（录音上传后的整段本地转写为旗舰能力）。
-    路由保留并返回明确错误，避免前端无限重连；鉴权与会议开关校验照旧。
+    默认返回明确错误，避免前端无限重连；设置 JKINCO_REALTIME_LOCAL_ASR=1
+    后启用实验性本地流式字幕（FunASR paraformer-zh-streaming）。
+    鉴权与会议开关校验照旧。
     """
+
+    async def _stream_local_realtime_asr(websocket: WebSocket, on_sentence: Callable[[dict, str], dict]) -> None:
+        """实验性本地流式转写：PCM 分块 → FunASR streaming → 字幕下发。"""
+        await websocket.accept()
+        await websocket.send_json({"type": "asr.ready", "model": "paraformer-zh-streaming (local)"})
+        cache: dict = {}
+        pending = bytearray()
+        sentence_id = 0
+        live_chunk_min_bytes = int(16000 * 2 * float(os.getenv("JKINCO_LIVE_CHUNK_SECONDS", "1.4")))
+
+        async def flush(is_final: bool) -> None:
+            nonlocal cache, pending, sentence_id
+            if not pending:
+                if is_final:
+                    cache = {}
+                return
+            chunk = bytes(pending)
+            pending.clear()
+            try:
+                text, cache = await asyncio.to_thread(
+                    jkinco_asr.streaming_transcribe, chunk, cache, is_final
+                )
+            except Exception as error:
+                await websocket.send_json({"type": "asr.error", "message": f"本地流式转写失败：{str(error)[:240]}"})
+                return
+            if not text:
+                return
+            sentence = {
+                "text": text,
+                "sentence_id": sentence_id,
+                "sentence_end": is_final,
+                "begin_time": 0,
+                "end_time": 0,
+            }
+            extra = on_sentence(sentence, text) if is_final else {}
+            sentence_id += 1
+            await websocket.send_json({
+                "type": "transcript.final" if is_final else "transcript.interim",
+                "sentence_id": sentence_id,
+                "text": text,
+                "start_time_ms": 0,
+                "end_time_ms": 0,
+                **extra,
+            })
+
+        try:
+            while True:
+                try:
+                    message = await asyncio.wait_for(websocket.receive(), timeout=ASR_IDLE_TIMEOUT_SECONDS)
+                except asyncio.TimeoutError:
+                    raise RuntimeError("长时间没有收到音频，已结束本次实时转写")
+                if message.get("type") == "websocket.disconnect":
+                    break
+                if message.get("bytes"):
+                    pending.extend(message["bytes"])
+                    if len(pending) >= live_chunk_min_bytes:
+                        await flush(is_final=False)
+                elif message.get("text"):
+                    command = json.loads(message["text"])
+                    if command.get("type") == "finish":
+                        await flush(is_final=True)
+                        break
+        except WebSocketDisconnect:
+            pass
+        except Exception as error:
+            try:
+                await websocket.send_json({"type": "asr.error", "message": str(error)[:300]})
+            except Exception:
+                pass
+        finally:
+            try:
+                await flush(is_final=True)
+            except Exception:
+                pass
+            try:
+                await websocket.close()
+            except Exception:
+                pass
+
     @app.websocket("/api/realtime/asr/{meeting_id}")
     async def realtime_asr(websocket: WebSocket, meeting_id: str):
         if not _websocket_origin_matches_host(websocket):
@@ -1754,12 +1840,23 @@ def _register_realtime_asr_route(app: FastAPI, verify_session: Callable[[str | N
         if not meeting["realtime_transcription_enabled"]:
             await websocket.close(code=4403, reason="本场会议未开启实时转写")
             return
-        await websocket.accept()
-        await websocket.send_json({
-            "type": "asr.error",
-            "message": "开源版暂未提供实时流式转写，请使用录音上传后自动转写",
-        })
-        await websocket.close(code=4503)
+        if REALTIME_LOCAL_ASR:
+            identity = _resolve_participant_identity(
+                meeting["id"], username, websocket.query_params.get("identity", "")[:100]
+            )
+
+            def on_sentence(sentence: dict, corrected: str) -> dict:
+                _store_transcript(meeting["id"], identity, sentence, text=corrected)
+                return {"participant_identity": identity}
+
+            await _stream_local_realtime_asr(websocket, on_sentence)
+        else:
+            await websocket.accept()
+            await websocket.send_json({
+                "type": "asr.error",
+                "message": "开源版实时流式转写未启用：设置 JKINCO_REALTIME_LOCAL_ASR=1 可开启实验性本地字幕",
+            })
+            await websocket.close(code=4503)
 
     @app.websocket("/api/realtime/asr")
     async def realtime_asr_recorder(websocket: WebSocket):
@@ -1771,12 +1868,15 @@ def _register_realtime_asr_route(app: FastAPI, verify_session: Callable[[str | N
         if not username:
             await websocket.close(code=4401)
             return
-        await websocket.accept()
-        await websocket.send_json({
-            "type": "asr.error",
-            "message": "开源版暂未提供实时流式转写，请使用录音上传后自动转写",
-        })
-        await websocket.close(code=4503)
+        if REALTIME_LOCAL_ASR:
+            await _stream_local_realtime_asr(websocket, lambda sentence, corrected: {})
+        else:
+            await websocket.accept()
+            await websocket.send_json({
+                "type": "asr.error",
+                "message": "开源版实时流式转写未启用：设置 JKINCO_REALTIME_LOCAL_ASR=1 可开启实验性本地字幕",
+            })
+            await websocket.close(code=4503)
 
 def register_meeting_routes(app: FastAPI, require_user: Callable[[Request], str], verify_session: Callable[[str | None], str | None]) -> None:
     """注册全部会议接口,并拉起后台的空闲会议回收线程。"""
