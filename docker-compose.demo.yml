@@ -1,0 +1,6 @@
+# 示例数据模式覆盖层：不下载模型也能先体验完整界面。
+# 用法：docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d
+services:
+  app:
+    environment:
+      JKINCO_DEMO_DATA: "1"

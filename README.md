@@ -83,6 +83,9 @@ docker compose up -d --build
 > NVIDIA GPU 加速：`docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d`
 > （Apple Silicon 无需配置，Ollama 自动走 Metal。）
 
+> 先看效果再下载模型：`docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d`
+> （示例模式会自动写入两条示例纪要，界面、导出、历史检索全部可用。）
+
 ## 🛠️ 手动安装
 
 一条命令（推荐给不想用 Docker 的用户）：

@@ -56,6 +56,10 @@ The first start downloads the local ASR model (≈1–2 GB) and the default LLM
 NVIDIA GPU: `docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d`
 (Apple Silicon needs no config — Ollama uses Metal automatically.)
 
+Try the UI before downloading models:
+`docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d`
+— two sample meeting records appear in history automatically.
+
 Want to try the UI before downloading models? Set `JKINCO_DEMO_DATA=1` — two
 sample meeting records (site meeting + customer visit) appear in history.
 
