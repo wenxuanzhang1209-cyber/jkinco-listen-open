@@ -9,6 +9,7 @@
 - [x] CI 全绿（红线扫描 / 891 测试 / 前端构建 / Docker 镜像构建）
 - [x] GitHub Discussions 已开启，发射公告已发：
   <https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions/1>
+- [x] 文档站已上线：<https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/>
 - [x] 发射物料包就绪：`docs/launch/`
 - [ ] 社交预览图上传：仓库 Settings → Social preview →
   上传 `docs/social-preview.png`（1280×640）
