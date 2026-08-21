@@ -80,6 +80,9 @@ docker compose up -d --build
 
 > 想换模型？`OLLAMA_MODEL=qwen2.5:14b docker compose up -d` 即可，其余不变。
 
+> NVIDIA GPU 加速：`docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d`
+> （Apple Silicon 无需配置，Ollama 自动走 Metal。）
+
 ## 🛠️ 手动安装
 
 一条命令（推荐给不想用 Docker 的用户）：

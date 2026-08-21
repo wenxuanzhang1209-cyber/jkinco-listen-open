@@ -53,6 +53,9 @@ Open <http://localhost:8080> and sign in with `admin / 123456`.
 The first start downloads the local ASR model (≈1–2 GB) and the default LLM
 (`qwen2.5:7b-instruct`). After that it works fully offline.
 
+NVIDIA GPU: `docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d`
+(Apple Silicon needs no config — Ollama uses Metal automatically.)
+
 Want to try the UI before downloading models? Set `JKINCO_DEMO_DATA=1` — two
 sample meeting records (site meeting + customer visit) appear in history.
 
