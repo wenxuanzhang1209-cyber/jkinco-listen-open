@@ -214,10 +214,104 @@ def _stale_file_sweeper() -> None:
             LOGGER.warning("过期访客清理失败:%s", error)
 
 
+# 示例数据模式：历史为空时写入两条真实结构的示例纪要，让用户不下载模型也能
+# 先体验完整界面、导出与历史检索（JKINCO_DEMO_DATA=1 时启用）。
+DEMO_RECORDS = (
+    {
+        "mode": "talk",
+        "source": "示例数据",
+        "transcript": (
+            "监理单位主持第二十七次工程例会。施工单位项目经理汇报本周进度：A区钢筋绑扎完成三层，"
+            "模板安装完成两层，混凝土浇筑按计划推进；现场安全整改项已关闭两项，剩余三项本周五前完成。"
+            "监理单位要求：隐蔽工程验收资料必须在浇筑前报审，旁站记录同步完善；下周重点检查塔吊附着和"
+            "临边防护。建设单位提醒：竣工资料汇总节点不变，各专业单位按清单提交。会议明确：整改回复单"
+            "由施工单位技术负责人签发，周五下班前报送监理项目部。"
+        ),
+        "summary": (
+            "# 会 议 纪 要\n\n"
+            "## 会议主题\n第二十七次工程例会\n\n"
+            "## 参会单位\n施工单位、监理单位、建设单位\n\n"
+            "## 工程进度\n- A区钢筋绑扎完成三层，模板安装完成两层\n"
+            "- 混凝土浇筑按计划推进\n\n"
+            "## 质量与安全\n- 安全整改已关闭两项，剩余三项本周五前完成\n"
+            "- 下周重点检查塔吊附着与临边防护\n\n"
+            "## 会议要求\n- 隐蔽工程验收资料浇筑前报审，旁站记录同步完善\n"
+            "- 整改回复单由施工单位技术负责人签发，周五下班前报送监理项目部\n\n"
+            "## 待办事项\n- 施工单位：周五前完成剩余安全整改并报送整改回复单（责任人：项目经理）\n"
+            "- 各专业单位：按清单提交竣工资料（责任人：资料员）"
+        ),
+        "overview": (
+            "## 一、会议概述\n第二十七次工程例会，主要梳理本周施工进度、安全整改与验收资料要求。\n\n"
+            "## 二、会议流程\n施工单位汇报进度 → 监理单位提出质量与安全要求 → 建设单位明确资料节点。\n\n"
+            "## 三、会议结论\n工程进度正常推进；安全整改与验收资料报送责任与时限均已明确。\n\n"
+            "## 四、待办事项\n- 剩余安全整改与整改回复单：本周五前完成\n- 竣工资料按清单提交"
+        ),
+    },
+    {
+        "mode": "customer_visit",
+        "source": "示例数据",
+        "transcript": (
+            "本次客户拜访重点沟通信息化平台试点需求。客户提出三个关注点：数据安全、交付周期和验收标准。"
+            "我方说明现有安全方案与本地化部署能力，客户表示希望八月启动试点，试点范围先覆盖两个项目部。"
+            "双方约定：项目经理周五前提交试点方案与排期，下周三前确认数据接口清单。客户顾虑在于历史数据"
+            "迁移，我方承诺提供迁移脚本与演练环境。"
+        ),
+        "summary": (
+            "# 客户拜访会议纪要\n\n"
+            "## 客户诉求\n- 关注数据安全、交付周期与验收标准\n"
+            "- 希望八月启动试点，范围覆盖两个项目部\n\n"
+            "## 沟通要点\n- 我方说明安全方案与本地化部署能力\n"
+            "- 针对历史数据迁移顾虑，承诺提供迁移脚本与演练环境\n\n"
+            "## 待办事项\n- 项目经理：周五前提交试点方案与排期（责任人：项目经理）\n"
+            "- 双方：下周三前确认数据接口清单（责任人：双方接口人）"
+        ),
+        "overview": (
+            "## 一、会议概述\n客户拜访，重点沟通试点范围、数据安全与迁移安排。\n\n"
+            "## 二、会议结论\n客户意向明确，试点时间与范围基本确定。\n\n"
+            "## 三、待办事项\n- 试点方案与排期：周五前\n- 数据接口清单：下周三前"
+        ),
+    },
+)
+
+
+_demo_seeded = False
+_demo_seed_lock = threading.Lock()
+
+
+def maybe_seed_demo_history() -> None:
+    """示例数据模式（JKINCO_DEMO_DATA=1）：历史为空时写入示例纪要，幂等。"""
+    global _demo_seeded
+    enabled = os.getenv("JKINCO_DEMO_DATA", "0").strip().lower() not in {"0", "false", "no", "off"}
+    if not enabled or _demo_seeded:
+        return
+    with _demo_seed_lock:
+        if _demo_seeded:
+            return
+        try:
+            if core.load_meeting_history_for_update():
+                _demo_seeded = True
+                return
+            for record in DEMO_RECORDS:
+                core.save_meeting_history_record(
+                    transcript=record["transcript"],
+                    summary=record["summary"],
+                    dingtalk_status="示例数据",
+                    app_mode=record["mode"],
+                    source=record["source"],
+                    overview=record["overview"],
+                    owner_username="admin",
+                )
+            _demo_seeded = True
+            LOGGER.info("示例数据已写入历史（JKINCO_DEMO_DATA=1）")
+        except Exception as error:
+            LOGGER.warning("示例数据写入失败:%s", error)
+
+
 init_profile_db()
 init_custom_template_db()
 sweep_stale_files()
 threading.Thread(target=_stale_file_sweeper, name="stale-file-sweeper", daemon=True).start()
+maybe_seed_demo_history()
 
 
 def set_job(job_id: str, **updates: Any) -> None:

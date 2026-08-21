@@ -17,7 +17,7 @@
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
 ![Docker](https://img.shields.io/badge/Docker-一键部署-2496ED.svg)
-![Tests](https://img.shields.io/badge/tests-888%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-891%20passed-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -48,7 +48,7 @@
 | 📄 **原版式导出** | 工程例会、面试记录、客户拜访等 DOCX/PDF，保留真实模板排版 |
 | 🔐 **隐私第一** | 无 API Key、无云端调用、无遥测；模型下载完成后完全离线可用 |
 | 🚀 **一键部署** | `docker compose up` 全家桶：Web + 后端 + Ollama + 模型拉取 |
-| 🧪 **工程级质量** | 888 个自动化测试、安全头、限流、防注入、审计日志全覆盖 |
+| 🧪 **工程级质量** | 891 个自动化测试、安全头、限流、防注入、审计日志全覆盖 |
 | 🗃️ **历史知识库** | 会议历史检索 + “问筑听”本地问答，跨会议追待办不丢上下文 |
 
 ## 🖥️ 界面预览
@@ -164,7 +164,7 @@ flowchart LR
 ## 🧪 测试与质量
 
 ```bash
-python -m pytest tests-v2 -q          # 888 个测试
+python -m pytest tests-v2 -q          # 891 个测试
 python scripts/smoke_test.py          # 离线冒烟：场景路由 + 全场景导出
 python scripts/check_open_source_hygiene.py  # 开源版红线扫描
 ```
@@ -179,6 +179,10 @@ CI（GitHub Actions）自动执行：红线扫描 → 后端测试 → 前端构
 
 **模型下载失败怎么办？**
 首次下载需要网络，之后完全离线。可设置 `JKINCO_ASR_MODEL_DIR` 指定已有模型目录。
+
+**不想先下载模型，怎么快速体验？**
+设 `JKINCO_DEMO_DATA=1` 后启动，历史里会自动出现两条示例纪要（工程例会 + 客户拜访），
+导出、历史检索、模板都能直接玩，不依赖任何模型。
 
 **支持实时字幕吗？**
 开源版 v0.1 聚焦“录音 → 纪要”完整闭环；实时流式字幕在路线图中。

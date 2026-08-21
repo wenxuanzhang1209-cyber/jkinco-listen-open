@@ -17,7 +17,7 @@ calls, and your audio and minutes **never leave your machine**.
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
-![Tests](https://img.shields.io/badge/tests-888%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-891%20passed-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -53,6 +53,9 @@ Open <http://localhost:8080> and sign in with `admin / 123456`.
 The first start downloads the local ASR model (≈1–2 GB) and the default LLM
 (`qwen2.5:7b-instruct`). After that it works fully offline.
 
+Want to try the UI before downloading models? Set `JKINCO_DEMO_DATA=1` — two
+sample meeting records (site meeting + customer visit) appear in history.
+
 ![Demo](docs/demo.gif)
 
 ## Manual setup
@@ -74,7 +77,7 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8080
 - Original-layout DOCX/PDF export for five scene types
 - Local meeting history, search and “ask your meetings” Q&A
 - Optional signed DingTalk bot push (disabled by default)
-- 888 automated tests, rate limiting, security headers, audit logs
+- 891 automated tests, rate limiting, security headers, audit logs
 - Docker one-command deployment
 
 ## Privacy

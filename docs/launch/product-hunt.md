@@ -29,7 +29,7 @@ minutes entirely on your own machine:
 
 Docker one-command: docker compose up -d --build
 
-MIT licensed, 888 tests, fully offline after first model download.
+MIT licensed, 891 tests, fully offline after first model download.
 If you've ever feared uploading sensitive audio to a SaaS, this is for you.
 ```
 

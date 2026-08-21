@@ -40,7 +40,7 @@ first model download.
 Docker one-command:
 docker compose up -d --build   →   http://localhost:8080  (admin/123456)
 
-MIT, 888 automated tests, CI green (tests + frontend + docker image build).
+MIT, 891 automated tests, CI green (tests + frontend + docker image build).
 
 What would make you actually switch from your current workflow?
 
@@ -74,7 +74,7 @@ Posting because this sub helped me choose the stack:
 • Fallbacks: model failover, per-chunk resilience (one bad chunk doesn't kill
   the whole 3-hour meeting)
 
-888 tests, MIT, docker one-command, fully offline after model download.
+891 tests, MIT, docker one-command, fully offline after model download.
 
 Open questions for you:
 1. Which local model gives you the best Chinese meeting-minutes quality on 16GB?
@@ -90,7 +90,7 @@ Open questions for you:
 
 ### 标题（三选一）
 
-- I just open-sourced (MIT) a local-first meeting minutes tool with 888 tests and a CI that even builds the Docker image
+- I just open-sourced (MIT) a local-first meeting minutes tool with 891 tests and a CI that even builds the Docker image
 - Open-sourcing my local AI meeting minutes workbench — no SaaS, no keys, no telemetry
 - MIT-licensed local meeting minutes: the full pipeline in one repo (FastAPI + React + FunASR + Ollama)
 
@@ -107,7 +107,7 @@ What's inside:
   interview / customer visit)
 - Original-layout DOCX/PDF export + custom templates
 - Local history search + meeting Q&A
-- 888 automated tests; CI runs red-line scans, tests, frontend build and a
+- 891 automated tests; CI runs red-line scans, tests, frontend build and a
   real Docker image build
 
 MIT. No API keys. No cloud calls. No telemetry. Works offline after the first
@@ -150,7 +150,7 @@ I built a fully local tool:
   resources / actions with owners and dates
 • Original-layout Word/PDF export
 
-Docker one-command, MIT, 888 tests, works offline.
+Docker one-command, MIT, 891 tests, works offline.
 
 If you deal with 工地例会 / 监理例会, try it and tell me what the template
 gets wrong — real-domain feedback is the fastest way to make it better.
@@ -182,7 +182,7 @@ the actual site-meeting template, not a generic summary.
 Key difference from every SaaS: audio and text never leave the computer.
 No API key, no account, no telemetry. It even works with the Wi-Fi off.
 
-Docker one-command. MIT. 888 tests.
+Docker one-command. MIT. 891 tests.
 
 Curious: how do your projects handle meeting minutes today? By hand, by
 recording app, or does someone just "have it in their head"?
@@ -217,7 +217,7 @@ recording app, or does someone just "have it in their head"?
 • 零 API Key、零云端、零遥测，模型下载完可断网使用
 
 Docker 一条命令：docker compose up -d --build
-MIT 开源，888 个自动化测试。
+MIT 开源，891 个自动化测试。
 
 如果你们项目也是“录音一时爽，纪要火葬场”，欢迎试试，顺便告诉我模板哪里不对。
 
