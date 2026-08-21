@@ -645,7 +645,7 @@ CONTENT_SECURITY_POLICY = os.getenv("JKINCO_CSP", "; ".join([
 ]))
 
 
-app = FastAPI(title="筑听平台 API", version="3.0.0")
+app = FastAPI(title="筑听平台 API", version="3.0.0-open.2")
 app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 
