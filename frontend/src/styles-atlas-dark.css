@@ -1,0 +1,1177 @@
+/* ============================================================
+   暗夜 Nocturne — Atlas 皮肤重制(预览层,未提交)
+
+   向 Linear / Apple 深色质感看齐:深海军蓝底、微光面板、
+   品牌蓝点缀、无线无衬线。原 styles-atlas.css 不改动,
+   本文件以同特异性 + 后加载全面接管 [data-skin="atlas"]。
+   删除 main.tsx 对应 import 行即还原纸本 Atlas。
+
+   范围:工作台全局(登录/工作台/历史/大厅/弹窗/问筑听)。
+   会议室(conference-shell)自带独立主题,本轮不动。
+   ============================================================ */
+
+[data-skin="atlas"] {
+  /* ── 色板 ── */
+  --bg: #0d131b;
+  --panel: #151d28;
+  --panel-2: #1b2531;
+  --ink: #e8edf4;
+  --muted: #93a1b4;
+  --faint: #8494a9;
+  --line: rgba(148, 163, 184, 0.13);
+  --line-strong: rgba(148, 163, 184, 0.24);
+  --brand: #4b8dff;
+  --brand-hover: #3b7bf0;
+  --brand-soft: rgba(75, 141, 255, 0.15);
+  --teal: #2fc4a9;
+  --danger: #f2706a;
+  --danger-soft: rgba(242, 112, 106, 0.13);
+  --success: #3fb97f;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-popover: 0 18px 52px rgba(0, 0, 0, 0.55);
+  --radius-card: 12px;
+  --radius-control: 8px;
+  /* 宋体退场,回归系统无衬线 */
+  --serif: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* premium 体系暗色化 */
+  --pm-hairline: rgba(148, 163, 184, 0.13);
+  --pm-hover-wash: rgba(255, 255, 255, 0.05);
+  --pm-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --pm-shadow-2: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --pm-ring: 0 0 0 4px rgba(75, 141, 255, 0.18);
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+/* ── 页面骨架 ───────────────────────────────────────────────── */
+[data-skin="atlas"] body,
+[data-skin="atlas"] .app-shell {
+  background:
+    radial-gradient(1200px 520px at 78% -180px, rgba(75, 141, 255, 0.08), transparent 62%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .sidebar {
+  background: #10171f;
+  border-right: 1px solid var(--line);
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .sidebar-brand {
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .topbar {
+  background: rgba(13, 19, 27, 0.78);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-bottom: 1px solid var(--line);
+}
+
+/* ── 文字与导航 ─────────────────────────────────────────────── */
+[data-skin="atlas"] .nav-heading {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .nav-heading span:last-child {
+  background: var(--panel-2);
+}
+
+[data-skin="atlas"] .main-nav button,
+[data-skin="atlas"] .scene-nav button {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .main-nav button:not(.active):hover {
+  background: var(--pm-hover-wash);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .main-nav button.active {
+  background: var(--brand-soft);
+  color: var(--brand);
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .recent-list b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .recent-list small {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .recent-list button:not(.active):hover {
+  background: var(--pm-hover-wash);
+}
+
+[data-skin="atlas"] .recent-list button.active {
+  background: var(--panel-2);
+  border-color: var(--line);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .recent-dot {
+  border-color: var(--faint);
+}
+
+[data-skin="atlas"] .recent-list button:hover .recent-dot {
+  border-color: var(--brand);
+}
+
+[data-skin="atlas"] .recent-view-all,
+[data-skin="atlas"] .recent-view-all.active {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .recent-view-all small {
+  color: var(--faint);
+}
+
+/* ── 搜索与用户区 ───────────────────────────────────────────── */
+[data-skin="atlas"] .search-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--ink);
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 240ms var(--pm-out);
+}
+
+[data-skin="atlas"] .search-box svg {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .search-box input {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .search-box input::placeholder {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .search-box:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+[data-skin="atlas"] .search-box:focus-within {
+  background: var(--panel-2);
+  border-color: rgba(75, 141, 255, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .user-menu > button {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .user-menu > button:hover {
+  background: var(--pm-hover-wash);
+}
+
+[data-skin="atlas"] .user-popover {
+  background: var(--panel-2);
+  border-color: var(--line);
+  box-shadow: var(--shadow-popover);
+}
+
+[data-skin="atlas"] .user-popover button {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .user-popover button:hover {
+  background: var(--pm-hover-wash);
+}
+
+[data-skin="atlas"] .skin-toggle {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .skin-toggle:hover {
+  background: var(--pm-hover-wash);
+  color: var(--ink);
+}
+
+/* ── 按钮 ───────────────────────────────────────────────────── */
+[data-skin="atlas"] .secondary {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--brand);
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .secondary:not(:disabled):hover {
+  background: #212d3c;
+  border-color: rgba(75, 141, 255, 0.4);
+}
+
+[data-skin="atlas"] .start-meeting-button {
+  background: var(--panel-2);
+  color: var(--brand);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-skin="atlas"] .start-meeting-button:not(:disabled):hover {
+  background: #232f3f;
+  border-color: rgba(75, 141, 255, 0.45);
+}
+
+/* ── 场景选项卡与说明条 ─────────────────────────────────────── */
+[data-skin="atlas"] .scene-tabs {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .scene-tabs button {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .scene-tabs button[aria-selected="true"] {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .scene-intro {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .scene-intro h1 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .scene-intro p {
+  color: var(--muted);
+}
+
+/* ── 面板与工作区 ───────────────────────────────────────────── */
+[data-skin="atlas"] .panel,
+[data-skin="atlas"] .inspector section {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .panel-heading,
+[data-skin="atlas"] .result-heading {
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .panel h2,
+[data-skin="atlas"] .result-panel h2 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .input-tabs button {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .input-tabs button.active {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .input-tabs button:not(.active):not(:disabled):hover {
+  background: var(--pm-hover-wash);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .device-state p,
+[data-skin="atlas"] .live-recorder p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .device-state h3,
+[data-skin="atlas"] .live-recorder h3 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .timer {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+[data-skin="atlas"] .dropzone {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(75, 141, 255, 0.35);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .dropzone:hover {
+  background: rgba(75, 141, 255, 0.07);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px rgba(75, 141, 255, 0.10);
+}
+
+[data-skin="atlas"] .dropzone span {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .process-controls,
+[data-skin="atlas"] .template-controls {
+  background: transparent;
+  border-top-color: var(--line);
+}
+
+[data-skin="atlas"] .process-controls label span,
+[data-skin="atlas"] .template-controls label span {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .process-controls select,
+[data-skin="atlas"] .template-controls select {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .status-line {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .recording-storage-warning {
+  background: rgba(217, 145, 32, 0.12);
+  color: #e0a63f;
+}
+
+/* 「检测到未提交录音」提示条。这块只在 styles-release.css 里定义,底色与描边都是
+   硬编码的浅色(#f7faff / #d9e5f4),深色下会变成一张刺眼的白卡、文字也读不清。
+   按 token 重写,与其它提示条同一套语言。 */
+[data-skin="atlas"] .recording-recovery {
+  border-color: var(--line-strong);
+  background: var(--panel-2);
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .recording-recovery > b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .recovery-dismiss {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .recovery-dismiss:hover {
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+
+/* ── 结果区 ─────────────────────────────────────────────────── */
+[data-skin="atlas"] .result-tabs {
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .result-tabs button {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .result-tabs button.active {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .result-body {
+  background: #111922;
+}
+
+[data-skin="atlas"] .document-view {
+  background: var(--panel);
+  color: #c9d4e3;
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .review-editor {
+  background: var(--panel);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .review-editor:focus {
+  border-color: rgba(75, 141, 255, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .review-scene-control > span {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .review-scene-control select {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .review-scene-control small {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .empty-result {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .empty-result h3 {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .transcript-line {
+  border-bottom-color: rgba(148, 163, 184, 0.08);
+}
+
+[data-skin="atlas"] .transcript-line p,
+[data-skin="atlas"] .recording-caption-row p {
+  color: #c9d4e3;
+}
+
+[data-skin="atlas"] .transcript-line:hover,
+[data-skin="atlas"] .recording-caption-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-skin="atlas"] .recording-caption-row {
+  border-bottom-color: rgba(148, 163, 184, 0.08);
+}
+
+[data-skin="atlas"] .recording-caption-row time {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .recording-caption-row.interim p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .result-panel > .notice {
+  background: rgba(27, 37, 49, 0.95);
+  border-color: rgba(47, 196, 169, 0.3);
+  color: #4fd6b3;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-skin="atlas"] .transcript-document::-webkit-scrollbar-track,
+[data-skin="atlas"] .recording-caption-timeline::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-skin="atlas"] .transcript-document::-webkit-scrollbar-thumb,
+[data-skin="atlas"] .recording-caption-timeline::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+/* ── Inspector ──────────────────────────────────────────────── */
+[data-skin="atlas"] .inspector h3,
+[data-skin="atlas"] .inspector dt {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .inspector dd {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .progress-track {
+  background: #232d3a;
+}
+
+[data-skin="atlas"] .workflow-step::before {
+  background: #232d3a;
+}
+
+[data-skin="atlas"] .workflow-step.done::before {
+  background: rgba(47, 196, 169, 0.3);
+}
+
+[data-skin="atlas"] .step-node {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--teal);
+}
+
+[data-skin="atlas"] .workflow-step.done .step-node {
+  background: rgba(47, 196, 169, 0.16);
+}
+
+[data-skin="atlas"] .step-label {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .workflow-step.done .step-label {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .workflow-step.active .step-label {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .step-hint.ok {
+  background: rgba(47, 196, 169, 0.16);
+  color: var(--teal);
+}
+
+/* ── 历史会议 ───────────────────────────────────────────────── */
+[data-skin="atlas"] .history-hero,
+[data-skin="atlas"] .history-stats > div,
+[data-skin="atlas"] .history-grid > button {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .history-hero h1,
+[data-skin="atlas"] .history-grid h3 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .history-stats span {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .history-stats b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .history-grid p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .history-grid footer {
+  border-top-color: var(--line);
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .history-grid footer span:last-child {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .history-grid > button:hover {
+  border-color: rgba(75, 141, 255, 0.35);
+  box-shadow: var(--pm-shadow-2);
+}
+
+[data-skin="atlas"] .history-scene {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .history-empty {
+  background: var(--panel);
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+/* 工具栏在深色皮肤下被加了卡片底与描边(见 styles-atlas.css),但没有配套的
+   内边距 —— 经典皮肤下它是透明无边框的,不需要。结果就是「N 条结果」直接贴住
+   右边框,看起来像被切掉了。补上内边距与圆角,让它成为一张完整的卡片。 */
+[data-skin="atlas"] .history-toolbar {
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card, 12px);
+}
+
+[data-skin="atlas"] .history-toolbar > span {
+  flex: none;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+/* ── 会议大厅 ───────────────────────────────────────────────── */
+[data-skin="atlas"] .meeting-lobby-header span {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .meeting-lobby-header h1 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-lobby-header p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .meeting-launch-band {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .meeting-launch-band b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-launch-band small {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .join-code {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--line);
+}
+
+[data-skin="atlas"] .join-code:focus-within {
+  background: var(--panel-2);
+  border-color: rgba(75, 141, 255, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .join-code input {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .join-code input::placeholder {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .join-code button {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .meeting-lobby-toolbar > span {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-list {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .meeting-list > header {
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .meeting-list > header h2 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-list > header span {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-list-grid {
+  background: var(--line);
+}
+
+[data-skin="atlas"] .meeting-list-card {
+  background: var(--panel);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-list-card:hover {
+  background: #182230;
+  box-shadow: var(--pm-shadow-2);
+}
+
+[data-skin="atlas"] .meeting-list-card h3 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-list-card p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .meeting-list-card footer {
+  border-top-color: var(--line);
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-list-card footer b {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .meeting-status {
+  background: #232d3a;
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .meeting-status.active {
+  background: rgba(63, 185, 127, 0.15);
+  color: var(--success);
+}
+
+[data-skin="atlas"] .meeting-empty {
+  background: var(--panel);
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .meeting-empty h3 {
+  color: var(--ink);
+}
+
+/* ── 弹窗 ───────────────────────────────────────────────────── */
+[data-skin="atlas"] .modal-backdrop,
+[data-skin="atlas"] .meeting-dialog-backdrop {
+  background: rgba(4, 8, 14, 0.6);
+}
+
+[data-skin="atlas"] .profile-modal,
+[data-skin="atlas"] .meeting-dialog {
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+[data-skin="atlas"] .profile-modal > header,
+[data-skin="atlas"] .meeting-dialog > header {
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .profile-modal > header h2,
+[data-skin="atlas"] .meeting-dialog > header h2 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .profile-modal > footer,
+[data-skin="atlas"] .meeting-dialog > footer {
+  background: var(--panel-2);
+  border-top-color: var(--line);
+}
+
+[data-skin="atlas"] .profile-fields label,
+[data-skin="atlas"] .meeting-field {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .profile-fields input,
+[data-skin="atlas"] .meeting-field input,
+[data-skin="atlas"] .meeting-field select {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .profile-fields input:focus,
+[data-skin="atlas"] .meeting-field input:focus,
+[data-skin="atlas"] .meeting-field select:focus {
+  border-color: rgba(75, 141, 255, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .profile-fields input:disabled {
+  background: #131b25;
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .profile-fields p,
+[data-skin="atlas"] .meeting-consent {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-options label {
+  background: var(--panel-2);
+  border-color: var(--line);
+}
+
+[data-skin="atlas"] .meeting-options label:hover {
+  border-color: rgba(75, 141, 255, 0.4);
+  background: #212d3c;
+}
+
+[data-skin="atlas"] .meeting-options b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-options small {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .avatar-editor {
+  background: var(--brand-soft);
+  border-color: var(--line-strong);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .profile-error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+[data-skin="atlas"] .profile-notice {
+  background: rgba(63, 185, 127, 0.13);
+  color: var(--success);
+}
+
+[data-skin="atlas"] .password-section {
+  border-top-color: var(--line);
+}
+
+[data-skin="atlas"] .password-section h3 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ── 登录页 ─────────────────────────────────────────────────── */
+[data-skin="atlas"] .login-page {
+  background:
+    radial-gradient(1100px 520px at 78% -10%, rgba(75, 141, 255, 0.12), transparent 60%),
+    radial-gradient(820px 480px at 6% 108%, rgba(47, 196, 169, 0.08), transparent 60%),
+    linear-gradient(180deg, #0e1520 0%, #0a0f16 100%);
+}
+
+[data-skin="atlas"] .login-card {
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+[data-skin="atlas"] .login-card h1 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .login-sub {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .login-card label {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .login-card input {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .login-card input:focus {
+  background: #1f2937;
+  border-color: rgba(75, 141, 255, 0.5);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .auth-tabs {
+  background: #101820;
+}
+
+[data-skin="atlas"] .auth-tabs button {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .auth-tabs button.active {
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .tab-glide--thumb {
+  background: var(--panel-2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[data-skin="atlas"] .captcha-row button {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+}
+
+[data-skin="atlas"] .form-error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+[data-skin="atlas"] .guest-entry span,
+[data-skin="atlas"] .guest-entry small {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .guest-entry button {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .guest-entry button:not(:disabled):hover {
+  border-color: rgba(75, 141, 255, 0.45);
+  background: var(--brand-soft);
+}
+
+/* ── 问筑听(暗夜适配) ───────────────────────────────────────── */
+[data-skin="atlas"] .assistant-ball {
+  background: var(--panel-2);
+  color: var(--brand);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+[data-skin="atlas"] .assistant-ball:hover {
+  background: #232f3f;
+  border-color: rgba(75, 141, 255, 0.45);
+}
+
+[data-skin="atlas"] .assistant-ball::before {
+  background-image: var(--ask-icon-chat-blue);
+  filter: brightness(1.6);
+}
+
+[data-skin="atlas"] .assistant-drawer {
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 32px 80px rgba(0, 0, 0, 0.6);
+}
+
+[data-skin="atlas"] .assistant-drawer > header {
+  background: var(--panel);
+  color: var(--ink);
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .assistant-drawer header > div::before {
+  filter: none;
+  background-image: var(--ask-icon-chat-blue);
+}
+
+[data-skin="atlas"] .assistant-drawer header b::after {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .assistant-drawer header .icon {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .assistant-drawer header .icon:hover {
+  background: var(--pm-hover-wash);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-body {
+  background: #10171f;
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-message.assistant {
+  background: var(--panel-2);
+  border-color: var(--line);
+  color: #c9d4e3;
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-message.user {
+  background: #27374e;
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .assistant-drawer .typing {
+  background: var(--panel-2);
+  border-color: var(--line);
+}
+
+[data-skin="atlas"] .assistant-drawer .typing::before {
+  box-shadow: 10.5px 0 0 #4a5a70, 21px 0 0 #4a5a70;
+}
+
+[data-skin="atlas"] .assistant-drawer .quick-questions {
+  background: var(--panel);
+  border-top-color: var(--line);
+}
+
+[data-skin="atlas"] .assistant-drawer .quick-questions button {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .assistant-drawer .quick-questions button:hover {
+  border-color: rgba(75, 141, 255, 0.45);
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-compose {
+  background: var(--panel);
+  border-top-color: var(--line);
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-compose input {
+  background: #101820;
+  border-color: transparent;
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-compose input::placeholder {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-compose input:focus {
+  background: var(--panel-2);
+  border-color: rgba(75, 141, 255, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .assistant-drawer .chat-compose button:disabled {
+  background: #2a3542;
+}
+
+/* ── 模板中心(暗夜适配) ─────────────────────────────────────── */
+[data-skin="atlas"] .template-center-hero,
+[data-skin="atlas"] .template-library,
+[data-skin="atlas"] .template-detail,
+[data-skin="atlas"] .template-upload-panel {
+  background: var(--panel);
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+[data-skin="atlas"] .template-center-hero h1,
+[data-skin="atlas"] .template-library header h2,
+[data-skin="atlas"] .template-detail-header h2,
+[data-skin="atlas"] .template-detail h3 {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .template-center-hero p,
+[data-skin="atlas"] .template-muted,
+[data-skin="atlas"] .template-detail-header p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .template-library header {
+  border-bottom-color: var(--line);
+}
+
+[data-skin="atlas"] .template-library-list > button:not(.active):hover {
+  background: var(--pm-hover-wash);
+}
+
+[data-skin="atlas"] .template-library-list > button.active {
+  background: var(--brand-soft);
+  box-shadow: inset 0 0 0 1px rgba(75, 141, 255, 0.3);
+}
+
+[data-skin="atlas"] .template-library-list b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .template-library-list small {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .template-library-empty,
+[data-skin="atlas"] .template-detail-empty {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .template-strategy-options label {
+  background: var(--panel-2);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .template-strategy-options label:hover {
+  border-color: rgba(75, 141, 255, 0.4);
+  background: #212d3c;
+}
+
+[data-skin="atlas"] .template-strategy-options label:has(input:checked) {
+  border-color: rgba(75, 141, 255, 0.5);
+  background: var(--brand-soft);
+}
+
+[data-skin="atlas"] .template-strategy-options small {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .template-target-select select {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .template-message.success {
+  background: rgba(63, 185, 127, 0.12);
+  border-color: rgba(63, 185, 127, 0.3);
+  color: var(--success);
+}
+
+[data-skin="atlas"] .template-message.error {
+  background: var(--danger-soft);
+  border-color: rgba(242, 112, 106, 0.3);
+  color: var(--danger);
+}
+
+[data-skin="atlas"] .template-remove:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+[data-skin="atlas"] .template-save-row {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+
+/* ── 其他零散控件 ───────────────────────────────────────────── */
+[data-skin="atlas"] .model-pill {
+  background: rgba(63, 185, 127, 0.14);
+  color: var(--success);
+}
+
+[data-skin="atlas"] ::selection {
+  background: rgba(75, 141, 255, 0.3);
+  color: #fff;
+}
+
+/* ── Logo 深色适配:反相 + 色相随转 ──────────────────────────────
+   深色文字 → 浅色;品牌蓝经 invert 到橙、再 hue-rotate 180° 回蓝,
+   图标与「Listen」字样保持品牌色相。 */
+[data-skin="atlas"] .sidebar-brand img,
+[data-skin="atlas"] .login-logo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* 组合输入框内层 input 回到透明:视觉由容器承载,
+   原 Atlas 的裸 input 收编(纸面底+描边)会穿透容器造成双重描边。 */
+[data-skin="atlas"] .search-box input,
+[data-skin="atlas"] .join-code input {
+  background: transparent;
+  border: 0;
+}
+
+/* 取消会议(预约卡):白底描边红在暗夜里过亮,
+   改为暗调危险色 —— 仍是描边逻辑,不抢「进入会议」的主操作层级。 */
+[data-skin="atlas"] .meeting-card-actions .cancel-meeting {
+  background: rgba(242, 112, 106, 0.10);
+  border-color: rgba(242, 112, 106, 0.30);
+  color: #f2706a;
+}
+
+[data-skin="atlas"] .meeting-card-actions .cancel-meeting:hover:not(:disabled) {
+  background: rgba(242, 112, 106, 0.18);
+  border-color: rgba(242, 112, 106, 0.5);
+}
+
+/* ── 其余硬编码浅色底的提示与弹窗块 ──────────────────────────────
+   这几处同样只在 styles-release.css 里定义,底色写死为浅色(#fff7f6 /
+   #eef4ff / #f7f9fc / #fff),深色下会变成刺眼的白块、文字读不清 ——
+   与「检测到未提交录音」是同一类问题,一并按 token 收编。 */
+[data-skin="atlas"] .meeting-connection-notice {
+  border-color: rgba(242, 112, 106, 0.32);
+  background: var(--danger-soft);
+  color: #f2a09b;
+}
+
+[data-skin="atlas"] .meeting-hint {
+  background: var(--brand-soft);
+  color: #9dc0ff;
+}
+
+[data-skin="atlas"] .reschedule-meeting-summary {
+  background: var(--panel-2);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .reschedule-scope label {
+  border-color: var(--line-strong);
+  background: var(--panel-2);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .reschedule-scope label.selected {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+/* 已完成会议的说明卡片:深色下沿用面板底色,图标用品牌色的低饱和底 */
+[data-skin="atlas"] .archived-icon {
+  background: rgba(75, 141, 255, 0.14);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .archived-note p {
+  color: var(--muted);
+}

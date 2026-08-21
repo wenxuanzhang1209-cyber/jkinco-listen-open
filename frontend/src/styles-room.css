@@ -1,0 +1,418 @@
+/* ============================================================
+   会议室打磨层 (Room) — 本地预览用,未提交
+
+   经典:玻璃顶栏、控制栏按压物理感、侧栏空状态氛围化、
+        字幕条浮动化,全部沿用工作台同一套缓动与阴影语言。
+   暗夜:conference-shell 全量深色化,进出会议不再「闪白」。
+   只动视觉;删除 main.tsx 对应 import 行即还原。
+   ============================================================ */
+
+/* ── 顶栏:玻璃化 + 会议号胶囊 ───────────────────────────────── */
+html:not([data-skin="atlas"]) .conference-topbar {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border-bottom-color: rgba(18, 39, 70, 0.07);
+}
+
+.conference-topbar b {
+  letter-spacing: -0.008em;
+}
+
+.conference-topbar time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+
+.conference-topbar button {
+  border-radius: 9px;
+  padding: 6px 10px;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms var(--pm-spring, cubic-bezier(0.32, 0.72, 0, 1));
+}
+
+.conference-topbar button:hover {
+  background: rgba(18, 39, 70, 0.05);
+}
+
+.conference-topbar button:active {
+  transform: scale(0.96);
+}
+
+/* ── 控制栏:按压物理感 ──────────────────────────────────────── */
+.conference-stage .lk-control-bar .lk-button,
+.conference-stage .lk-control-bar .lk-disconnect-button {
+  transition:
+    transform 160ms var(--pm-spring, cubic-bezier(0.32, 0.72, 0, 1)),
+    box-shadow 220ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease !important;
+}
+
+.conference-stage .lk-control-bar .lk-button:not(:disabled):active,
+.conference-stage .lk-control-bar .lk-disconnect-button:not(:disabled):active {
+  transform: scale(0.96) !important;
+}
+
+html:not([data-skin="atlas"]) .conference-stage .lk-control-bar {
+  box-shadow: 0 -1px 0 rgba(18, 39, 70, 0.05), 0 -12px 32px rgba(18, 39, 70, 0.05);
+}
+
+/* ── 侧栏:空状态氛围化、字幕行 hover ────────────────────────── */
+.conference-side > header {
+  border-bottom-color: rgba(18, 39, 70, 0.07);
+}
+
+.conference-side > header b,
+.conference-side > header > div {
+  letter-spacing: -0.008em;
+}
+
+.caption-empty svg,
+.meeting-chat-empty svg {
+  width: 44px;
+  height: 44px;
+  padding: 11px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+
+.caption-timeline > div {
+  border-radius: 8px;
+  transition: background-color 160ms ease;
+}
+
+.caption-timeline > div:hover {
+  background: rgba(18, 39, 70, 0.03);
+}
+
+.caption-timeline time,
+.meeting-chat article time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 侧栏关闭按钮 */
+.conference-side > header .icon,
+.conference-side > header button {
+  border-radius: 50%;
+  transition: background-color 180ms ease, transform 180ms var(--pm-spring, cubic-bezier(0.32, 0.72, 0, 1));
+}
+
+.conference-side > header button:active {
+  transform: scale(0.92);
+}
+
+/* ── 浮动字幕条:更柔的胶囊 ──────────────────────────────────── */
+.live-caption {
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(15, 23, 36, 0.82);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.22);
+  animation: room-caption-in 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes room-caption-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ── 右下工具按钮:与工作台同一语言 ──────────────────────────── */
+.conference-utility button {
+  border-radius: 10px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms var(--pm-spring, cubic-bezier(0.32, 0.72, 0, 1)),
+    box-shadow 220ms ease;
+}
+
+.conference-utility button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(18, 39, 70, 0.08);
+}
+
+.conference-utility button:not(:disabled):active {
+  transform: scale(0.96);
+}
+
+/* ── 会议信息面板:按钮统一语言 ──────────────────────────────── */
+.meeting-info-panel button {
+  border-radius: 10px;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms var(--pm-spring, cubic-bezier(0.32, 0.72, 0, 1));
+}
+
+.meeting-info-panel button:active {
+  transform: scale(0.97);
+}
+
+/* 参会者头像:品牌渐变替代平色 */
+.participant-panel > div > span {
+  background: linear-gradient(135deg, #2475e8, #1a56b8);
+  color: #fff;
+}
+
+/* ── 全屏按钮:与工作台玻璃语言一致 ──────────────────────────── */
+.stage-fullscreen {
+  border-radius: 10px;
+  transition: opacity 160ms ease, transform 160ms ease, background-color 160ms ease;
+}
+
+/* ============================================================
+   暗夜适配:会议室不再「闪白」
+   ============================================================ */
+[data-skin="atlas"] .conference-shell {
+  background: #0b0f14;
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .conference-shell[data-lk-theme="default"] {
+  --lk-control-fg: #e8edf4;
+  --lk-control-bg: #1b2531;
+  --lk-control-hover-bg: #232d3a;
+  --lk-control-active-bg: rgba(75, 141, 255, 0.2);
+  --lk-control-active-hover-bg: rgba(75, 141, 255, 0.28);
+  --lk-accent-fg: #fff;
+  --lk-accent-bg: #4b8dff;
+  --lk-accent2: #3b7bf0;
+}
+
+[data-skin="atlas"] .conference-topbar {
+  background: rgba(13, 19, 27, 0.82);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom-color: var(--line);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .conference-topbar button {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .conference-topbar button:hover {
+  background: var(--pm-hover-wash);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .conference-topbar time {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .conference-mark {
+  background: linear-gradient(135deg, #4b8dff 0 45%, transparent 46% 54%, #4b8dff 55%);
+}
+
+[data-skin="atlas"] .conference-stage {
+  background: #0b0f14;
+}
+
+[data-skin="atlas"] .conference-stage .lk-grid-layout {
+  background: #0b0f14;
+}
+
+[data-skin="atlas"] .conference-stage .lk-participant-tile {
+  border-color: var(--line);
+  background: #10171f;
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar {
+  background: rgba(13, 19, 27, 0.96);
+  border-top-color: var(--line);
+  box-shadow: 0 -1px 0 rgba(148, 163, 184, 0.06), 0 -12px 32px rgba(0, 0, 0, 0.3);
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar .lk-button {
+  background: #1b2531;
+  color: #e8edf4;
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar .lk-button:not(:disabled):hover {
+  background: #232d3a;
+  border-color: var(--line-strong);
+  color: #fff;
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar .lk-button[aria-pressed="true"] {
+  background: rgba(75, 141, 255, 0.2);
+  border-color: rgba(75, 141, 255, 0.45);
+  color: #8db4ff;
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar .lk-button[data-lk-enabled="false"] {
+  background: rgba(242, 112, 106, 0.12);
+  border-color: rgba(242, 112, 106, 0.25);
+  color: #f2706a;
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar .lk-disconnect-button {
+  background: rgba(242, 112, 106, 0.12);
+  border-color: rgba(242, 112, 106, 0.3);
+  color: #f2706a;
+}
+
+[data-skin="atlas"] .conference-stage .lk-control-bar .lk-disconnect-button:hover {
+  background: rgba(242, 112, 106, 0.2);
+  border-color: rgba(242, 112, 106, 0.5);
+}
+
+[data-skin="atlas"] .conference-side {
+  background: var(--panel);
+  border-left-color: var(--line);
+  box-shadow: -12px 0 28px rgba(0, 0, 0, 0.35);
+}
+
+[data-skin="atlas"] .conference-side > header {
+  border-bottom-color: var(--line);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .conference-side > header button,
+[data-skin="atlas"] .conference-side > header .icon {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .caption-timeline > div {
+  border-bottom-color: rgba(148, 163, 184, 0.08);
+}
+
+[data-skin="atlas"] .caption-timeline > div:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-skin="atlas"] .caption-timeline p {
+  color: #c9d4e3;
+}
+
+[data-skin="atlas"] .caption-timeline time {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .caption-empty {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .meeting-info-panel label {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-info-panel strong {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-info-panel button {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .meeting-info-panel p {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .participant-panel > div {
+  border-bottom-color: rgba(148, 163, 184, 0.08);
+}
+
+[data-skin="atlas"] .participant-panel b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .participant-panel small {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-chat article {
+  background: var(--panel-2);
+}
+
+[data-skin="atlas"] .meeting-chat article header b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-chat article p {
+  color: #c9d4e3;
+}
+
+[data-skin="atlas"] .meeting-chat article time {
+  color: var(--faint);
+}
+
+[data-skin="atlas"] .meeting-chat > footer {
+  border-top-color: var(--line);
+  background: var(--panel);
+}
+
+[data-skin="atlas"] .meeting-chat input {
+  background: #101820;
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .meeting-chat input:focus {
+  border-color: rgba(75, 141, 255, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+[data-skin="atlas"] .meeting-chat button {
+  background: var(--brand);
+}
+
+[data-skin="atlas"] .meeting-chat-empty {
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .meeting-chat-empty b {
+  color: var(--ink);
+}
+
+[data-skin="atlas"] .conference-utility button {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  color: var(--muted);
+}
+
+[data-skin="atlas"] .conference-utility button:not(:disabled):hover {
+  background: #232f3f;
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+[data-skin="atlas"] .conference-utility button.active {
+  background: rgba(75, 141, 255, 0.16);
+  border-color: rgba(75, 141, 255, 0.45);
+  color: var(--brand);
+}
+
+[data-skin="atlas"] .conference-utility .end-meeting {
+  background: rgba(242, 112, 106, 0.1);
+  border-color: rgba(242, 112, 106, 0.3);
+  color: #f2706a;
+}
+
+[data-skin="atlas"] .conference-utility .end-meeting:hover {
+  background: rgba(242, 112, 106, 0.18);
+  border-color: rgba(242, 112, 106, 0.5);
+}
+
+[data-skin="atlas"] .live-caption {
+  background: rgba(21, 29, 40, 0.9);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+}
+
+[data-skin="atlas"] .network-bars span {
+  background: var(--teal);
+}
+
+/* 暗夜下聊天/参会面板滚动条 */
+[data-skin="atlas"] .conference-side ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+}

@@ -1,0 +1,15 @@
+# 筑听开源本地版 —— 后端运行时依赖
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+python-multipart>=0.0.20,<1
+numpy>=1.26,<3
+python-dotenv>=1.0,<2
+requests>=2.31,<3
+python-docx>=1.1,<2
+reportlab>=4.0,<5
+pillow>=10,<13
+websockets>=14,<16
+livekit-api>=0.8,<2
+
+# 本地语音识别（首次运行自动下载 paraformer-zh 模型，之后完全离线）
+funasr>=1.3,<2

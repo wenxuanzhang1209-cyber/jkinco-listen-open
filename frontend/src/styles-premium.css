@@ -1,0 +1,1220 @@
+/* ============================================================
+   高端产品化打磨层 (Premium) — 本地预览用,未提交
+
+   向苹果 / ChatGPT 的克制美学看齐:
+     色彩克制   —— 中性灰做底,品牌蓝只做点缀
+     阴影分层   —— 柔和的漫射阴影替代生硬描边
+     动效物理化 —— 全部 iOS 弹簧曲线,无线性、无回弹滥用
+     交互有回音 —— 每个可点元素都有 hover/press 的细腻反馈
+
+   铁律(踩过的坑):
+     不在任何可能含 fixed 后代的容器上加动画/滤镜;
+     颜色尽量走 token,Atlas 皮肤自动兼容;
+     删除 main.tsx 对应 import 行即整体还原。
+   ============================================================ */
+
+:root {
+  --pm-spring: cubic-bezier(0.32, 0.72, 0, 1);      /* iOS 标准弹簧 */
+  --pm-out: cubic-bezier(0.22, 1, 0.36, 1);         /* 出场缓出 */
+  --pm-shadow-1: 0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 12px rgba(16, 24, 40, 0.04);
+  --pm-shadow-2: 0 2px 6px rgba(16, 24, 40, 0.05), 0 16px 40px rgba(16, 24, 40, 0.09);
+  --pm-ring: 0 0 0 4px rgba(33, 104, 217, 0.10);
+  --pm-hairline: rgba(18, 39, 70, 0.07);
+  --pm-hover-wash: rgba(18, 39, 70, 0.045);
+}
+
+/* ── 选中文本与滚动条:安静的细节 ─────────────────────────────── */
+::selection {
+  background: rgba(33, 104, 217, 0.14);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: rgba(100, 116, 139, 0.28);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.5);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ── 焦点环:统一为柔和的品牌光晕 ─────────────────────────────── */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid rgba(33, 104, 217, 0.20);
+  outline-offset: 2px;
+}
+
+/* ── 按钮:按压物理感 ─────────────────────────────────────────── */
+.primary,
+.secondary,
+.danger {
+  transition:
+    transform 180ms var(--pm-spring),
+    box-shadow 240ms var(--pm-out),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.primary {
+  box-shadow: 0 1px 2px rgba(33, 104, 217, 0.18), 0 4px 12px rgba(33, 104, 217, 0.16);
+}
+
+.primary:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(33, 104, 217, 0.20), 0 8px 20px rgba(33, 104, 217, 0.22);
+}
+
+.primary:not(:disabled):active {
+  transform: scale(0.97);
+  transition-duration: 100ms;
+}
+
+.secondary {
+  border-color: var(--pm-hairline);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
+}
+
+.secondary:not(:disabled):hover {
+  border-color: rgba(33, 104, 217, 0.28);
+  background: #f7fafe;
+  transform: translateY(-1px);
+}
+
+.secondary:not(:disabled):active {
+  transform: scale(0.97);
+  transition-duration: 100ms;
+}
+
+.danger:not(:disabled):active {
+  transform: scale(0.97);
+  transition-duration: 100ms;
+}
+
+/* 图标按钮:圆形 hover 容器 */
+.icon {
+  border-radius: 50%;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms var(--pm-spring);
+}
+
+.icon:not(:disabled):active {
+  transform: scale(0.92);
+}
+
+/* ── 侧边栏:ChatGPT 式的安静导航 ─────────────────────────────── */
+.main-nav button {
+  border-radius: 10px;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.main-nav button:not(.active):hover {
+  background: var(--pm-hover-wash);
+  color: var(--ink);
+}
+
+.main-nav button.active {
+  background: var(--brand-soft);
+  color: var(--brand);
+  box-shadow: none;
+  font-weight: 700;
+}
+
+/* 最近会议:整行可点的温润反馈 */
+.recent-list button {
+  border-radius: 10px;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 220ms var(--pm-out);
+}
+
+.recent-list button:hover {
+  background: var(--pm-hover-wash);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.recent-list button.active {
+  background: #fff;
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+.recent-list button .recent-dot {
+  transition: border-color 200ms ease, background-color 200ms ease, box-shadow 220ms var(--pm-out);
+}
+
+.recent-list button.active .recent-dot {
+  background: var(--teal);
+}
+
+.recent-view-all {
+  border-radius: 10px;
+  transition: background-color 180ms ease;
+}
+
+.recent-view-all:hover {
+  background: var(--pm-hover-wash);
+}
+
+/* 实时会议按钮:深蓝块退场,白底品牌字 —— 与悬浮球同一语言 */
+.start-meeting-button {
+  border-radius: 10px;
+  transition: transform 180ms var(--pm-spring), box-shadow 240ms var(--pm-out),
+    background-color 180ms ease, border-color 180ms ease;
+}
+
+html:not([data-skin="atlas"]) .start-meeting-button {
+  background: #fff;
+  color: var(--brand);
+  border: 1px solid rgba(18, 39, 70, 0.09);
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.05), 0 8px 20px rgba(16, 24, 40, 0.07);
+}
+
+html:not([data-skin="atlas"]) .start-meeting-button:not(:disabled):hover {
+  background: #f7faff;
+  border-color: rgba(33, 104, 217, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(16, 24, 40, 0.06), 0 12px 26px rgba(16, 24, 40, 0.1);
+}
+
+.start-meeting-button:not(:disabled):active {
+  transform: scale(0.98);
+  transition-duration: 100ms;
+}
+
+/* ── 顶栏:更通透的玻璃 ───────────────────────────────────────── */
+html:not([data-skin="atlas"]) .topbar {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border-bottom: 1px solid var(--pm-hairline);
+}
+
+/* 搜索框:胶囊化、弱边界、聚焦发光(仅经典皮肤;Atlas 保留原生方角细线) */
+html:not([data-skin="atlas"]) .search-box {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--pm-hover-wash);
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 240ms var(--pm-out);
+}
+
+html:not([data-skin="atlas"]) .search-box:hover {
+  background: rgba(18, 39, 70, 0.06);
+}
+
+html:not([data-skin="atlas"]) .search-box:focus-within {
+  background: #fff;
+  border-color: rgba(33, 104, 217, 0.32);
+  box-shadow: var(--pm-ring);
+}
+
+/* 用户菜单与皮肤切换 */
+.user-menu > button {
+  border-radius: 999px;
+  transition: background-color 180ms ease;
+}
+
+.user-menu > button:hover {
+  background: var(--pm-hover-wash);
+}
+
+.user-popover {
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-2);
+  animation: pm-pop 220ms var(--pm-spring) both;
+  transform-origin: top right;
+}
+
+.user-popover button {
+  border-radius: 8px;
+  transition: background-color 160ms ease;
+}
+
+.skin-toggle {
+  transition: background-color 180ms ease, transform 180ms var(--pm-spring);
+}
+
+.skin-toggle:hover {
+  background: var(--pm-hover-wash);
+}
+
+.skin-toggle:active {
+  transform: scale(0.96);
+}
+
+/* ── 卡片与面板:发丝边界 + 漫射阴影 ──────────────────────────── */
+.panel,
+.scene-intro,
+.scene-tabs,
+.inspector section,
+.history-hero,
+.history-stats > div,
+.history-grid > button,
+.meeting-launch-band,
+.meeting-list {
+  border-color: var(--pm-hairline);
+  box-shadow: var(--pm-shadow-1);
+}
+
+.panel,
+.scene-intro,
+.inspector section,
+.history-hero,
+.scene-tabs {
+  border-radius: 12px;
+}
+
+/* ── 历史会议:卡片悬浮的物理感 ───────────────────────────────── */
+.history-stats > div {
+  border-radius: 12px;
+  transition: transform 220ms var(--pm-spring), box-shadow 260ms var(--pm-out);
+}
+
+.history-stats > div:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pm-shadow-2);
+}
+
+.history-stats b {
+  font-variant-numeric: tabular-nums;
+}
+
+.history-grid > button {
+  border-radius: 12px;
+  transition:
+    transform 240ms var(--pm-spring),
+    box-shadow 280ms var(--pm-out),
+    border-color 200ms ease;
+}
+
+.history-grid > button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(33, 104, 217, 0.20);
+  box-shadow: var(--pm-shadow-2);
+}
+
+.history-grid > button:active {
+  transform: translateY(0) scale(0.99);
+  transition-duration: 100ms;
+}
+
+.history-grid h3 {
+  transition: color 180ms ease;
+}
+
+.history-grid > button:hover h3 {
+  color: var(--brand);
+}
+
+/* ── 录音区:仪表质感与柔和涟漪 ───────────────────────────────── */
+.record-orbit {
+  transition: background-color 300ms ease, color 300ms ease, box-shadow 300ms ease;
+}
+
+.record-orbit.recording {
+  animation: none;
+  box-shadow: 0 0 0 6px rgba(216, 59, 53, 0.08);
+}
+
+.record-orbit.recording::before,
+.record-orbit.recording::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(216, 59, 53, 0.35);
+  animation: pm-ripple 2.2s var(--pm-out) infinite;
+  pointer-events: none;
+}
+
+.record-orbit.recording::after {
+  animation-delay: 1.1s;
+}
+
+.record-orbit {
+  position: relative;
+}
+
+.timer {
+  letter-spacing: 0.04em;
+}
+
+/* 拖放区:边框点亮 + 图标轻浮 */
+.dropzone {
+  transition: border-color 220ms ease, background-color 220ms ease, box-shadow 280ms var(--pm-out);
+}
+
+.dropzone:hover {
+  border-color: rgba(33, 104, 217, 0.45);
+  background: #f8fbff;
+  box-shadow: 0 0 0 4px rgba(36, 117, 232, 0.06);
+}
+
+.dropzone svg {
+  transition: transform 260ms var(--pm-spring);
+}
+
+.dropzone:hover svg {
+  transform: translateY(-3px);
+}
+
+/* 输入控件:统一的柔光聚焦 */
+.process-controls select,
+.template-controls select,
+.meeting-field input,
+.meeting-field select,
+.profile-fields input {
+  transition: border-color 180ms ease, box-shadow 220ms var(--pm-out), background-color 180ms ease;
+}
+
+.process-controls select:focus,
+.template-controls select:focus,
+.meeting-field input:focus,
+.meeting-field select:focus,
+.profile-fields input:focus {
+  outline: 0;
+  border-color: rgba(33, 104, 217, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+/* 状态指示灯:缓慢呼吸 */
+.status-dot {
+  animation: pm-breathe 2.8s ease-in-out infinite;
+}
+
+/* ── 结果区 ──────────────────────────────────────────────────── */
+.document-view {
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+.review-editor {
+  transition: border-color 180ms ease, box-shadow 220ms var(--pm-out);
+}
+
+.review-editor:focus {
+  border-color: rgba(33, 104, 217, 0.45);
+  box-shadow: var(--pm-ring);
+}
+
+/* 生成中:进度条流光 */
+.generating-track i {
+  position: relative;
+  overflow: hidden;
+}
+
+.generating-track i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, 0.5) 50%, transparent 75%);
+  animation: pm-shimmer 1.5s ease-in-out infinite;
+}
+
+/* ── Inspector 工作流 ─────────────────────────────────────────── */
+.progress-track i {
+  transition: width 500ms var(--pm-out);
+}
+
+.workflow-step .step-node,
+.workflow-step .step-label {
+  transition: all 240ms var(--pm-spring);
+}
+
+/* ── 会议大厅 ─────────────────────────────────────────────────── */
+.meeting-list-card {
+  transition: background-color 180ms ease, transform 220ms var(--pm-spring), box-shadow 260ms var(--pm-out);
+}
+
+.meeting-list-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pm-shadow-2);
+}
+
+/* 会议号组合框:胶囊化(仅经典皮肤;Atlas 保留原生方角细线与陶土聚焦) */
+html:not([data-skin="atlas"]) .join-code {
+  border-radius: 999px;
+  transition: border-color 200ms ease, box-shadow 240ms var(--pm-out), background-color 200ms ease;
+}
+
+html:not([data-skin="atlas"]) .join-code:focus-within {
+  background: #fff;
+  border-color: rgba(33, 104, 217, 0.32);
+  box-shadow: var(--pm-ring);
+}
+
+html:not([data-skin="atlas"]) .join-code button {
+  border-radius: 999px;
+  transition: background-color 180ms ease, transform 180ms var(--pm-spring);
+}
+
+html:not([data-skin="atlas"]) .join-code button:active {
+  transform: scale(0.96);
+}
+
+/* ── 弹窗:安静的入场 ─────────────────────────────────────────── */
+.modal-backdrop,
+.meeting-dialog-backdrop {
+  /* 不用 fill 模式:遮罩带 backdrop-filter,动画后滞留的合成层会影响取样;
+     0→1 无延迟,结束态与自然态一致,无需 fill */
+  animation: pm-fade 200ms ease;
+}
+
+.profile-modal,
+.meeting-dialog {
+  animation: pm-pop 260ms var(--pm-spring) both;
+}
+
+/* ── 登录页:卡片沉静悬浮 ─────────────────────────────────────── */
+.login-card {
+  box-shadow: 0 2px 6px rgba(42, 65, 96, 0.05), 0 24px 64px rgba(42, 65, 96, 0.12);
+}
+
+.login-card input {
+  transition: border-color 180ms ease, box-shadow 220ms var(--pm-out), background-color 180ms ease;
+}
+
+.login-card input:focus {
+  border-color: rgba(33, 104, 217, 0.45);
+  background: #fff;
+  box-shadow: var(--pm-ring);
+}
+
+/* ── 关键帧 ──────────────────────────────────────────────────── */
+@keyframes pm-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pm-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pm-ripple {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes pm-shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes pm-breathe {
+  50% {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
+}
+
+/* ── 动效降级 ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .user-popover,
+  .profile-modal,
+  .meeting-dialog,
+  .modal-backdrop,
+  .meeting-dialog-backdrop {
+    animation: none;
+  }
+
+  .record-orbit.recording::before,
+  .record-orbit.recording::after,
+  .generating-track i::after,
+  .status-dot {
+    animation: none;
+  }
+
+  .primary,
+  .secondary,
+  .danger,
+  .history-grid > button,
+  .history-stats > div,
+  .meeting-list-card {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ============================================================
+   R2 深化包:登录页、加载态、阅读体验、Toast、空状态、弹窗内部
+   ============================================================ */
+
+/* ── 登录页:氛围与入场 ───────────────────────────────────────── */
+html:not([data-skin="atlas"]) .login-page {
+  background:
+    radial-gradient(1100px 520px at 78% -12%, rgba(36, 117, 232, 0.10), transparent 62%),
+    radial-gradient(820px 480px at 6% 108%, rgba(18, 169, 141, 0.07), transparent 60%),
+    linear-gradient(180deg, #f8faff 0%, #eef3fa 100%);
+}
+
+.login-card {
+  animation: pm-rise 560ms var(--pm-out) both;
+}
+
+.guest-entry button {
+  border: 1px solid var(--pm-hairline);
+  border-radius: 999px;
+  background: #fff;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms var(--pm-spring);
+}
+
+.guest-entry button:not(:disabled):hover {
+  border-color: rgba(33, 104, 217, 0.32);
+  background: var(--brand-soft);
+  transform: translateY(-1px);
+}
+
+.guest-entry button:not(:disabled):active {
+  transform: scale(0.96);
+}
+
+/* ── 启动/加载页:呼吸脉冲 ────────────────────────────────────── */
+.boot-screen svg {
+  animation: pm-breathe 2s ease-in-out infinite;
+}
+
+.boot-screen span {
+  animation: pm-fade 600ms ease both;
+}
+
+/* ── 文档阅读体验:更接近出版物的排版 ─────────────────────────── */
+.document-view {
+  line-height: 1.85;
+  letter-spacing: 0.005em;
+}
+
+.transcript-line {
+  transition: background-color 160ms ease;
+}
+
+.transcript-line:hover {
+  background: rgba(18, 39, 70, 0.025);
+}
+
+.recording-caption-row {
+  transition: background-color 160ms ease;
+}
+
+.recording-caption-row:hover {
+  background: rgba(18, 39, 70, 0.025);
+}
+
+/* 时间与数字:等宽对齐 */
+.history-grid footer span:first-child,
+.inspector dd,
+.timer,
+.meeting-list-card p {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 通知条:从贴片升级为浮起 Toast ───────────────────────────── */
+.result-panel {
+  position: relative;
+}
+
+.result-panel > .notice {
+  position: absolute;
+  right: 18px;
+  bottom: 66px;
+  z-index: 5;
+  /* 通知不会自动消失(状态由下一次操作覆盖),必须放行其下方的按钮点击 */
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border: 1px solid rgba(8, 121, 90, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0a7a5c;
+  font-size: 11.5px;
+  font-weight: 650;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.12);
+  backdrop-filter: blur(8px);
+  animation: pm-toast 320ms var(--pm-spring) both;
+}
+
+.result-panel > .notice::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #12a98d;
+}
+
+/* ── 空状态:图标坐进一团安静的光 ─────────────────────────────── */
+.empty-result svg,
+.history-empty svg,
+.meeting-empty svg {
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand);
+  margin-bottom: 14px;
+}
+
+.history-empty,
+.meeting-empty {
+  border-style: solid;
+  border-color: var(--pm-hairline);
+}
+
+/* ── 会议大厅:状态徽章胶囊化 ─────────────────────────────────── */
+.meeting-status {
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.meeting-lobby-header h1 {
+  letter-spacing: 0.01em;
+}
+
+.meeting-list-card h3 {
+  transition: color 180ms ease;
+}
+
+.meeting-list-card:hover h3 {
+  color: var(--brand);
+}
+
+.meeting-list-card footer b {
+  transition: transform 200ms var(--pm-spring);
+  display: inline-block;
+}
+
+.meeting-list-card:hover footer b {
+  transform: translateX(2px);
+}
+
+/* ── 弹窗内部:头像、选项行、原生控件事品牌化 ─────────────────── */
+.avatar-editor {
+  transition: box-shadow 240ms var(--pm-out), transform 220ms var(--pm-spring), border-color 180ms ease;
+}
+
+.avatar-editor:hover {
+  border-color: rgba(33, 104, 217, 0.4);
+  box-shadow: var(--pm-ring);
+  transform: scale(1.02);
+}
+
+.avatar-editor i {
+  transition: transform 200ms var(--pm-spring);
+}
+
+.avatar-editor:hover i {
+  transform: scale(1.08);
+}
+
+/* 会议选项行:悬停点亮 */
+.meeting-options label {
+  border-radius: 10px;
+  transition: border-color 180ms ease, background-color 180ms ease;
+  cursor: pointer;
+}
+
+.meeting-options label:hover {
+  border-color: rgba(33, 104, 217, 0.3);
+  background: #f8fbff;
+}
+
+/* 原生勾选/单选:品牌化 */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--brand);
+}
+
+/* ── R2 关键帧 ────────────────────────────────────────────────── */
+@keyframes pm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pm-toast {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* R2 动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  .login-card,
+  .boot-screen svg,
+  .boot-screen span,
+  .result-panel > .notice {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   R3 深化包:模板中心统一卡片语言、库列表、策略选项、消息条;
+   实时转写行入场
+   ============================================================ */
+
+/* ── 模板中心 Hero:与历史会议页统一的页头卡 ─────────────────── */
+.template-center-hero {
+  min-height: 0;
+  margin-bottom: 18px;
+  padding: 20px 24px;
+  border: 1px solid var(--pm-hairline);
+  border-radius: 12px;
+  background: var(--panel, #fff);
+  box-shadow: var(--pm-shadow-1);
+}
+
+.template-center-hero h1 {
+  letter-spacing: 0.015em;
+}
+
+/* ── 左右面板:卡片化 ─────────────────────────────────────────── */
+.template-library,
+.template-detail {
+  border: 1px solid var(--pm-hairline);
+  border-radius: 12px;
+  background: var(--panel, #fff);
+  box-shadow: var(--pm-shadow-1);
+  overflow: hidden;
+}
+
+.template-library header {
+  border-bottom: 1px solid var(--pm-hairline);
+}
+
+/* 库列表项:安静 hover + 选中淡品牌底 */
+.template-library-list > button {
+  border-radius: 10px;
+  transition: background-color 180ms ease, color 180ms ease, box-shadow 220ms var(--pm-out);
+}
+
+.template-library-list > button:not(.active):hover {
+  background: var(--pm-hover-wash);
+}
+
+.template-library-list > button.active {
+  background: var(--brand-soft);
+  box-shadow: inset 0 0 0 1px rgba(33, 104, 217, 0.18);
+}
+
+.template-library-list > button.active b {
+  color: var(--brand);
+}
+
+/* 状态图标:就绪=青、待处理=琥珀,放进淡色圆形容器 */
+.template-status-icon {
+  border-radius: 9px;
+}
+
+.template-status-icon.ready {
+  background: rgba(18, 169, 141, 0.10);
+  color: #0e9f87;
+}
+
+.template-status-icon.attention {
+  background: rgba(217, 145, 32, 0.12);
+  color: #b97d1a;
+}
+
+/* 空状态:与全局统一的氛围图标 */
+.template-library-empty svg,
+.template-detail-empty svg {
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand);
+  margin-bottom: 12px;
+}
+
+/* ── 上传面板:卡片化 ─────────────────────────────────────────── */
+.template-upload-panel {
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  border: 1px solid var(--pm-hairline);
+  border-radius: 12px;
+  background: var(--panel, #fff);
+  box-shadow: var(--pm-shadow-1);
+}
+
+.template-upload-panel input,
+.template-upload-panel select,
+.template-target-select select {
+  transition: border-color 180ms ease, box-shadow 220ms var(--pm-out);
+}
+
+.template-upload-panel input:focus,
+.template-upload-panel select:focus,
+.template-target-select select:focus {
+  border-color: rgba(33, 104, 217, 0.45);
+  box-shadow: var(--pm-ring);
+  outline: 0;
+}
+
+/* ── 插入方式选项:悬停点亮 + 选中态(:has 支持) ────────────────── */
+.template-strategy-options label {
+  border: 1px solid var(--pm-hairline);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 200ms var(--pm-out);
+}
+
+.template-strategy-options label:hover {
+  border-color: rgba(33, 104, 217, 0.3);
+  background: #f8fbff;
+}
+
+.template-strategy-options label:has(input:checked) {
+  border-color: rgba(33, 104, 217, 0.45);
+  background: var(--brand-soft);
+  box-shadow: inset 0 0 0 1px rgba(33, 104, 217, 0.15);
+}
+
+/* ── 消息条:与全局通知语言一致的胶囊卡 ───────────────────────── */
+.template-message {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  animation: pm-toast 300ms var(--pm-spring) both;
+}
+
+.template-message.success {
+  border: 1px solid rgba(8, 121, 90, 0.20);
+  background: #eefaf4;
+  color: #0a7a5c;
+}
+
+.template-message.error {
+  border: 1px solid rgba(216, 59, 53, 0.22);
+  background: #fff3f2;
+  color: #c0342e;
+}
+
+/* 删除按钮:安静的危险色 */
+.template-remove {
+  border-radius: 8px;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms var(--pm-spring);
+}
+
+.template-remove:hover {
+  background: rgba(216, 59, 53, 0.10);
+  color: #c0342e;
+}
+
+.template-remove:active {
+  transform: scale(0.94);
+}
+
+/* ── 实时转写:新行滑入 ───────────────────────────────────────── */
+.recording-caption-row {
+  animation: pm-row-in 260ms var(--pm-out) both;
+}
+
+@keyframes pm-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* R3 动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  .template-message,
+  .recording-caption-row {
+    animation: none;
+  }
+}
+
+/* 「查看全部」在历史页不再点亮:它与「历史会议」导航指向同一视图,
+   双高亮是噪音。恢复普通态外观(点击行为与产品逻辑不变)。 */
+.recent-view-all.active {
+  border-color: transparent;
+  background: transparent;
+  color: #295fad;
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .recent-view-all.active {
+  color: var(--brand);
+}
+
+/* ============================================================
+   R4 细节包:场景文本过渡、最近会议入场、密码区、录音状态、spinner
+   ============================================================ */
+
+/* 场景标题/副标题切换:交叉淡入(由 tabMotion 驱动) */
+.scene-text-swap {
+  animation: scene-swap 240ms var(--pm-out);
+}
+
+@keyframes scene-swap {
+  from {
+    opacity: 0.3;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 最近会议:首次入场依次浮现 */
+.recent-list button {
+  animation: pm-row-in 300ms var(--pm-out) both;
+}
+
+.recent-list button:nth-child(2) { animation-delay: 35ms; }
+.recent-list button:nth-child(3) { animation-delay: 70ms; }
+.recent-list button:nth-child(4) { animation-delay: 105ms; }
+.recent-list button:nth-child(5) { animation-delay: 140ms; }
+.recent-list button:nth-child(6) { animation-delay: 175ms; }
+
+/* 个人信息:修改密码区块与上方资料区拉开层级 */
+.password-section {
+  margin: 6px 24px 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--pm-hairline);
+}
+
+.password-section h3 {
+  margin: 0 0 14px;
+  letter-spacing: 0.01em;
+}
+
+.password-section > .secondary {
+  margin-top: 4px;
+}
+
+/* 录音中:计时器转为警戒色(:has 探测录音态) */
+.live-recorder:has(.record-orbit.recording) .timer {
+  color: var(--danger);
+}
+
+/* 生成中 spinner:品牌色圆环 */
+.generating-spinner {
+  border-width: 3px;
+  border-color: rgba(33, 104, 217, 0.16);
+  border-top-color: var(--brand);
+}
+
+/* R4 动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  .scene-text-swap,
+  .recent-list button {
+    animation: none;
+  }
+}
+
+/* 「声音标本」生成艺术条按产品决定移除:隐藏整个标本区块,
+   结果区从标题直接进入选项卡。组件与数据均未改动,删除本段即恢复。 */
+.result-panel > .specimen {
+  display: none;
+}
+
+/* ============================================================
+   R5 首席工艺包(Meridian 专项):环境纵深、排版字距、
+   按钮内嵌高光、面板层级、录音仪表
+   ============================================================ */
+
+/* ── 环境纵深:近乎不可见的冷色氛围,页面不再是平面 ──────────── */
+html:not([data-skin="atlas"]) body {
+  background:
+    radial-gradient(1400px 700px at 70% -320px, rgba(36, 117, 232, 0.045), transparent 60%),
+    linear-gradient(180deg, #f7f9fc 0%, #f2f5fa 100%);
+  background-attachment: fixed;
+}
+
+/* 阴影重校:更轻更弥散,像 Apple 一样「看不见阴影的浮起」 */
+:root {
+  --pm-shadow-1: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 16px rgba(16, 24, 40, 0.05);
+  --pm-shadow-2: 0 2px 6px rgba(16, 24, 40, 0.05), 0 20px 48px rgba(16, 24, 40, 0.10);
+}
+
+/* ── 排版:顶级产品的负字距签名 ──────────────────────────────── */
+.scene-intro h1,
+.history-hero h1,
+.meeting-lobby-header h1,
+.template-center-hero h1,
+.topbar h2 {
+  letter-spacing: -0.012em;
+}
+
+.panel h2,
+.result-panel h2 {
+  font-weight: 750;
+  letter-spacing: -0.008em;
+}
+
+.scene-intro h1 {
+  font-size: 22px;
+}
+
+/* Inter 字形特性:更现代的字腔 */
+html:not([data-skin="atlas"]) body {
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* Inspector 眉题:小标题层级化 */
+.inspector h3 {
+  color: #48586e;
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+
+/* 最近会议次要信息再淡一级,标题更突出 */
+.recent-list small {
+  color: #93a1b4;
+}
+
+/* ── 主按钮内嵌高光:Apple 标志性的一道顶部亮线 ─────────────── */
+html:not([data-skin="atlas"]) .primary {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 1px 2px rgba(33, 104, 217, 0.18),
+    0 4px 12px rgba(33, 104, 217, 0.16);
+}
+
+html:not([data-skin="atlas"]) .primary:not(:disabled):hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 2px 4px rgba(33, 104, 217, 0.2),
+    0 8px 20px rgba(33, 104, 217, 0.22);
+}
+
+/* ── 面板标题图标:渐变徽章 + 内描边 ─────────────────────────── */
+html:not([data-skin="atlas"]) .panel-heading > svg,
+html:not([data-skin="atlas"]) .result-heading > svg {
+  background: linear-gradient(135deg, #e8f1ff 0%, #d9e7fd 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(33, 104, 217, 0.08),
+    0 2px 6px rgba(33, 104, 217, 0.1);
+}
+
+/* ── 录音仪表:更大的计时器、圆环质感 ─────────────────────────── */
+.live-recorder .timer {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.record-orbit {
+  box-shadow:
+    inset 0 0 0 1px rgba(33, 104, 217, 0.08),
+    0 8px 20px rgba(33, 104, 217, 0.1);
+}
+
+.record-orbit.recording {
+  box-shadow: 0 0 0 6px rgba(216, 59, 53, 0.08);
+}
+
+/* ── 场景说明条:更从容的阅读节奏 ────────────────────────────── */
+.scene-intro p {
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+}
+
+/* R5 补:登录页标题接入负字距体系 */
+.login-card h1 {
+  letter-spacing: -0.012em;
+}
+
+/* ── 纪要文档结构化排版(由 docTypography 驱动) ───────────────── */
+.document-view .doc-h {
+  margin: 16px 0 6px;
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 750;
+  letter-spacing: -0.005em;
+}
+
+.document-view .doc-h:first-child {
+  margin-top: 0;
+}
+
+.document-view .doc-h.doc-h1 {
+  font-size: 16px;
+}
+
+.document-view .doc-h.doc-h3 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #33445c;
+}
+
+.document-view .doc-line {
+  white-space: pre-wrap;
+}
+
+.document-view .doc-line > b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.document-view .doc-gap {
+  height: 0.45em;
+}
+
+[data-skin="atlas"] .document-view .doc-h.doc-h3 {
+  color: var(--ink);
+}
+
+/* 行内排版:聊天与历史卡片中的加粗落地 */
+.chat-message.assistant b {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.history-grid > button p b {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ── 对比度校正(WCAG AA):10px 级元信息统一提到 ≈4.4:1 ───────── */
+.recent-list small,
+.history-grid footer,
+.meeting-list-card footer,
+.history-toolbar > span {
+  color: #647890;
+}

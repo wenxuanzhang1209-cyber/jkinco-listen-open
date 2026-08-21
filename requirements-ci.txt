@@ -1,0 +1,4 @@
+# CI 测试依赖（不含 FunASR/torch，保持测试轻量；运行时镜像才安装完整依赖）
+-r requirements.txt
+pytest>=8,<9
+httpx>=0.27,<1

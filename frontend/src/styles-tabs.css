@@ -1,0 +1,181 @@
+/* ============================================================
+   选项卡动效层 (Tab Motion) — 本地预览用,未提交
+
+   只动交互:滑动指示器、按压反馈、切换时的内容过渡。
+   视觉配色沿用现状;删除 main.tsx 对应 import 行即还原。
+   ============================================================ */
+
+:root {
+  /* Material swift-out:起步快、落点稳,指示器滑动专用 */
+  --tab-ease-glide: cubic-bezier(0.2, 0.9, 0.25, 1);
+  /* iOS 分段控件:允许极轻过冲 */
+  --tab-ease-thumb: cubic-bezier(0.34, 1.22, 0.4, 1);
+}
+
+/* ── 容器:为指示器建立定位上下文 ───────────────────────────── */
+.scene-tabs,
+.input-tabs,
+.result-tabs,
+.auth-tabs {
+  position: relative;
+}
+
+/* ── 共享指示器 ─────────────────────────────────────────────── */
+.tab-glide {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tab-glide--underline {
+  bottom: 0;
+  height: 2.5px;
+  border-radius: 3px;
+  background: var(--brand);
+  transition:
+    transform 340ms var(--tab-ease-glide),
+    width 340ms var(--tab-ease-glide),
+    opacity 140ms ease;
+}
+
+.scene-tabs > .tab-glide--underline {
+  bottom: 7px; /* 与原 ::after 短条同位 */
+}
+
+.result-tabs > .tab-glide--underline {
+  bottom: -1px; /* 压住容器发丝线,如 Material 的 active indicator */
+}
+
+.tab-glide--thumb {
+  top: 0;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(24, 56, 96, 0.12);
+  z-index: 0;
+  transition:
+    transform 300ms var(--tab-ease-thumb),
+    width 300ms var(--tab-ease-thumb),
+    opacity 140ms ease;
+}
+
+.tab-glide--still {
+  transition: none !important;
+}
+
+/* ── 隐藏旧的静态选中样式(由指示器接管) ─────────────────────── */
+.scene-tabs button::after {
+  content: none;
+}
+
+.input-tabs button.active,
+.result-tabs button.active {
+  border-bottom-color: transparent;
+}
+
+/* Atlas 的选中态是 button 的 border-bottom 整段线,特异性更高;
+   必须以同级特异性(后加载胜出)关掉,否则与滑动指示器双线并存 */
+[data-skin="atlas"] .scene-tabs button[aria-selected="true"],
+[data-skin="atlas"] .input-tabs button.active,
+[data-skin="atlas"] .result-tabs button.active,
+[data-skin="atlas"] .auth-tabs button.active {
+  border-bottom-color: transparent;
+}
+
+/* Atlas 的选中线贴在分隔发丝线上,指示器与之对齐 */
+[data-skin="atlas"] .scene-tabs > .tab-glide--underline,
+[data-skin="atlas"] .input-tabs > .tab-glide--underline {
+  bottom: -1px;
+}
+
+.auth-tabs button {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-tabs button.active {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ── 按压反馈:指尖落下即微缩,松开弹回 ───────────────────────── */
+.scene-tabs button,
+.input-tabs button,
+.result-tabs button,
+.auth-tabs button {
+  transition:
+    transform 150ms cubic-bezier(0.34, 1.3, 0.5, 1),
+    color 180ms ease,
+    background-color 200ms ease;
+}
+
+.scene-tabs button:active,
+.input-tabs button:active,
+.result-tabs button:active,
+.auth-tabs button:active {
+  transform: scale(0.94);
+}
+
+/* ── 悬停预热:未选中项给一点颜色呼应 ─────────────────────────── */
+.scene-tabs button:not([aria-selected="true"]):hover,
+.input-tabs button:not(.active):not(:disabled):hover,
+.result-tabs button:not(.active):hover {
+  color: var(--brand);
+}
+
+/* ── 内容过渡:视图切换整体渐升,结果区选项卡内容交叉淡入 ─────────
+   .meeting-lobby 必须排除:它内部挂着 fixed 定位的会议弹窗,而容器上
+   跑任何动画都会留下后遗症 ——
+     1. transform 动画结束后留下单位矩阵,fixed 后代被困在内容区;
+     2. opacity 动画结束后合成层不释放,整层按 z:auto 参与根层级排序,
+        遮罩(z100)被压到侧边栏(z40)/顶栏(z30)之下。
+   所以这个容器不做任何入场动画。 */
+.content > *:not(.meeting-lobby) {
+  animation: tab-view-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.result-body > * {
+  animation: tab-content-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tab-view-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tab-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── 动效降级 ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tab-glide {
+    transition: none;
+  }
+
+  .content > *:not(.meeting-lobby),
+  .result-body > * {
+    animation: none;
+  }
+
+  .scene-tabs button,
+  .input-tabs button,
+  .result-tabs button,
+  .auth-tabs button {
+    transition-duration: 0.01ms;
+  }
+}

@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+.venv/
+.venv-test/
+
+# Node / frontend build
+node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+frontend/.npm-cache/
+
+# Secrets & local config —— 任何 API Key / 密钥都严禁提交
+.env
+*.pem
+*.key
+*.p12
+*.pfx
+
+# macOS
+.DS_Store
+
+# Runtime artifacts & data
+artifacts/
+exports/
+history/
+models/
+*.log
+.active-main-port

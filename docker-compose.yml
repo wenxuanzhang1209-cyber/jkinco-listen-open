@@ -1,0 +1,65 @@
+name: jkinco-listen-open
+
+services:
+  app:
+    build: .
+    image: jkinco/jkinco-listen-open:latest
+    container_name: jkinco-listen-open
+    restart: unless-stopped
+    environment:
+      JKINCO_AUTH: ${JKINCO_AUTH:-admin:123456}
+      JKINCO_SESSION_SECRET: ${JKINCO_SESSION_SECRET:-}
+      LLM_BASE_URL: http://ollama:11434/v1/chat/completions
+      LLM_MODEL_NAME: ${OLLAMA_MODEL:-qwen2.5:7b-instruct}
+      JKINCO_HISTORY_DIR: /data/history
+      JKINCO_ASR_MODEL_DIR: /models/modelscope
+      DINGTALK_WEBHOOK: ${DINGTALK_WEBHOOK:-}
+      DINGTALK_SECRET: ${DINGTALK_SECRET:-}
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-}
+      LIVEKIT_PUBLIC_URL: ${LIVEKIT_PUBLIC_URL:-}
+    ports:
+      - "8080:8080"
+    volumes:
+      - jkinco_history:/data/history
+      - jkinco_models:/models
+    depends_on:
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8080/api/health',timeout=5)"]
+      interval: 30s
+      timeout: 8s
+      retries: 5
+      start_period: 60s
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: jkinco-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434"
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    container_name: jkinco-ollama-pull
+    restart: "no"
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["ollama pull ${OLLAMA_MODEL:-qwen2.5:7b-instruct}"]
+    volumes:
+      - ollama_models:/root/.ollama
+
+volumes:
+  jkinco_history:
+  jkinco_models:
+  ollama_models:

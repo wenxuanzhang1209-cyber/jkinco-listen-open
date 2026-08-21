@@ -1,0 +1,635 @@
+/* ============================================================
+   图版皮肤 (Atlas) — 参考 Claude 品牌片的视觉语言
+   全部作用域限定在 [data-skin="atlas"]:对现行风格零影响,可整体摘除。
+
+   语言:米纸为地,墨为字,一道陶土为强调;饱和颜料只活在声音标本里。
+   ============================================================ */
+
+[data-skin="atlas"] {
+  --bg: #F2EDE3;
+  --panel: #FBF8F1;
+  --panel-2: #EFE8DA;
+  --ink: #17140F;
+  --muted: #5B5346;
+  --faint: #8C8271;
+  --line: rgba(23, 20, 15, .13);
+  --line-strong: rgba(23, 20, 15, .28);
+  --brand: #C25E42;
+  --brand-hover: #A94E35;
+  --brand-soft: #F6E7E0;
+  --teal: #3C636A;
+  --danger: #B0442F;
+  --danger-soft: #F8E9E4;
+  --success: #566B4E;
+  --shadow: none;
+  --shadow-popover: 0 18px 44px rgba(40, 28, 16, .14);
+  --radius-card: 2px;
+  --radius-control: 2px;
+
+  --serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", SimSun, Georgia, serif;
+  --sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", Consolas, monospace;
+  --grid-line: rgba(160, 140, 100, .13);
+
+  /* ── 字阶 ──────────────────────────────────────────────
+     按中文排版规律设计,不照搬西文栅格。三条依据:
+       1. 中文字面率高于西文,同号数下视觉更小 → 正文起步 15px,任何位置不低于 13px
+       2. 中文无词间空隙、靠行距分行 → 行高 1.8–1.95,比西文更松
+       3. 数据/编号/时间用等宽 + 表格数字,保证纵向对齐
+     角色分工:宋体承担标题与纪要正文(公文感),苹方承担界面,等宽承担数据。
+     ---------------------------------------------------- */
+  --t-display: clamp(30px, 4.2vw, 44px);  /* 页面主标题 */
+  --t-title:   clamp(21px, 2.6vw, 26px);  /* 面板标题 */
+  --t-section: 17px;                       /* 区块小标题 */
+  --t-body:    15px;                       /* 正文 */
+  --t-doc:     15.5px;                     /* 纪要正文,略大 */
+  --t-ui:      14px;                       /* 控件文字 */
+  --t-sub:     13px;                       /* 次要说明,下限 */
+  --t-label:   10.5px;                     /* 等宽标签 */
+
+  --lh-tight: 1.28;   /* 大标题 */
+  --lh-ui:    1.6;    /* 控件 */
+  --lh-body:  1.8;    /* 正文 */
+  --lh-doc:   1.95;   /* 长文阅读 */
+
+  --ls-cjk: .012em;   /* 中文正文微开字距,提升弱光可读性 */
+  --ls-label: .18em;  /* 等宽标签 */
+
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-cjk);
+}
+
+/* 网格纸底 —— 全站的地 */
+[data-skin="atlas"] body,
+[data-skin="atlas"] .app-shell,
+[data-skin="atlas"] .login-page {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* ── 收编所有残留的纯白底 ──────────────────────────────
+   现行样式里散落着十余处硬编码 #fff,在纸本底上会显得刺眼、割裂。
+   这里统一收编为纸色,后面各组件如需更浅/更深再单独指定。      */
+[data-skin="atlas"] .result-body,
+[data-skin="atlas"] .document-view.overview-document,
+[data-skin="atlas"] .search-box,
+[data-skin="atlas"] .search-box:focus-within,
+[data-skin="atlas"] .join-code,
+[data-skin="atlas"] .join-code:focus-within,
+[data-skin="atlas"] .join-code input,
+[data-skin="atlas"] .main-nav button.active,
+[data-skin="atlas"] .login-card input,
+[data-skin="atlas"] .meeting-lobby-actions .secondary,
+[data-skin="atlas"] .meeting-chat input,
+[data-skin="atlas"] .meeting-list,
+[data-skin="atlas"] .meeting-list > header,
+    [data-skin="atlas"] .history-toolbar,
+    [data-skin="atlas"] .template-controls,
+    [data-skin="atlas"] .process-controls,
+[data-skin="atlas"] .profile-fields,
+[data-skin="atlas"] .user-popover,
+[data-skin="atlas"] .step-node,
+[data-skin="atlas"] .screen-share-notice,
+[data-skin="atlas"] .input-body,
+[data-skin="atlas"] .live-recorder,
+[data-skin="atlas"] .device-state {
+  background: var(--panel);
+}
+
+/* 面板内的次级区块用略深的纸色,靠色阶而不是白底拉开层次 */
+[data-skin="atlas"] .process-controls,
+[data-skin="atlas"] .template-controls,
+[data-skin="atlas"] .meeting-list > header,
+[data-skin="atlas"] .history-toolbar {
+  background: var(--panel-2);
+  border-color: var(--line);
+}
+
+/* 强制覆盖带 !important 的白底(聊天输入的自动填充态) */
+[data-skin="atlas"] .meeting-chat input,
+[data-skin="atlas"] .meeting-chat input:-webkit-autofill,
+[data-skin="atlas"] .meeting-chat input:-webkit-autofill:focus {
+  background: var(--panel) !important;
+  -webkit-text-fill-color: var(--ink);
+}
+
+/* ── 字:标题宋体,正文苹方,数据等宽 ── */
+[data-skin="atlas"] h1,
+[data-skin="atlas"] h2,
+[data-skin="atlas"] h3,
+[data-skin="atlas"] .pane-title,
+[data-skin="atlas"] .app-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: -.008em;
+  text-wrap: balance;
+}
+[data-skin="atlas"] .scene-intro h1,
+[data-skin="atlas"] .history-hero h1 { font-size: var(--t-display); }
+[data-skin="atlas"] .panel-heading h2,
+[data-skin="atlas"] .result-heading h2 { font-size: var(--t-title); }
+[data-skin="atlas"] .topbar-title h2 { font-family: var(--serif); font-size: var(--t-section); }
+[data-skin="atlas"] .history-grid button h3 { font-size: var(--t-section); line-height: 1.45; }
+
+/* 正文与说明:不小于 13px,行高放松 */
+[data-skin="atlas"] p,
+[data-skin="atlas"] .scene-intro p,
+[data-skin="atlas"] .history-grid button p { font-size: var(--t-sub); line-height: var(--lh-body); color: var(--muted); }
+[data-skin="atlas"] .status-line,
+[data-skin="atlas"] .chat-message { font-size: var(--t-body); line-height: var(--lh-body); }
+
+/* 控件文字统一到 14px。排除「问筑听」助手按钮,窄屏下它收起文字靠 font-size:0,
+   不排除就会被这里盖掉、变回带文字的宽按钮。 */
+[data-skin="atlas"] button:not(.assistant-ball),
+[data-skin="atlas"] .main-nav button,
+[data-skin="atlas"] .recent-list button b,
+[data-skin="atlas"] .scene-tabs button,
+[data-skin="atlas"] .result-tabs button,
+[data-skin="atlas"] .input-tabs button,
+[data-skin="atlas"] input,
+[data-skin="atlas"] select,
+[data-skin="atlas"] textarea { font-size: var(--t-ui); line-height: var(--lh-ui); }
+
+/* 手机端输入框仍需 ≥16px,避免 iOS 聚焦缩放 */
+@media (max-width: 760px) {
+  [data-skin="atlas"] input,
+  [data-skin="atlas"] textarea,
+  [data-skin="atlas"] select { font-size: 16px; }
+}
+
+/* 数据、编号、时间:等宽 + 表格数字,纵向对齐 */
+[data-skin="atlas"] time,
+[data-skin="atlas"] .recent-list button small,
+[data-skin="atlas"] .history-grid button footer,
+[data-skin="atlas"] .specimen-cap small {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-label);
+  letter-spacing: .08em;
+  color: var(--faint);
+}
+
+/* 小标签一律等宽宽字距 */
+[data-skin="atlas"] .nav-heading,
+[data-skin="atlas"] .recent-heading {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+/* ── 面板:去阴影、去圆角,只留一道墨线 ── */
+[data-skin="atlas"] .panel,
+[data-skin="atlas"] .inspector,
+[data-skin="atlas"] .history-grid button,
+[data-skin="atlas"] .meeting-list-card,
+[data-skin="atlas"] .history-stats > div,
+[data-skin="atlas"] .login-card,
+[data-skin="atlas"] .profile-modal,
+[data-skin="atlas"] .meeting-dialog {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-skin="atlas"] .sidebar,
+[data-skin="atlas"] .topbar {
+  background: var(--panel-2);
+  border-color: var(--line-strong);
+  box-shadow: none;
+}
+
+/* ── 左栏:当前项只用一道陶土短横,不做填充块 ── */
+[data-skin="atlas"] .main-nav button,
+[data-skin="atlas"] .recent-list button {
+  background: transparent;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  color: var(--muted);
+  box-shadow: none;
+}
+[data-skin="atlas"] .main-nav button.active,
+[data-skin="atlas"] .recent-list button.active {
+  background: transparent;
+  border-left-color: var(--brand);
+  color: var(--ink);
+  font-weight: 700;
+}
+[data-skin="atlas"] .main-nav button:hover,
+[data-skin="atlas"] .recent-list button:hover { background: rgba(23, 20, 15, .035); }
+[data-skin="atlas"] .recent-dot { background: var(--brand); }
+[data-skin="atlas"] .recent-view-all {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--brand);
+  box-shadow: none;
+}
+[data-skin="atlas"] .recent-view-all small {
+  color: var(--faint);
+}
+[data-skin="atlas"] .recent-view-all:hover {
+  background: rgba(23, 20, 15, .035);
+  color: var(--brand-hover);
+}
+
+/* ── 按钮 ── */
+[data-skin="atlas"] .primary,
+[data-skin="atlas"] .start-meeting-button,
+[data-skin="atlas"] .login-submit {
+  background: var(--brand);
+  border: 1px solid var(--brand);
+  border-radius: 0;
+  color: #FBF8F1;
+  box-shadow: none;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+[data-skin="atlas"] .primary:hover,
+[data-skin="atlas"] .start-meeting-button:hover,
+[data-skin="atlas"] .login-submit:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+
+[data-skin="atlas"] .secondary,
+[data-skin="atlas"] .file-button {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink);
+  box-shadow: none;
+}
+[data-skin="atlas"] .secondary:hover { background: rgba(23, 20, 15, .04); border-color: var(--ink); }
+
+/* ── 标签页:细下划线,去色块 ── */
+[data-skin="atlas"] .scene-tabs,
+[data-skin="atlas"] .result-tabs,
+[data-skin="atlas"] .input-tabs,
+[data-skin="atlas"] .auth-tabs {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  gap: 22px;
+  /* 保留横向内边距:抹平会让首个标签贴到面板边框上 */
+  padding-inline: 20px;
+}
+
+/* 原样式用 button::after 画短居中指示条;图版皮肤改用整段下划线,
+   必须关掉 ::after,否则两条线同时出现 */
+[data-skin="atlas"] .scene-tabs button::after,
+[data-skin="atlas"] .scene-tabs button[aria-selected="true"]::after {
+  content: none;
+  background: transparent;
+}
+[data-skin="atlas"] .scene-tabs button,
+[data-skin="atlas"] .result-tabs button,
+[data-skin="atlas"] .input-tabs button,
+[data-skin="atlas"] .auth-tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--muted);
+  box-shadow: none;
+  padding-inline: 2px;
+}
+[data-skin="atlas"] .scene-tabs button[aria-selected="true"],
+[data-skin="atlas"] .result-tabs button.active,
+[data-skin="atlas"] .input-tabs button.active,
+[data-skin="atlas"] .auth-tabs button.active {
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom-color: var(--brand);
+}
+
+/* ── 输入 ── */
+[data-skin="atlas"] input,
+[data-skin="atlas"] textarea,
+[data-skin="atlas"] select,
+[data-skin="atlas"] .search-box,
+[data-skin="atlas"] .dropzone,
+[data-skin="atlas"] .review-editor {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink);
+  box-shadow: none;
+}
+[data-skin="atlas"] .search-box:focus-within,
+[data-skin="atlas"] input:focus,
+[data-skin="atlas"] textarea:focus {
+  border-color: var(--brand);
+  outline: 0;
+}
+
+/* ── 结果文档:纪要正文用宋体,像公文;这是全站最需要久读的地方 ── */
+[data-skin="atlas"] .document-view,
+[data-skin="atlas"] .overview-document {
+  font-family: var(--serif);
+  font-size: var(--t-doc);
+  line-height: var(--lh-doc);
+  letter-spacing: var(--ls-cjk);
+  color: var(--ink);
+  max-width: 46em;          /* 中文单行约 40–46 字最易读,过长会丢行 */
+}
+[data-skin="atlas"] .review-editor {
+  font-family: var(--serif);
+  font-size: var(--t-doc);
+  line-height: var(--lh-doc);
+}
+
+/* ── 场景介绍条 ── */
+[data-skin="atlas"] .scene-intro {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+}
+[data-skin="atlas"] .model-pill {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--muted);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* ── 进度 ── */
+[data-skin="atlas"] .progress-track { background: rgba(23, 20, 15, .1); border-radius: 0; }
+[data-skin="atlas"] .progress-track i { background: var(--brand); border-radius: 0; }
+[data-skin="atlas"] .step-node { border-color: var(--line-strong); background: var(--panel); border-radius: 0; }
+[data-skin="atlas"] .workflow-step.done .step-node,
+[data-skin="atlas"] .workflow-step.active .step-node { background: var(--brand); border-color: var(--brand); }
+[data-skin="atlas"] .step-hint { color: var(--brand); }
+
+/* ── 录音圆盘:改为标本针式的同心圆 ── */
+[data-skin="atlas"] .record-orbit,
+[data-skin="atlas"] .device-icon {
+  background: transparent;
+  border: 1.5px solid var(--brand);
+  border-radius: 50%;
+  color: var(--brand);
+  box-shadow: none;
+}
+[data-skin="atlas"] .record-orbit.recording { background: var(--brand-soft); }
+
+/* ── 历史卡片 ── */
+[data-skin="atlas"] .history-scene {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--muted);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+}
+[data-skin="atlas"] .history-grid button:hover { border-color: var(--ink); background: var(--panel-2); }
+[data-skin="atlas"] .history-stats b { font-family: var(--serif); }
+
+/* ── 问筑听 ── */
+[data-skin="atlas"] .assistant-ball {
+  background: var(--brand);
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(140, 60, 38, .3);
+}
+[data-skin="atlas"] .assistant-drawer { border: 1px solid var(--line-strong); border-radius: 0; background: var(--panel); }
+[data-skin="atlas"] .assistant-drawer > header { background: var(--brand); }
+[data-skin="atlas"] .chat-message.assistant { background: var(--panel-2); border: 1px solid var(--line); border-radius: 0; }
+[data-skin="atlas"] .chat-message.user { background: var(--brand); border-radius: 0; color: #FBF8F1; }
+[data-skin="atlas"] .quick-questions button { background: transparent; border: 1px solid var(--line-strong); border-radius: 0; color: var(--muted); }
+
+/* ── 登录 ── */
+[data-skin="atlas"] .login-card h1 { font-family: var(--serif); font-size: 30px; }
+[data-skin="atlas"] .login-sub { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+
+/* ============================================================
+   会议室 —— 全站同一张纸,只有画面区是深的
+   ============================================================ */
+[data-skin="atlas"] .conference-shell { background: var(--bg); }
+[data-skin="atlas"] .conference-topbar {
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--line-strong);
+}
+[data-skin="atlas"] .conference-title { font-family: var(--serif); font-size: 15px; color: var(--ink); }
+[data-skin="atlas"] .conference-code {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--muted);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+[data-skin="atlas"] .conference-topbar time { color: var(--muted); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+[data-skin="atlas"] .conference-topbar button { background: transparent; border: 0; color: var(--muted); border-radius: 0; }
+[data-skin="atlas"] .conference-topbar button:hover { background: rgba(23, 20, 15, .05); color: var(--ink); }
+
+[data-skin="atlas"] .conference-stage { background: var(--bg); }
+[data-skin="atlas"] .conference-stage .lk-video-conference,
+[data-skin="atlas"] .conference-stage .lk-grid-layout { background: var(--bg); }
+/* 画面区保持深色:让人脸成为整屏唯一亮处 */
+[data-skin="atlas"] .conference-stage .lk-participant-tile {
+  background: #20282B;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  box-shadow: none;
+}
+[data-skin="atlas"] .conference-stage .lk-participant-tile[data-lk-speaking="true"] {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(194, 94, 66, .26);
+}
+
+/* LiveKit's connection-quality glyph is not actionable and reads as a stray dot. */
+.conference-stage .lk-connection-quality {
+  display: none !important;
+}
+
+[data-skin="atlas"] .conference-side {
+  background: var(--panel);
+  border-left: 1px solid var(--line-strong);
+}
+[data-skin="atlas"] .conference-side > header { border-bottom: 1px solid var(--line); }
+[data-skin="atlas"] .conference-side > header b { font-family: var(--serif); }
+[data-skin="atlas"] .caption-timeline > div { border-bottom-color: var(--line); }
+[data-skin="atlas"] .caption-timeline time { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--faint); }
+[data-skin="atlas"] .recording-caption-timeline { background: var(--panel); }
+[data-skin="atlas"] .recording-caption-row { border-bottom-color: var(--line); }
+[data-skin="atlas"] .recording-caption-row time { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: var(--faint); }
+[data-skin="atlas"] .live-caption {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink);
+  box-shadow: var(--shadow-popover);
+}
+[data-skin="atlas"] .live-caption span { color: var(--brand); }
+
+/* ── 会议室控制栏:精致的纸上按钮 ── */
+[data-skin="atlas"] .conference-media-controls {
+  background: var(--panel-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  box-shadow: 0 6px 20px rgba(40, 28, 16, .1);
+  padding: 6px;
+  gap: 6px;
+}
+[data-skin="atlas"] .conference-media-controls button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: none;
+  transition: background .16s ease, border-color .16s ease;
+}
+[data-skin="atlas"] .conference-media-controls button:hover {
+  background: var(--panel);
+  border-color: var(--line-strong);
+}
+/* 开启态:陶土实底,一眼可辨 */
+[data-skin="atlas"] .conference-media-controls button[data-enabled="true"] {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #FBF8F1;
+}
+[data-skin="atlas"] .conference-media-controls button[data-enabled="true"] svg { color: #FBF8F1; }
+/* 关闭态:纸底 + 陶土图标提醒(仅麦克风/摄像头) */
+[data-skin="atlas"] .conference-media-controls button[data-enabled="false"] {
+  background: var(--panel);
+  border-color: var(--line);
+  color: var(--muted);
+}
+[data-skin="atlas"] .conference-media-controls button.media-toggle[data-enabled="false"] svg { color: var(--brand); }
+[data-skin="atlas"] .conference-media-controls .leave-meeting {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+[data-skin="atlas"] .conference-media-controls .leave-meeting:hover { background: var(--danger); border-color: var(--danger); color: #FBF8F1; }
+[data-skin="atlas"] .conference-media-controls .leave-meeting:hover svg { color: #FBF8F1; }
+
+[data-skin="atlas"] .conference-utility button {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  color: var(--ink);
+  box-shadow: none;
+}
+[data-skin="atlas"] .conference-utility button:hover { background: var(--panel-2); border-color: var(--ink); }
+[data-skin="atlas"] .conference-utility button.active { background: var(--brand); border-color: var(--brand); color: #FBF8F1; }
+[data-skin="atlas"] .conference-utility .end-meeting { border-color: var(--danger); color: var(--danger); background: transparent; }
+[data-skin="atlas"] .conference-utility .end-meeting:hover { background: var(--danger); color: #FBF8F1; }
+[data-skin="atlas"] .stage-fullscreen { background: var(--panel); border: 1px solid var(--line-strong); color: var(--ink); border-radius: 0; }
+
+[data-skin="atlas"] .meeting-launch-band,
+[data-skin="atlas"] .meeting-lobby-toolbar { background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; box-shadow: none; }
+[data-skin="atlas"] .join-code input { border-radius: 0; }
+[data-skin="atlas"] .join-code button { background: var(--brand); color: #FBF8F1; border-radius: 0; border: 1px solid var(--brand); }
+[data-skin="atlas"] .meeting-status { border-radius: 0; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 9.5px; letter-spacing: .1em; }
+
+/* ============================================================
+   声音标本
+   ============================================================ */
+.specimen { margin: 0; display: grid; justify-items: center; gap: 8px; }
+.specimen-canvas { display: block; width: 100%; height: 168px; }
+.specimen-cap { display: grid; justify-items: center; gap: 2px; text-align: center; }
+.specimen-cap b { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.specimen-cap small {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  color: var(--faint, #8C8271);
+}
+/* 标本只在图版皮肤下出现 */
+[data-skin="classic"] .specimen { display: none; }
+
+/* ============================================================
+   皮肤切换按钮
+   ============================================================ */
+.skin-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong, #cbd7e6);
+  border-radius: var(--radius-control, 6px);
+  background: var(--panel, #fff);
+  color: var(--muted, #697991);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color .16s ease, color .16s ease, background .16s ease;
+}
+.skin-toggle:hover { color: var(--ink); border-color: var(--ink); }
+.skin-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.skin-toggle svg { width: 15px; height: 15px; flex: none; }
+/* 只留英文名:等宽、宽字距、小字号,与顶栏其它中文控件不争 */
+.skin-toggle .skin-name {
+  font-family: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding-top: 1px;
+}
+@media (max-width: 700px) {
+  .skin-toggle .skin-name { display: none; }
+  .skin-toggle {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+[data-skin="atlas"] .skin-toggle {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 0;
+}
+[data-skin="atlas"] .skin-toggle:hover { color: var(--brand); border-color: var(--brand); }
+
+@media (prefers-reduced-motion: reduce) {
+  .skin-toggle { transition: none; }
+}
+
+
+/* 访客入口:图志皮肤沿用等宽小标签与纸本色调 */
+[data-skin="atlas"] .guest-entry {
+  border-top-color: var(--rule);
+}
+
+[data-skin="atlas"] .guest-entry button {
+  border-color: var(--rule);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-1);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: var(--ls-label);
+}
+
+[data-skin="atlas"] .guest-entry button:hover:not(:disabled) {
+  border-color: var(--ink-1);
+  background: transparent;
+}

@@ -1,0 +1,3153 @@
+/*
+ * JKinco Listen release design layer.
+ *
+ * This file intentionally sits after the legacy stylesheet. Removing the
+ * import in main.tsx restores the previous visual release without touching
+ * any product logic.
+ */
+
+:root {
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --ink: #172235;
+  /* 次要文字色。4.43:1 在白底刚好不达 WCAG AA(4.5),在页面底色 #f5f7fb 上更低到
+     4.13:1 —— 手机在户外强光下这类小字几乎看不清。压暗到两种底色都达标:
+     白底 4.89:1、页面底 4.56:1,色相不变。 */
+  --muted: #62728a;
+  --line: #dfe6f0;
+  --line-strong: #cbd7e6;
+  --brand: #2168d9;
+  --brand-hover: #1859bf;
+  --brand-soft: #edf4ff;
+  --teal: #12a98d;
+  --danger: #d83b35;
+  --danger-soft: #fff3f2;
+  --success: #08795a;
+  --shadow: 0 1px 2px rgba(18, 39, 70, 0.04), 0 10px 28px rgba(18, 39, 70, 0.06);
+  --shadow-popover: 0 18px 52px rgba(15, 36, 68, 0.16);
+  --radius-card: 8px;
+  --radius-control: 6px;
+  --sidebar-width: clamp(228px, 13vw, 252px);
+  --inspector-width: clamp(244px, 13vw, 268px);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  color-scheme: light;
+  scrollbar-gutter: stable;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  color: var(--ink);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease,
+    box-shadow 160ms ease, opacity 160ms ease, transform 120ms ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid rgba(33, 104, 217, 0.24);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-control);
+}
+
+.icon:hover {
+  background: #f0f4f9;
+}
+
+.primary,
+.secondary,
+.danger {
+  min-height: 44px;
+  border-radius: var(--radius-control);
+  padding-inline: 16px;
+  font-weight: 680;
+}
+
+.primary {
+  background: var(--brand);
+  box-shadow: 0 5px 14px rgba(33, 104, 217, 0.16);
+}
+
+.primary:hover {
+  background: var(--brand-hover);
+  box-shadow: 0 7px 18px rgba(33, 104, 217, 0.2);
+}
+
+.primary:active,
+.secondary:active,
+.danger:active {
+  transform: translateY(1px);
+}
+
+.secondary {
+  border-color: var(--line-strong);
+  color: #295fAD;
+  box-shadow: none;
+}
+
+.danger {
+  background: var(--danger);
+}
+
+/* Authentication */
+.login-page {
+  min-height: 100dvh;
+  place-items: center;
+  padding: 32px;
+  background: #f3f6fb;
+}
+
+.login-card {
+  width: min(456px, 100%);
+  padding: 38px 40px 40px;
+  border: 1px solid #d9e2ee;
+  border-radius: var(--radius-card);
+  box-shadow: 0 16px 46px rgba(22, 48, 86, 0.1);
+}
+
+.login-logo {
+  width: min(100%, 340px);
+  max-height: 78px;
+  margin: 0 0 22px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* 登录页竖向节奏:标题与副标题贴紧成一组(6px),整组与上下的分区之间留 22-24px。
+   中英混排的标题需要一点字距,否则「Listen 筑听」之间会挤在一起。 */
+.login-card h1 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+.login-sub {
+  margin: 6px 0 24px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.auth-tabs {
+  margin-bottom: 22px;
+  padding: 3px;
+  border-radius: var(--radius-control);
+  background: #eef2f7;
+}
+
+.auth-tabs button {
+  min-height: 40px;
+  border-radius: 4px;
+}
+
+.auth-tabs button.active {
+  color: #174f9f;
+  box-shadow: 0 1px 5px rgba(20, 48, 86, 0.1);
+}
+
+.login-card label {
+  margin-bottom: 16px;
+  color: #53647b;
+  font-weight: 600;
+}
+
+.login-card input {
+  height: 50px;
+  border-radius: var(--radius-control);
+  background: #fff;
+}
+
+.login-submit {
+  height: 52px;
+  margin-top: 6px;
+  font-size: 16px;
+}
+
+/* 访客入口:次要动作,与主登录按钮拉开层级,避免抢走注册/登录的视线 */
+.guest-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 「先体验一下?」与按钮是一组,说明小字与按钮之间再拉开一点,
+     否则三行等距会看不出哪句在解释哪个动作。 */
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.guest-entry > span {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.guest-entry button {
+  height: 42px;
+  padding: 0 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #fff;
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.guest-entry button:hover:not(:disabled) {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.guest-entry button:disabled {
+  opacity: .55;
+}
+
+.guest-entry small {
+  max-width: 300px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.captcha-row button {
+  height: 50px;
+  border-radius: var(--radius-control);
+}
+
+/* Application shell */
+.sidebar {
+  width: var(--sidebar-width);
+  padding: 14px 16px 20px;
+  border-right-color: var(--line);
+  background: #fff;
+  overscroll-behavior: contain;
+  /* Windows keeps classic scrollbars visible by default. Keep the rail fully
+     scrollable while matching the unobtrusive overlay behavior seen on macOS. */
+  scrollbar-width: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.sidebar-brand {
+  min-height: 82px;
+  padding: 8px 2px 18px;
+  border-bottom-color: var(--line);
+}
+
+.sidebar-brand img {
+  width: 100%;
+  max-width: 216px;
+  max-height: 58px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.start-meeting-button {
+  width: 100%;
+  min-height: 50px;
+  margin: 22px 0 16px;
+  border-radius: var(--radius-control);
+  background: var(--brand);
+  box-shadow: 0 8px 20px rgba(33, 104, 217, 0.17);
+  font-size: 15px;
+}
+
+.start-meeting-button:hover {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+}
+
+.main-nav {
+  gap: 6px;
+  padding: 0 0 6px;
+}
+
+.main-nav button {
+  min-height: 46px;
+  padding-inline: 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: #42536b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.main-nav button:hover {
+  border-color: #d9e5f4;
+  background: #f6f9fd;
+  color: #1b58ad;
+}
+
+.main-nav button.active {
+  border-color: #a9c5ed;
+  background: #fff;
+  color: #175bb8;
+  box-shadow: inset 3px 0 0 var(--brand);
+}
+
+.nav-heading {
+  padding: 22px 10px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.recent-heading {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid #edf1f6;
+}
+
+.recent-list {
+  gap: 8px;
+}
+
+.recent-list button {
+  min-height: 58px;
+  padding: 10px;
+  border-radius: var(--radius-control);
+}
+
+.recent-list button:hover,
+.recent-list button.active {
+  border-color: #d5e1f0;
+  box-shadow: 0 3px 12px rgba(16, 40, 80, 0.05);
+}
+
+.recent-list b {
+  font-size: 12.5px;
+}
+
+.recent-list small {
+  margin-top: 3px;
+  font-size: 11px;
+}
+
+.recent-view-all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 40px;
+  margin-top: 8px;
+  padding: 0 10px 0 31px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: #295fad;
+  font-size: 12.5px;
+  font-weight: 650;
+  text-align: left;
+}
+
+.recent-view-all small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.recent-view-all:hover {
+  border-color: #d5e1f0;
+  background: #f6f9fd;
+  color: #174f9f;
+}
+
+.app-main {
+  min-width: 0;
+  margin-left: var(--sidebar-width);
+  transition: margin 180ms ease;
+}
+
+.app-main.with-inspector {
+  margin-right: calc(var(--inspector-width) + 28px);
+}
+
+.app-main.wide {
+  margin-right: 0;
+}
+
+.topbar {
+  height: 72px;
+  padding: 0 28px;
+  border-bottom-color: var(--line);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.app-main.with-inspector .topbar {
+  margin-right: calc((var(--inspector-width) + 28px) * -1);
+}
+
+.topbar h2 {
+  font-size: 17px;
+}
+
+.topbar p {
+  font-size: 12px;
+}
+
+.topbar-actions {
+  gap: 18px;
+}
+
+.search-box {
+  width: min(380px, 32vw);
+  height: 44px;
+  border-radius: var(--radius-control);
+  background: #f7f9fc;
+}
+
+.search-box input {
+  height: 44px;
+  min-height: 44px;
+  padding-block: 0;
+}
+
+.search-box:focus-within {
+  border-color: #8db1e9;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(33, 104, 217, 0.1);
+}
+
+/* 组合输入框:容器已有焦点高亮,内层 input 不再叠加全局焦点环,避免双重蓝框 */
+.search-box input:focus-visible,
+.join-code input:focus-visible,
+.chat-compose input:focus-visible,
+.meeting-chat input:focus-visible,
+.meeting-field input:focus-visible {
+  outline: none;
+}
+
+.join-code:focus-within {
+  border-color: #8db1e9;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(33, 104, 217, 0.1);
+}
+
+.chat-compose:focus-within input {
+  border-color: #6f9fe6;
+  box-shadow: 0 0 0 3px rgba(33, 104, 217, 0.1);
+}
+
+.user-menu > button {
+  min-height: 44px;
+  border-radius: var(--radius-control);
+}
+
+.user-menu > button:hover {
+  background: #f4f7fb;
+}
+
+.user-popover {
+  top: 50px;
+  width: 168px;
+  padding: 7px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-popover);
+}
+
+.user-popover button {
+  min-height: 42px;
+}
+
+.content {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 28px 30px 48px;
+}
+
+/* Scene navigation and processing workspace */
+.scene-tabs {
+  display: grid;
+  min-height: 54px;
+  margin-bottom: 22px;
+  padding: 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.scene-tabs button {
+  min-width: 0;
+  color: #28384e;
+  font-weight: 650;
+}
+
+.scene-tabs button:hover {
+  color: #174f9f;
+  background: rgba(33, 104, 217, 0.035);
+}
+
+.scene-tabs button[aria-selected="true"] {
+  color: #172235;
+}
+
+.scene-tabs button::after {
+  right: 27%;
+  left: 27%;
+  bottom: -1px;
+  height: 3px;
+}
+
+.scene-tabs button[aria-selected="true"]::after {
+  background: var(--brand);
+}
+
+.scene-intro {
+  min-height: 92px;
+  margin-bottom: 20px;
+  padding: 20px 22px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+}
+
+.scene-intro h1 {
+  margin: 3px 0 1px;
+  font-size: 22px;
+}
+
+.model-pill {
+  border: 1px solid #cbe9dd;
+  border-radius: 999px;
+  background: #f2fbf7;
+  color: #107757;
+}
+
+.workspace {
+  grid-template-columns: minmax(360px, 0.78fr) minmax(600px, 1.22fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.panel {
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+}
+
+.workspace > .panel {
+  /* On tall desktop viewports, carry both work cards down to the inspector's
+     visual baseline. The viewport-derived floor adds useful working space
+     instead of leaving a detached strip of page background below the cards. */
+  min-height: max(696px, calc(100dvh - 318px));
+}
+
+.panel-heading,
+.result-heading {
+  min-height: 104px;
+  padding: 22px;
+}
+
+.panel-heading > svg,
+.result-heading > svg {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-control);
+}
+
+.panel h2 {
+  margin: 3px 0;
+  font-size: 19px;
+}
+
+.input-tabs {
+  padding: 12px 18px 0;
+}
+
+.input-tabs button {
+  min-height: 46px;
+  color: #53657d;
+}
+
+.input-tabs button:hover {
+  color: #1d5eb8;
+  background: #f7faff;
+}
+
+.input-body {
+  min-height: 360px;
+  flex: 1;
+  padding: 22px;
+}
+
+.device-icon,
+.record-orbit {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+}
+
+.dropzone {
+  min-height: 272px;
+  border-radius: var(--radius-card);
+  background: #fcfdff;
+}
+
+.dropzone:hover {
+  border-color: #5c91e5;
+  background: #f7faff;
+}
+
+.live-recorder {
+  width: min(100%, 480px);
+}
+
+.live-recorder textarea,
+.review-editor {
+  border-radius: var(--radius-control);
+}
+
+.process-controls {
+  gap: 14px;
+  padding: 18px 20px;
+}
+
+.template-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  /* 底对齐:左列上方有「纪要模板」标签把下拉框整体推低,若不对齐底部,
+     按钮会比下拉框高出一个标签的高度 —— 这正是两者看起来错位的原因。 */
+  align-items: end;
+  gap: 8px 12px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--line);
+  background: #fbfcfe;
+}
+
+.template-controls label span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.template-controls select {
+  width: 100%;
+  height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #fff;
+  color: var(--ink);
+}
+
+.template-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding-top: 17px;
+}
+
+.template-actions input {
+  display: none;
+}
+
+.template-actions .secondary {
+  min-height: 44px;
+}
+
+/* 「管理模板」与左侧下拉框同高同圆角,字号跟随表单控件而不是正文,
+   否则按钮文字会比下拉框里的选项明显更大。 */
+.template-manage-button {
+  height: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-control);
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.template-manage-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.template-delete {
+  width: 44px;
+  height: 44px;
+  color: var(--danger);
+}
+
+.template-controls > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.process-controls select {
+  height: 44px;
+  border-radius: var(--radius-control);
+}
+
+.status-line {
+  min-height: 44px;
+  padding: 10px 20px;
+}
+
+.result-tabs {
+  gap: 28px;
+  padding-inline: 22px;
+}
+
+.result-tabs button {
+  min-height: 50px;
+}
+
+.result-body {
+  min-height: 496px;
+  padding: 22px;
+  background: #fff;
+}
+
+.document-view,
+.document-view.overview-document {
+  min-height: 438px;
+  padding: 24px;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.review-editor {
+  min-height: 438px;
+}
+
+.review-workspace {
+  display: grid;
+  gap: 12px;
+}
+
+.review-workspace .review-editor {
+  min-height: 380px;
+}
+
+.review-scene-control {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 220px) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.review-scene-control > span {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.review-scene-control select {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #fff;
+  color: var(--ink);
+}
+
+.review-scene-control small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* 参会者只读:给一点视觉提示,否则一个能聚焦却打不进字的输入框像是坏了。 */
+.review-editor[readonly] {
+  background: #f7f9fc;
+  color: var(--muted);
+  cursor: default;
+}
+
+.result-actions {
+  min-height: 64px;
+  padding: 10px 20px;
+}
+
+/* Inspector */
+.inspector {
+  top: 94px;
+  right: 22px;
+  /* 这里曾是 bottom: auto,是「当前进度」底部被截断的根因:
+     基础样式把面板上下都锚定(top+bottom)并配 overflow-y:auto,高度受视口约束、
+     内容超出时可在面板内滚动。改成 auto 后下边界消失,面板高度变成内容自然高度
+     (实测 671px),视口高度低于约 765px 时底部就被裁掉 —— 而且面板是 fixed 定位,
+     页面滚动根本够不到那部分,内容是彻底不可达而非「多滚一下」。 */
+  bottom: 22px;
+  width: var(--inspector-width);
+  display: grid;
+  gap: 18px;
+  /* 右下角「问筑听」浮动按钮(right:24 bottom:24 高约 48)会压住面板底部。
+     留出等高的可滚动余量,最后一步能滚到按钮上方,而不是被永久盖住。 */
+  padding-bottom: 62px;
+  /* Windows/Chromium uses a permanently visible classic scrollbar here.
+     Hide only its chrome; wheel, touchpad and keyboard scrolling stay intact. */
+  scrollbar-width: none;
+}
+
+.inspector::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.inspector section {
+  padding: 22px 20px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+}
+
+.inspector h3 {
+  margin: 0 0 18px;
+  font-size: 16px;
+}
+
+.inspector dl {
+  gap: 17px;
+}
+
+.inspector dl div {
+  gap: 4px;
+}
+
+.inspector dt {
+  color: #46566d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.inspector dd {
+  color: #243247;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.progress-head {
+  margin-bottom: 14px;
+}
+
+.progress-track {
+  margin-bottom: 18px;
+}
+
+.workflow-list {
+  gap: 3px;
+}
+
+.workflow-step {
+  min-height: 42px;
+}
+
+/* History, profile and assistant */
+.history-hero,
+.history-stats > div,
+.history-grid > button,
+.history-empty {
+  border-radius: var(--radius-card);
+}
+
+.history-hero {
+  padding: 24px;
+}
+
+.history-toolbar {
+  margin-block: 24px 14px;
+}
+
+.history-grid {
+  gap: 12px;
+}
+
+.profile-modal,
+.assistant-drawer {
+  border-radius: var(--radius-card);
+}
+
+.profile-modal {
+  box-shadow: var(--shadow-popover);
+}
+
+.assistant-ball {
+  right: 24px;
+  bottom: 24px;
+  min-height: 48px;
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(33, 104, 217, 0.24);
+}
+
+.assistant-drawer {
+  right: 24px;
+  bottom: 84px;
+  overflow: hidden;
+  box-shadow: var(--shadow-popover);
+}
+
+.quick-questions button {
+  min-height: 38px;
+}
+
+.chat-compose input,
+.chat-compose button {
+  min-height: 44px;
+}
+
+/* Realtime meeting lobby */
+.meeting-lobby {
+  width: 100%;
+  max-width: none;
+  padding-top: 12px;
+}
+
+.meeting-lobby-header {
+  align-items: flex-end;
+  padding: 8px 0 28px;
+}
+
+.meeting-lobby-header h1 {
+  margin-top: 5px;
+  font-size: 28px;
+}
+
+.meeting-lobby-actions {
+  flex: none !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.meeting-lobby-actions button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-inline: 17px;
+}
+
+.meeting-lobby-actions .secondary {
+  border-color: #cbd8e9;
+  background: #fff;
+  color: #255d9f;
+}
+
+.meeting-lobby-header > .primary,
+.meeting-lobby-actions > .primary {
+  min-height: 46px;
+}
+
+.meeting-launch-band,
+.meeting-list,
+.meeting-dialog {
+  border-radius: var(--radius-card);
+}
+
+.meeting-launch-band {
+  min-height: 108px;
+  padding: 22px 24px;
+}
+
+.join-code {
+  min-height: 48px;
+  border-radius: var(--radius-control);
+}
+
+.join-code input,
+.meeting-field input {
+  min-height: 44px;
+}
+
+.join-code button {
+  min-width: 104px;
+  height: 40px;
+}
+
+.meeting-lobby-toolbar {
+  margin: 26px 0 14px;
+}
+
+.meeting-list-card {
+  min-height: 220px;
+  padding: 22px;
+}
+
+.meeting-status.scheduled {
+  background: #fff4d8;
+  color: #936113;
+}
+
+.meeting-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+}
+
+.meeting-list-card footer {
+  display: grid;
+  grid-template-columns: minmax(112px, 1fr) auto;
+  align-items: center;
+  column-gap: 18px;
+}
+
+.meeting-list-card footer > span {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.meeting-list-card footer .meeting-card-actions {
+  max-width: 100%;
+}
+
+.meeting-list-card footer.scheduled-footer {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 8px;
+}
+
+.meeting-list-card footer.scheduled-footer .meeting-card-actions {
+  width: 100%;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.meeting-card-actions button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2168d9;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.meeting-card-actions button:hover {
+  color: #174f9f;
+}
+
+.meeting-card-actions button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.meeting-card-actions svg {
+  width: 13px;
+  height: 13px;
+}
+
+.schedule-field {
+  padding-top: 6px;
+}
+
+.meeting-list-card:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline-offset: -4px;
+}
+
+.meeting-dialog-backdrop,
+.modal-backdrop {
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+}
+
+.meeting-dialog > header,
+.meeting-dialog > footer {
+  padding-inline: 24px;
+}
+
+.meeting-options label {
+  min-height: 70px;
+}
+
+/* Realtime meeting room */
+.conference-shell[data-lk-theme="default"] {
+  --lk-control-fg: #24344b;
+  --lk-control-bg: #f2f5f8;
+  --lk-control-hover-bg: #e9eff7;
+  --lk-control-active-bg: #e5efff;
+  --lk-control-active-hover-bg: #d9e8ff;
+  --lk-accent-fg: #ffffff;
+  --lk-accent-bg: #2168d9;
+  --lk-accent2: #1759b8;
+  background: #f5f7fa;
+  color: #172235;
+}
+
+.conference-topbar {
+  height: 60px;
+  padding-inline: 20px;
+  border-bottom-color: #e1e6ed;
+}
+
+.conference-topbar > div {
+  gap: 14px;
+}
+
+/* 顶栏显示真实会议标题与会议号,替代无信息量的“会议详情” */
+.conference-title {
+  overflow: hidden;
+  max-width: min(34vw, 420px);
+  color: #16233a;
+  font-size: 14px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conference-code {
+  padding: 3px 9px;
+  border: 1px solid #dbe4f0;
+  border-radius: 999px;
+  background: #f3f7fd;
+  color: #45638d;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* LiveKit 自带连接提示是深色字压深色底、且为英文,不可读;
+   统一由本地化的 .meeting-connection-notice 承担该职责 */
+.lk-toast,
+.lk-toast-connection-state {
+  display: none !important;
+}
+
+/* 转录空状态与聊天空状态保持同一套视觉规范。
+   注意:必须用 .caption-timeline > .caption-empty 提高特异性,
+   否则会被转写行的两列网格规则(.caption-timeline > div)套住而散架 */
+.caption-timeline > .caption-empty,
+.caption-empty {
+  height: 100%;
+  min-height: 180px;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  padding: 24px 16px;
+  border-bottom: 0;
+  color: #8995a5;
+  text-align: center;
+}
+
+.caption-empty svg {
+  width: 28px;
+  color: #a9b6c7;
+}
+
+.caption-empty b {
+  color: #566478;
+  font-size: 13px;
+}
+
+.caption-empty span {
+  max-width: 240px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.conference-topbar button {
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: var(--radius-control);
+}
+
+.conference-topbar button:hover {
+  background: #f1f4f8;
+}
+
+.conference-stage {
+  inset: 60px 0 0;
+  background: #f4f6f9;
+}
+
+.conference-stage.with-panel {
+  right: 360px;
+}
+
+.conference-stage .lk-video-conference,
+.conference-stage .lk-grid-layout {
+  background: #f4f6f9;
+}
+
+.conference-stage .lk-grid-layout {
+  gap: 10px;
+  padding: 18px;
+}
+
+.conference-stage .lk-participant-tile {
+  overflow: hidden;
+  border: 1px solid #d8e0e9;
+  border-radius: var(--radius-card);
+  background: #151b24;
+  box-shadow: 0 1px 3px rgba(16, 32, 55, 0.08);
+}
+
+.conference-stage .lk-participant-tile[data-lk-speaking="true"] {
+  border-color: #3b82e9;
+  box-shadow: 0 0 0 2px rgba(59, 130, 233, 0.2);
+}
+
+.conference-stage .lk-participant-metadata-item {
+  max-width: calc(100% - 16px);
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 5px;
+  background: rgba(18, 30, 48, 0.84);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.conference-stage .lk-participant-name,
+.conference-stage .lk-participant-metadata-item span {
+  overflow: hidden;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+  white-space: nowrap;
+}
+
+.conference-stage .lk-control-bar {
+  min-height: 72px;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px 18px calc(11px + env(safe-area-inset-bottom));
+  border-top: 1px solid #dfe5ec;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 -8px 24px rgba(21, 41, 69, 0.05);
+}
+
+.conference-stage .lk-control-bar > .lk-button,
+.conference-stage .lk-control-bar > .lk-button-group {
+  height: 48px;
+}
+
+.conference-stage .lk-control-bar .lk-button,
+.conference-stage .lk-control-bar .lk-disconnect-button {
+  min-width: 116px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-card);
+  background: #f2f5f8;
+  color: #25364c;
+  box-shadow: none;
+  font-weight: 650;
+}
+
+.conference-stage .lk-control-bar .lk-button:not(:disabled):hover {
+  border-color: #d1dcea;
+  background: #e9eff6;
+  color: #173a67;
+}
+
+.conference-stage .lk-control-bar .lk-button[aria-pressed="true"],
+.conference-stage .lk-control-bar .lk-button[data-lk-enabled="true"][data-lk-source="screen_share"] {
+  border-color: #9dbdec;
+  background: #e7f0ff;
+  color: #155dbd;
+}
+
+.conference-stage .lk-control-bar .lk-button[data-lk-enabled="false"] {
+  border-color: #e1e6ed;
+  background: #f7f8fa;
+  color: #7b8899;
+}
+
+.conference-stage .lk-control-bar .lk-button[data-lk-source="screen_share"][data-lk-enabled="true"] {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 5px 14px rgba(33, 104, 217, 0.18);
+}
+
+.conference-stage .lk-control-bar .lk-disconnect-button {
+  border-color: #ebb5b1;
+  background: var(--danger-soft);
+  color: #cb302a;
+}
+
+.conference-stage .lk-control-bar .lk-disconnect-button:hover {
+  border-color: #dc615b;
+  background: #ffeae8;
+}
+
+.conference-side {
+  top: 60px;
+  bottom: 72px;
+  width: 360px;
+  border-left-color: #dfe5ec;
+  box-shadow: -10px 0 28px rgba(18, 39, 70, 0.06);
+}
+
+.conference-side > header {
+  height: 58px;
+  padding-inline: 18px;
+}
+
+.conference-side > header .icon {
+  width: 40px;
+  height: 40px;
+}
+
+.caption-timeline,
+.participant-panel {
+  padding: 16px 18px;
+}
+
+.caption-timeline > div {
+  grid-template-columns: 54px minmax(0, 1fr);
+  padding: 12px 0;
+}
+
+.meeting-chat-messages {
+  padding: 16px;
+}
+
+.meeting-chat article {
+  margin-bottom: 10px;
+  padding: 11px 12px;
+  border: 1px solid #e8edf4;
+  border-radius: var(--radius-card);
+  background: #f7f9fc;
+}
+
+.meeting-chat > footer {
+  gap: 8px;
+  padding: 12px;
+}
+
+.meeting-chat input {
+  height: 44px;
+  border: 1px solid #cbd6e4 !important;
+  border-radius: var(--radius-control);
+  background: #fff !important;
+  color: #17263a !important;
+  color-scheme: light;
+  caret-color: var(--brand);
+  -webkit-appearance: none;
+  -webkit-text-fill-color: #17263a;
+  box-shadow: 0 0 0 1000px #fff inset !important;
+}
+
+.meeting-chat input::placeholder {
+  color: var(--muted) !important;
+  opacity: 1;
+  -webkit-text-fill-color: var(--muted);
+}
+
+.meeting-chat input:focus {
+  border-color: #6f9fe6 !important;
+  outline: 3px solid rgba(33, 104, 217, 0.13);
+}
+
+.meeting-chat input:-webkit-autofill,
+.meeting-chat input:-webkit-autofill:hover,
+.meeting-chat input:-webkit-autofill:focus {
+  background: #fff !important;
+  -webkit-text-fill-color: #17263a !important;
+  box-shadow: 0 0 0 1000px #fff inset !important;
+}
+
+.meeting-list-card:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.meeting-chat button {
+  min-width: 68px;
+  min-height: 44px;
+  border-radius: var(--radius-control);
+}
+
+.conference-utility {
+  right: 18px;
+  bottom: 16px;
+  gap: 8px;
+}
+
+.conference-utility button {
+  padding-inline: 14px;
+  background: #fff;
+  color: #35465d;
+}
+
+.conference-utility .mobile-share-control {
+  display: none;
+}
+
+.screen-share-notice {
+  position: fixed;
+  z-index: 30;
+  top: 72px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(520px, calc(100vw - 24px));
+  transform: translateX(-50%);
+  padding: 11px 12px 11px 14px;
+  border: 1px solid #c9d8ec;
+  border-radius: var(--radius-card);
+  background: #fff;
+  color: #34465e;
+  box-shadow: 0 10px 30px rgba(20, 42, 72, 0.14);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.screen-share-notice button {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #6e7d90;
+  cursor: pointer;
+}
+
+.screen-share-notice svg {
+  width: 16px;
+}
+
+.meeting-preview-notice {
+  position: fixed;
+  z-index: 30;
+  top: 68px;
+  left: 50%;
+  max-width: min(620px, calc(100vw - 24px));
+  transform: translateX(-50%);
+  padding: 9px 14px;
+  border: 1px solid #c8d8ee;
+  border-radius: var(--radius-control);
+  background: rgba(255, 255, 255, 0.96);
+  color: #285786;
+  box-shadow: 0 8px 24px rgba(20, 42, 72, 0.12);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  /* 提示里多了「现在就开始」按钮。用 inline-flex 而不是改 display:block 加浮动:
+     这个框是 fixed + translateX(-50%) 居中的,宽度必须仍由内容决定。 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.meeting-preview-notice button {
+  flex: none;
+  padding: 4px 12px;
+  border: 1px solid #94b4e4;
+  border-radius: var(--radius-control);
+  background: #edf4ff;
+  color: #145bb7;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.meeting-preview-notice button:hover:not(:disabled) {
+  border-color: #6f9cd8;
+  background: #e2eeff;
+}
+
+.meeting-preview-notice button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.conference-utility button:hover {
+  border-color: #aec2df;
+  background: #f6f9fd;
+  color: #1c579f;
+}
+
+.conference-utility button.active {
+  border-color: #94b4e4;
+  background: #edf4ff;
+  color: #145bb7;
+}
+
+.conference-utility .end-meeting {
+  border-color: #e9aaa6;
+  background: #fff5f4;
+  color: #cd302a;
+}
+
+.stage-fullscreen {
+  right: 18px;
+  bottom: 92px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-card);
+  background: rgba(16, 28, 45, 0.74);
+}
+
+.live-caption {
+  bottom: 96px;
+  max-width: min(720px, 72vw);
+  border-radius: var(--radius-control);
+}
+
+/* Compact desktop: keep the inspector visible, but let the workspace columns
+   contract together so high-DPI laptops do not lose the right-hand context. */
+@media (max-width: 1540px) and (min-width: 1281px) {
+  .content {
+    padding-inline: 22px;
+  }
+
+  .workspace {
+    grid-template-columns: minmax(300px, 0.76fr) minmax(460px, 1.24fr);
+    gap: 16px;
+  }
+
+  .workspace > .panel {
+    /* Compact laptops need content-driven height; the desktop baseline rule
+       is reserved for genuinely spacious canvases. */
+    min-height: 696px;
+  }
+}
+
+/* Tablet and genuinely narrow windows use the workspace without the fixed
+   inspector; the same information remains available from the main panels. */
+@media (max-width: 1280px) {
+  .app-main.with-inspector {
+    margin-right: 0;
+  }
+
+  .app-main.with-inspector .topbar {
+    margin-right: 0;
+  }
+
+  .inspector {
+    display: none;
+  }
+
+  .assistant-ball {
+    right: 20px;
+  }
+}
+
+@media (max-width: 1280px) and (min-width: 1101px) {
+  .content {
+    padding-inline: 24px;
+  }
+
+  .workspace {
+    grid-template-columns: minmax(320px, 0.78fr) minmax(480px, 1.22fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .sidebar {
+    z-index: 80;
+    width: min(84vw, 304px);
+    padding-right: 16px;
+    transform: translateX(-105%);
+    transition: transform 200ms ease;
+  }
+
+  .sidebar:not(.collapsed) {
+    transform: none;
+  }
+
+  .sidebar-scrim.show {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: block;
+    background: rgba(17, 29, 48, 0.42);
+    backdrop-filter: blur(2px);
+  }
+
+  .app-main,
+  .app-main.wide {
+    margin-left: 0;
+  }
+
+  .mobile-only,
+  .mobile-menu {
+    display: grid;
+  }
+
+  .sidebar-brand {
+    position: relative;
+    padding-right: 48px;
+  }
+
+  .sidebar-brand .mobile-only {
+    position: absolute;
+    top: 18px;
+    right: 0;
+  }
+
+  .recent-view-all {
+    min-height: 44px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace > .panel {
+    min-height: auto;
+  }
+
+  .result-body {
+    min-height: 420px;
+  }
+
+  .scene-tabs {
+    grid-template-columns: repeat(6, minmax(116px, 1fr));
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    scroll-snap-type: x proximity;
+  }
+
+  .scene-tabs button {
+    scroll-snap-align: start;
+  }
+
+  .conference-stage.with-panel {
+    right: 0;
+  }
+
+  .conference-side {
+    top: auto;
+    right: 0;
+    bottom: 72px;
+    left: 0;
+    width: 100%;
+    height: min(54dvh, 560px);
+    border-top: 1px solid #dfe5ec;
+    border-left: 0;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  html {
+    scrollbar-gutter: auto;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .login-page {
+    place-items: start center;
+    padding: max(18px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+      max(18px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+    overflow-y: auto;
+  }
+
+  .login-card {
+    margin-block: auto;
+    padding: 28px 22px 30px;
+  }
+
+  .login-logo {
+    max-height: 64px;
+    margin-bottom: 22px;
+  }
+
+  .login-card h1 {
+    font-size: 23px;
+  }
+
+  .captcha-row {
+    grid-template-columns: minmax(0, 1fr) 108px;
+  }
+
+  .topbar {
+    min-height: 64px;
+    padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
+  }
+
+  .topbar-title {
+    min-width: 0;
+  }
+
+  .topbar-title > div {
+    min-width: 0;
+  }
+
+  .topbar h2 {
+    overflow: hidden;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar p,
+  .topbar .search-box,
+  .user-menu > button > span:not(.avatar),
+  .user-menu > button > svg {
+    display: none;
+  }
+
+  .topbar-actions {
+    flex: none;
+    gap: 4px;
+  }
+
+  .user-menu > button {
+    width: 44px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .user-popover {
+    position: fixed;
+    top: 58px;
+    right: max(10px, env(safe-area-inset-right));
+  }
+
+  .content {
+    padding: 12px max(12px, env(safe-area-inset-right)) calc(92px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  .scene-tabs {
+    min-height: 48px;
+    margin: 0 -12px 14px;
+    padding-inline: 12px;
+    grid-template-columns: repeat(6, minmax(104px, 1fr));
+  }
+
+  .scene-tabs button {
+    min-height: 48px;
+    font-size: 13px;
+  }
+
+  .scene-tabs button::after {
+    right: 24px;
+    left: 24px;
+  }
+
+  .scene-intro {
+    min-height: 82px;
+    margin-bottom: 12px;
+    padding: 16px;
+  }
+
+  .scene-intro h1 {
+    font-size: 20px;
+  }
+
+  .model-pill {
+    display: none;
+  }
+
+  .workspace {
+    gap: 12px;
+  }
+
+  .panel-heading,
+  .result-heading {
+    min-height: 96px;
+    padding: 18px 16px;
+  }
+
+  .input-tabs {
+    padding: 8px 8px 0;
+  }
+
+  .input-tabs button {
+    min-height: 48px;
+    gap: 5px;
+    padding: 0 4px;
+    font-size: 12px;
+  }
+
+  .input-body {
+    min-height: 300px;
+    padding: 16px;
+  }
+
+  .dropzone {
+    min-height: 236px;
+    padding: 20px 14px;
+    text-align: center;
+  }
+
+  .live-recorder textarea {
+    min-width: 0;
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .process-controls {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .template-controls {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  /* 窄屏下按钮换到下拉框下方,必须跟着做整宽同字号 ——
+     否则会是一个比上方下拉框窄、字更小的按钮,看起来像没对齐。 */
+  .template-manage-button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .template-actions {
+    padding-top: 0;
+  }
+
+  .template-actions .secondary {
+    flex: 1;
+  }
+
+  .process-button {
+    width: 100%;
+  }
+
+  .result-tabs {
+    gap: 4px;
+    padding-inline: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .result-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .result-tabs button {
+    min-width: 92px;
+    min-height: 48px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .result-body {
+    min-height: 360px;
+    padding: 16px;
+  }
+
+  .document-view,
+  .document-view.overview-document,
+  .review-editor {
+    min-height: 328px;
+    padding: 8px 4px;
+    font-size: 14px;
+    line-height: 1.78;
+  }
+
+  .result-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .result-actions button {
+    width: 100%;
+  }
+
+  .assistant-ball {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+  }
+
+  /* 收起文字后仍残留 flex gap 会把图标顶偏,归零并让图标严格居中 */
+  .assistant-ball svg {
+    margin: 0;
+  }
+
+  .assistant-drawer {
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: min(82dvh, 720px);
+    max-height: none;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+
+  .assistant-drawer header .icon,
+  .quick-questions button,
+  .chat-compose input,
+  .chat-compose button {
+    min-height: 46px;
+  }
+
+  .assistant-drawer header .icon,
+  .chat-compose button {
+    min-width: 46px;
+  }
+
+  .chat-compose {
+    grid-template-columns: minmax(0, 1fr) 46px;
+  }
+
+  .chat-compose {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .history-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 12px;
+    padding: 18px 16px;
+  }
+
+  .history-hero .primary {
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .history-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .history-toolbar .search-box {
+    width: min(76vw, 360px);
+  }
+
+  .history-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-body {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 22px 18px;
+  }
+
+  .profile-fields {
+    width: 100%;
+  }
+
+  .meeting-lobby {
+    padding-top: 4px;
+  }
+
+  .meeting-lobby-header {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    align-items: center;
+    gap: 8px 10px;
+    padding: 10px 0 20px;
+  }
+
+  .meeting-lobby-header > .icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+  }
+
+  .meeting-lobby-header h1 {
+    margin: 1px 0 0;
+    font-size: 22px;
+  }
+
+  .meeting-lobby-header p {
+    display: none;
+  }
+
+  .meeting-lobby-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 10px;
+    margin: 0;
+    padding-top: 4px;
+  }
+
+  .meeting-lobby-actions button {
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    margin: 0;
+    padding: 0 12px;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .meeting-lobby-actions button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .meeting-launch-band {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .meeting-launch-band > div:first-child {
+    align-items: flex-start;
+  }
+
+  .meeting-launch-band small {
+    line-height: 1.6;
+  }
+
+  .join-code {
+    width: 100%;
+  }
+
+  .join-code input {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .join-code button {
+    height: 44px;
+  }
+
+  .meeting-lobby-toolbar {
+    margin: 20px 0 12px;
+  }
+
+  .meeting-lobby-toolbar .search-box {
+    width: min(76vw, 360px);
+  }
+
+  .meeting-list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meeting-list-card {
+    min-height: 206px;
+    padding: 18px;
+  }
+
+  .meeting-list-card footer {
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .meeting-card-actions {
+    gap: 10px;
+  }
+
+  .meeting-dialog-backdrop,
+  .modal-backdrop {
+    align-items: end;
+    padding: max(12px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+      max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  }
+
+  .meeting-dialog,
+  .profile-modal {
+    max-height: calc(100dvh - max(24px, env(safe-area-inset-top)));
+    overflow-y: auto;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+
+  .conference-shell {
+    height: 100dvh;
+  }
+
+  .conference-topbar {
+    height: 52px;
+    padding: 0 max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left));
+  }
+
+  .conference-topbar > div {
+    gap: 9px;
+  }
+
+  .conference-topbar > div:last-child {
+    display: none;
+  }
+
+  .conference-topbar b {
+    font-size: 12px;
+  }
+
+  .conference-topbar time {
+    font-size: 12px;
+  }
+
+  .conference-stage {
+    inset: 52px 0 calc(76px + env(safe-area-inset-bottom));
+  }
+
+  .conference-stage .lk-grid-layout {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .conference-stage .lk-participant-tile {
+    border-radius: var(--radius-control);
+  }
+
+  .conference-stage .lk-control-bar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 12;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    min-height: 76px;
+    padding: 8px max(8px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))
+      max(8px, env(safe-area-inset-left));
+  }
+
+  .conference-stage .lk-control-bar > .lk-button,
+  .conference-stage .lk-control-bar > .lk-button-group {
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+  }
+
+  .conference-stage .lk-control-bar .lk-button,
+  .conference-stage .lk-control-bar .lk-disconnect-button {
+    width: 100%;
+    min-width: 0;
+    padding: 0 5px;
+    border-radius: var(--radius-control);
+  }
+
+  .conference-stage .lk-control-bar > .lk-button-group {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 30px;
+  }
+
+  .conference-stage .lk-control-bar .lk-button-group-menu > .lk-button {
+    min-width: 30px;
+    padding: 0;
+  }
+
+  .conference-stage .lk-control-bar .lk-button[data-lk-source]::after,
+  .conference-stage .lk-control-bar .lk-disconnect-button::after {
+    display: block;
+    margin: 2px 0 0;
+    font-size: 10px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .conference-utility {
+    top: 60px;
+    right: 50%;
+    bottom: auto;
+    transform: translateX(50%);
+    gap: 4px;
+    width: max-content;
+    max-width: calc(100vw - 16px);
+    padding: 4px;
+    border: 1px solid #dfe6ef;
+    border-radius: var(--radius-card);
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 6px 18px rgba(19, 43, 76, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .conference-utility button {
+    min-height: 36px;
+    padding: 0 9px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .conference-utility .mobile-share-control {
+    display: inline-flex;
+  }
+
+  .conference-stage .lk-participant-tile {
+    cursor: zoom-in;
+    touch-action: manipulation;
+  }
+
+  .screen-share-notice {
+    top: 58px;
+  }
+
+  .conference-side {
+    top: auto;
+    bottom: calc(76px + env(safe-area-inset-bottom));
+    height: min(62dvh, 620px);
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+
+  .conference-side > header {
+    height: 54px;
+  }
+
+  .meeting-chat > footer {
+    padding: 10px max(10px, env(safe-area-inset-right)) 10px max(10px, env(safe-area-inset-left));
+  }
+
+  .meeting-chat input {
+    font-size: 16px;
+  }
+
+  .stage-fullscreen {
+    right: 10px;
+    bottom: 10px;
+    width: 42px;
+    height: 42px;
+    opacity: 0.92;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .live-caption {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 390px) {
+  .conference-utility button {
+    padding-inline: 7px;
+    font-size: 10px;
+  }
+
+  .conference-stage .lk-control-bar {
+    gap: 4px;
+    padding-inline: 6px;
+  }
+
+  .conference-stage .lk-control-bar .lk-button[data-lk-source]::after,
+  .conference-stage .lk-control-bar .lk-disconnect-button::after {
+    font-size: 9px;
+  }
+
+  .captcha-row {
+    grid-template-columns: minmax(0, 1fr) 108px;
+  }
+
+  .captcha-row button {
+    width: 100%;
+  }
+}
+
+/* iOS Safari 会在聚焦 font-size<16px 的输入框时自动放大页面;
+   手机端统一提到 16px 彻底消除这种缩放跳动 */
+@media (max-width: 760px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Meeting media controls stay available while LiveKit initializes or reconnects. */
+.conference-stage .lk-control-bar {
+  display: none;
+}
+
+.conference-stage,
+.conference-side {
+  bottom: 72px;
+}
+
+.conference-media-controls {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transform: translateX(-50%);
+}
+
+/* Keep the primary controls centered in the visible video canvas, not the viewport. */
+.conference-shell:has(.conference-side) .conference-media-controls {
+  left: calc((100% - 360px) / 2);
+}
+
+.conference-media-controls button {
+  min-width: 126px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid #d8e0ea;
+  border-radius: 9px;
+  background: #f2f5f8;
+  color: #25364c;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.conference-media-controls button:hover {
+  border-color: #bfcddd;
+  background: #e9eff6;
+}
+
+.conference-media-controls button[data-enabled="false"] {
+  border-color: #d8e0ea;
+  background: #f2f5f8;
+  color: #25364c;
+}
+
+/* 红色图标只提醒“静音/关视频”这类需要注意的关闭态;共享屏幕未开启是正常默认态,保持中性 */
+.conference-media-controls button.media-toggle[data-enabled="false"] svg {
+  color: #c93831;
+}
+
+.conference-media-controls button[data-enabled="true"] {
+  border-color: #a9c5ef;
+  background: #eaf2ff;
+  color: #155fc2;
+}
+
+.conference-media-controls button.leave-meeting {
+  border-color: #efb6b2;
+  background: #fff6f5;
+  color: #d8342d;
+}
+
+.conference-media-controls svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── 会议室字号层级 ──────────────────────────────────────────────
+   改前是倒的:会议标题 13px,而计时和底部按钮都是 16px —— 最该看清的信息
+   反而最小。这里按「标题 > 计时 > 控件」排,控件退到 13.5px 让画面站主位。
+
+   标题必须带上父选择器:.conference-topbar b 的特异性(0,1,1)高于
+   .conference-title(0,1,0),不然在这里设多少都会被它压回 13px。 */
+.conference-topbar .conference-title {
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.conference-topbar time {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.conference-topbar button {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.conference-topbar button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 底部两组控件原本一组 9px 圆角、一组 6px,高度也不一致,并排看像两套控件。
+   统一成同一规格,只靠颜色区分语义(中性 / 开启 / 危险)。 */
+.conference-media-controls button,
+.conference-utility button {
+  height: 44px;
+  min-height: 44px;
+  /* 「聊天 / 字幕与转录」原先是 display:block,图标和文字按基线排 —— 图标偏上
+     3px 且紧贴文字。另一组本来就是 flex 居中,这里统一,两组才是同一套控件。 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+
+.conference-media-controls button {
+  min-width: 112px;
+}
+
+/* 「更多」只在手机端出现:桌面端这些按钮本就并排在右下角,再套一层折叠是多余的 */
+.conference-media-controls .more-control,
+.conference-more-scrim {
+  display: none;
+}
+
+.conference-media-controls svg,
+.conference-utility svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* 只有自己一个人时,LiveKit 的「聚焦」按钮没有任何意义,却和右下角的全屏
+   按钮一样是个斜箭头 —— 同一块画面上两个同款图标,必然让人以为点错了。 */
+.conference-stage .lk-grid-layout > .lk-participant-tile:only-child .lk-focus-toggle-button {
+  display: none;
+}
+
+.meeting-media-error,
+.meeting-connection-notice {
+  position: fixed;
+  z-index: 240;
+  left: 50%;
+  top: 76px;
+  max-width: min(520px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  padding: 11px 40px 11px 14px;
+  border: 1px solid #f0c6c2;
+  border-radius: 8px;
+  background: #fff7f6;
+  color: #b83630;
+  box-shadow: 0 10px 28px rgba(32, 48, 72, 0.14);
+}
+
+.meeting-connection-notice {
+  border-color: #bed2ef;
+  background: #f2f7ff;
+  color: #195fae;
+}
+
+.meeting-media-error button {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.conference-utility {
+  right: 12px;
+  bottom: 10px;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 高度/圆角/字号统一在上面的「会议室字号层级」一节里定,这里只留内边距 ——
+   同一个选择器在本文件里曾被写过四遍(38 / 42 / 44 / 50px),互相覆盖,
+   导致这组按钮始终比旁边那组高出 6px。 */
+.conference-utility button {
+  padding-inline: 14px;
+}
+
+@media (max-width: 900px) {
+  .conference-shell:has(.conference-side) .conference-media-controls,
+  .conference-media-controls {
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    left: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    transform: none;
+  }
+
+  .conference-media-controls button {
+    min-width: 0;
+    height: 54px;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .conference-stage,
+  .conference-side {
+    bottom: calc(70px + env(safe-area-inset-bottom));
+  }
+
+  /* 必须带上 :has() 那一支,它的特异性(0,3,0)高于单类选择器;
+     只写单类的话,侧栏一打开列数就退回 4,「更多」被挤到第二行。 */
+  .conference-shell:has(.conference-side) .conference-media-controls,
+  .conference-media-controls {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .conference-media-controls .more-control {
+    display: inline-flex;
+  }
+
+  /* 手机端工具栏:原先常驻在右上角,直接压在画面上 —— 手机上画面本就小,
+     三个按钮盖掉的正是人脸所在的位置。改成从底部控制栏「更多」拉起的抽屉:
+     不用时完全退出画面,用时占满宽度、点按目标更大。 */
+  .conference-utility {
+    position: fixed;
+    z-index: 15;
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateY(101%);
+    flex-direction: column;
+    align-items: stretch;
+    width: auto;
+    max-width: none;
+    gap: 8px;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 16px 16px 0 0;
+    background: #fff;
+    box-shadow: 0 -10px 30px rgba(16, 34, 60, 0.18);
+    backdrop-filter: none;
+    /* 收起时不可点,否则会挡住底部控制栏 */
+    visibility: hidden;
+    transition: transform 0.22s ease, visibility 0.22s;
+  }
+
+  .conference-utility.open {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .conference-utility button {
+    justify-content: center;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 12px;
+    font-size: 14px;
+    white-space: nowrap;
+    background: #f5f7fa;
+  }
+
+  /* 底部控制栏是 z-index:12,遮罩和抽屉必须压在它之上 ——
+     否则抽屉会被控制栏盖掉半截,遮罩也罩不住它。 */
+  .conference-more-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 14;
+    background: rgba(12, 24, 42, 0.34);
+  }
+
+  /* 共享屏幕已在底部控制栏,移动端不重复展示 */
+  .conference-utility .mobile-share-control {
+    display: none;
+  }
+}
+
+/* ── 个人信息弹窗:修改密码 ──────────────────────────────
+   与上方资料区之间用一条分隔线断开:两者是各自独立提交的表单,视觉上必须
+   让人看出「保存修改」按钮管的是资料,不管密码。 */
+.password-section {
+  display: grid;
+  gap: 12px;
+  margin: 0 24px;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--line);
+}
+
+.password-section h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.password-section button {
+  justify-self: start;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-control);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-notice {
+  padding: 9px 11px;
+  border-radius: 8px;
+  background: #eaf7f0;
+  color: #14724c;
+  font-size: 11px;
+}
+
+/* 取消会议:破坏性操作,用描边红而不是实心红 —— 它和「进入会议」并排,
+   实心红会比主操作还抢眼。 */
+.meeting-card-actions .cancel-meeting {
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid #efc4c1;
+  border-radius: var(--radius-control);
+  background: #fff;
+  color: var(--danger);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.meeting-card-actions .cancel-meeting:hover:not(:disabled) {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.meeting-card-actions .cancel-meeting:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.meeting-status.cancelled {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* ── 原始转写:按句分段 ─────────────────────────────────────
+   只做分段,不加行号、计数或状态条 —— 那些每行重复一次的装饰在滚动时
+   变成一列噪音。转写区铺满整个结果框,文字从左上角起排。 */
+.transcript-document {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+/* 结果区的外层内边距会让转写整体缩进一块,与「铺满」冲突。
+   只在转写这一页去掉,其它页保持原样。 */
+.result-body:has(.transcript-document),
+.result-body:has(.recording-caption-timeline) {
+  padding: 0;
+}
+
+/* 实时录音与会议室实时转写使用同一种时间轴密度。 */
+.recording-caption-timeline {
+  min-height: 438px;
+}
+
+/* 跳过视口外行的布局与绘制。转写在录音期间会持续重建,行数随会议时长线性增长:
+   两小时会议约 1600 行,一次全量重建实测 14ms —— 已经吃掉将近一帧。加上这条后
+   降到 8.1ms,四小时会议从 28.8ms 降到 15ms。
+   contain-intrinsic-size 给未渲染的行一个高度估计,否则滚动条长度会来回跳。 */
+.transcript-line {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 52px;
+}
+
+.transcript-line:hover {
+  background: #fbfcfe;
+}
+
+.transcript-line:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .recording-caption-timeline {
+    min-height: 328px;
+    max-height: 52dvh;
+  }
+}
+
+/* ── 未提交录音的恢复提示 ──────────────────────────────────
+   竖向节奏 6 / 14:标题与说明贴紧成一组,与操作按钮拉开。原先三者等距(5px),
+   看不出哪句在解释什么、按钮属于谁。
+
+   关闭按钮改为卡片右上角的轻量图标。之前它用全局 .icon(44×44),而旁边的
+   「恢复录音」只有 30px —— 两个高度对不上,又被 margin-left:auto 推到最右,
+   看起来像是从别处飘过来的一块。 */
+.recording-recovery {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid #d9e5f4;
+  border-radius: var(--radius-card);
+  background: #f7faff;
+  color: #5c6d84;
+  font-size: 12px;
+  text-align: left;
+}
+
+.recording-recovery > b {
+  color: #29415e;
+  font-size: 13.5px;
+  font-weight: 650;
+  /* 给右上角的关闭按钮让出位置,标题长了也不会顶到它 */
+  padding-right: 28px;
+}
+
+.recording-recovery > span {
+  line-height: 1.5;
+}
+
+.recording-recovery .secondary {
+  min-height: 34px;
+  margin-top: 8px;
+  padding-inline: 14px;
+  font-size: 12.5px;
+}
+
+.recovery-dismiss {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: #93a3b8;
+  cursor: pointer;
+}
+
+.recovery-dismiss:hover {
+  background: #e8eef7;
+  color: #4a5b72;
+}
+
+.recovery-dismiss svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ── 点磁贴切主画面 ──────────────────────────────────────────
+   LiveKit 在每块磁贴角上放了一个聚焦(放大)按钮,手机上那个热区太小、
+   也和右下角的全屏键容易混。这里把它藏起来,改由 tapTileFocus 在点击
+   磁贴任意位置时代为触发 —— 交互变成「点谁看谁」,再点一次取消。 */
+.conference-stage .lk-focus-toggle-button {
+  display: none;
+}
+
+.conference-stage .lk-participant-tile {
+  cursor: pointer;
+}
+
+/* ── 软全屏:iOS Safari 的替代方案 ────────────────────────────
+   iOS 不允许普通元素进入全屏,只有 <video> 可以 —— 而对 <video> 调用
+   webkitEnterFullscreen 会唤起 iOS 原生播放器,它按点播文件的模式工作
+   (带进度条和暂停键),放不了 WebRTC 实时流,画面会直接卡死。
+   这里改用 CSS 把画面铺满视口:video 仍在原处内联播放,保持实时。 */
+.conference-shell.soft-fullscreen .conference-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: #000;
+}
+
+/* 全屏时让出画面:顶栏、控制栏、侧栏、字幕条、缩略图轨全部收起 */
+.conference-shell.soft-fullscreen .conference-topbar,
+.conference-shell.soft-fullscreen .conference-media-controls,
+.conference-shell.soft-fullscreen .conference-utility,
+.conference-shell.soft-fullscreen .conference-side,
+.conference-shell.soft-fullscreen .live-caption,
+.conference-shell.soft-fullscreen .lk-control-bar,
+.conference-shell.soft-fullscreen .lk-chat,
+.conference-shell.soft-fullscreen .lk-carousel {
+  display: none;
+}
+
+/* 布局容器让位:全屏时不再按网格/聚焦排列,由留下的那块磁贴独占 */
+.conference-shell.soft-fullscreen .lk-video-conference,
+.conference-shell.soft-fullscreen .lk-video-conference-inner,
+.conference-shell.soft-fullscreen .lk-grid-layout-wrapper,
+.conference-shell.soft-fullscreen .lk-grid-layout,
+.conference-shell.soft-fullscreen .lk-focus-layout-wrapper,
+.conference-shell.soft-fullscreen .lk-focus-layout {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  gap: 0;
+  background: #000;
+  grid-template-columns: none;
+  grid-template-rows: none;
+}
+
+/* 关键:全屏时只留一块画面。默认全部隐藏,再按优先级放出一块 ——
+   否则「全屏」只是把整个网格拉大,画面仍被其他磁贴挤在一角。
+   优先级必须与 MeetingModule 的 preferredFullscreenTile 一致:
+   聚焦中的主画面 > 共享屏幕 > 第一块磁贴。 */
+.conference-shell.soft-fullscreen .lk-participant-tile {
+  display: none;
+}
+
+.conference-shell.soft-fullscreen .lk-focus-layout > .lk-participant-tile,
+.conference-shell.soft-fullscreen .lk-grid-layout > .lk-participant-tile[data-lk-source="screen_share"],
+.conference-shell.soft-fullscreen .lk-grid-layout:not(:has([data-lk-source="screen_share"])) > .lk-participant-tile:first-child {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+}
+
+/* 视频自己定位到视口四角,而不是靠父级链撑高 —— 磁贴内部还夹着一层
+   高度为 auto 的包裹元素,只写 height:100% 会算成 auto,画面就会贴顶。
+   contain 保证不裁切:共享的是文档和代码,裁掉边缘等于看不全。
+   竖屏看横向桌面必然有黑边,这是宽高比决定的,横过手机就能占满。 */
+.conference-shell.soft-fullscreen .lk-participant-tile video,
+.conference-shell.soft-fullscreen .lk-participant-tile .lk-participant-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* 退出按钮:全屏下唯一的出口,固定右下角、避开 iOS 手势条 */
+.conference-shell.soft-fullscreen .stage-fullscreen {
+  position: fixed;
+  z-index: 61;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  width: 52px;
+  height: 52px;
+  opacity: 1;
+  visibility: visible;
+  background: rgba(20, 28, 39, 0.82);
+  color: #fff;
+  backdrop-filter: blur(6px);
+}
+
+/* 重复会议只呈现频率；链接复用属于行为，不在紧凑卡片中重复解释。 */
+.meeting-recurrence {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #195fca;
+  font-weight: 600;
+}
+
+.meeting-recurrence svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* 选择重复频率后的提示。与结束时间等字段同宽,避免在表单里显得突兀。 */
+.meeting-hint {
+  margin: -4px 0 0;
+  padding: 8px 11px;
+  border-radius: 8px;
+  background: #eef4ff;
+  color: #2c5ea8;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.meeting-dialog .meeting-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dfe5ec;
+  border-radius: 9px;
+  background: #fff;
+  font-size: 14px;
+  color: #16233a;
+}
+
+/* 预约改期:信息、时间与范围按单一阅读顺序排列，避免把周期规则藏在普通下拉框里。 */
+.reschedule-dialog {
+  width: min(520px, calc(100vw - 32px));
+}
+
+.reschedule-meeting-summary {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f7f9fc;
+  color: #16233a;
+}
+
+.reschedule-meeting-summary b {
+  font-size: 14px;
+}
+
+.reschedule-meeting-summary span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.reschedule-scope {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.reschedule-scope legend {
+  margin-bottom: 8px;
+  color: #62728a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.reschedule-scope label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 13px;
+  border: 1px solid #dfe5ec;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.reschedule-scope label.selected {
+  border-color: #8cb6f3;
+  background: #f5f8ff;
+}
+
+.reschedule-scope input {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: #2168d9;
+}
+
+.reschedule-scope span {
+  display: grid;
+  gap: 3px;
+}
+
+.reschedule-scope b {
+  color: #16233a;
+  font-size: 13px;
+}
+
+.reschedule-scope small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (max-width: 620px) {
+  .meeting-list-card footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .meeting-card-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+
+  .reschedule-dialog {
+    width: 100%;
+  }
+}
+
+
+/* 「查看全部」在历史会议页上要显示为当前项。原先它在该页仍是普通样式,
+   用户点了没有任何反应也看不出为什么 —— 反馈就是「点击不动」。 */
+.recent-view-all.active {
+  border-color: #cbd8e9;
+  background: #eef4ff;
+  color: #17427c;
+}
+
+/* 实时录音下没有「开始处理」按钮(停止录音即自动生成纪要),此时处理模式的
+   下拉框应当占满整行 —— 保留右侧那一格空位会让它看起来像少了个按钮。
+   另把上下内边距与 .template-controls 对齐,两块的间距原先差 2px。 */
+.process-controls.no-action {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+}
+
+.process-controls.no-action select {
+  width: 100%;
+}
+
+/* 只补对齐,不碰内边距:窄屏下有一条 (max-width:700px) 的规则把处理模式与
+   纪要模板统一成 16px,而媒体查询不增加优先级 —— 在这里再写一次 padding 会
+   凭「位置靠后」把那条覆盖掉,两块就会差 4px,正是要修的错位。 */
+.process-controls {
+  align-items: end;
+}
+
+/* 生成中:结果区不能只留一句「暂无会议概览」——录音刚停下,用户正等着纪要,
+   静止的空状态看起来像没反应。这里给出阶段、百分比和一个持续的动效。 */
+.generating-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.generating-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--brand-soft);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: generating-spin 0.9s linear infinite;
+}
+
+@keyframes generating-spin {
+  to { transform: rotate(360deg); }
+}
+
+.generating-track {
+  width: min(280px, 70%);
+  height: 6px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  overflow: hidden;
+}
+
+.generating-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--brand);
+  transition: width 0.4s ease;
+}
+
+.generating-percent {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 动效在「减少动态效果」偏好下停掉,只留静态进度条 */
+@media (prefers-reduced-motion: reduce) {
+  .generating-spinner { animation: none; }
+  .generating-track i { transition: none; }
+}
+
+/* 查看已完成的会议时,左侧不再是「创建录音纪要」的输入区,而是一张说明卡片:
+   整套录音输入属于「新建一场纪要」,摆在阅读场景里既是噪音,也真的会误操作。 */
+.archived-note {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.archived-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.archived-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.archived-note h3 {
+  margin: 6px 0 0;
+  font-size: 15px;
+}
+
+.archived-note p {
+  max-width: 260px;
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .review-scene-control {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
