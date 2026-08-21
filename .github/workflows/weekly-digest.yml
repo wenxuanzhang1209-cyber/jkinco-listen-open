@@ -1,0 +1,39 @@
+name: Weekly digest
+
+on:
+  schedule:
+    # 每周一 02:00 UTC（北京时间 10:00）
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  discussions: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect stats
+        id: stats
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "stars=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .stargazers_count)" >> "$GITHUB_OUTPUT"
+          echo "forks=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .forks_count)" >> "$GITHUB_OUTPUT"
+          echo "issues=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .open_issues_count)" >> "$GITHUB_OUTPUT"
+
+      - name: Post digest to Announcements
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STARS: ${{ steps.stats.outputs.stars }}
+          FORKS: ${{ steps.stats.outputs.forks }}
+          ISSUES: ${{ steps.stats.outputs.issues }}
+        run: |
+          repo_id=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .id)
+          category_id=$(gh api graphql -f query='{ repository(owner:"wenxuanzhang1209-cyber", name:"jkinco-listen-open") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id')
+          title="📊 本周项目周报"
+          body="本周数据：\n\n- ⭐ Stars: ${STARS}\n- 🍴 Forks: ${FORKS}\n- 🐛 Open Issues: ${ISSUES}\n\n感谢每一位 Star、Issue 与 PR 贡献者。下一周继续！"
+          gh api graphql -f query="mutation { createDiscussion(input: {repositoryId:\"$repo_id\", categoryId:\"$category_id\", title:\"$title\", body:\"$body\"}) { discussion { url } } }" >/dev/null
+          echo "weekly digest posted"
