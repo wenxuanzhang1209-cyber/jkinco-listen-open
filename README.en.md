@@ -13,6 +13,7 @@ calls, and your audio and minutes **never leave your machine**.
 [中文](README.md) · [Architecture](docs/ARCHITECTURE.md) · [Model Guide](docs/LOCAL_MODELS.md) · [Roadmap](docs/ROADMAP.md) · [Growth](docs/GROWTH.md)
 
 ![MIT](https://img.shields.io/badge/license-MIT-green.svg)
+![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
