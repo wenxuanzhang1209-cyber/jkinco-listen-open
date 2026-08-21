@@ -32,7 +32,7 @@ jobs:
       - name: Install Python deps
         run: pip install -r requirements-ci.txt
       - name: Run tests
-        run: pytest tests-v2 -q --timeout=120 2>/dev/null || pytest tests-v2 -q
+        run: python -m pytest tests-v2 -q
 
   frontend:
     name: Frontend build
