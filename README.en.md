@@ -10,7 +10,7 @@ Upload a recording → get a scene-aware, structured meeting minutes → export 
 Word/PDF. The entire pipeline runs **100% locally**: no API keys, no cloud
 calls, and your audio and minutes **never leave your machine**.
 
-[中文](README.md) · [Architecture](docs/ARCHITECTURE.md) · [Model Guide](docs/LOCAL_MODELS.md) · [Roadmap](docs/ROADMAP.md) · [Growth](docs/GROWTH.md)
+[中文](README.md) · [Docs](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [Architecture](docs/ARCHITECTURE.md) · [Model Guide](docs/LOCAL_MODELS.md) · [Roadmap](docs/ROADMAP.md) · [Growth](docs/GROWTH.md)
 
 ![MIT](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
