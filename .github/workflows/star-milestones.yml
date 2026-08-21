@@ -1,0 +1,57 @@
+name: Star milestones
+
+on:
+  schedule:
+    # 每周一 08:00 UTC（北京时间 16:00）
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read current stars
+        id: stars
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          stars=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .stargazers_count)
+          echo "stars=$stars" >> "$GITHUB_OUTPUT"
+
+      - name: Post milestone discussion if crossed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STARS: ${{ steps.stars.outputs.stars }}
+        run: |
+          state=".github/star-milestone"
+          last=0
+          if [ -f "$state" ]; then last=$(cat "$state"); fi
+          milestone=""
+          for m in 10 50 100 500 1000 2000 5000 10000; do
+            if [ "$STARS" -ge "$m" ] && [ "$last" -lt "$m" ]; then
+              milestone="$m"
+            fi
+          done
+          if [ -z "$milestone" ]; then
+            echo "No new milestone (stars=$STARS, last=$last)"
+            exit 0
+          fi
+
+          repo_id=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .id)
+          category_id=$(gh api graphql -f query='{ repository(owner:"wenxuanzhang1209-cyber", name:"jkinco-listen-open") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id')
+          title="⭐ 达成 ${milestone} Stars！感谢每一个支持者"
+          body="🎉 **JKinco Listen (Open Edition) 已达成 ${milestone} Stars！**\n\n感谢每一位 Star、Issue、PR 与试用者。下一个里程碑继续冲！\n\n[仓库](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)"
+
+          gh api graphql -f query="mutation { createDiscussion(input: {repositoryId:\"$repo_id\", categoryId:\"$category_id\", title:\"$title\", body:\"$body\"}) { discussion { url } } }" >/dev/null
+          echo "$milestone" > "$state"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$state"
+          git commit -m "chore: star milestone ${milestone}"
+          git push
+          echo "Posted milestone ${milestone}"
