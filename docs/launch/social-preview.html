@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1280px; height: 640px;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(1200px 500px at 85% -10%, #1d3a6e 0%, transparent 55%),
+                  radial-gradient(900px 420px at -10% 110%, #0f6f66 0%, transparent 50%),
+                  linear-gradient(135deg, #0b1220 0%, #101d33 55%, #0b1424 100%);
+      color: #e8eefc;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 64px 72px; position: relative; overflow: hidden;
+    }
+    .grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
+    }
+    .logo-row { display: flex; align-items: center; gap: 20px; margin-bottom: 26px; position: relative; }
+    .logo-row img { width: 78px; height: 78px; border-radius: 18px; }
+    .brand { font-size: 40px; font-weight: 800; letter-spacing: .5px; }
+    .brand small { display: block; font-size: 18px; font-weight: 500; color: #8fb7ff; margin-top: 4px; }
+    h1 { font-size: 58px; line-height: 1.18; font-weight: 800; position: relative; max-width: 920px; }
+    h1 .hl { color: #ffd166; }
+    .sub { font-size: 25px; color: #a9c0e4; margin-top: 18px; position: relative; }
+    .chips { display: flex; gap: 12px; margin-top: 30px; position: relative; flex-wrap: wrap; }
+    .chip {
+      border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06);
+      padding: 9px 16px; border-radius: 999px; font-size: 17px; color: #d6e2f8;
+    }
+    .chip b { color: #ffd166; }
+    .url { position: absolute; right: 72px; bottom: 44px; font-size: 18px; color: #6f87ad; font-family: ui-monospace, monospace; }
+  </style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="logo-row">
+    <img src="../assets/jkinco_logo_cropped.png" alt="logo" />
+    <div class="brand">JKinco Listen<small>筑听 · 开源本地版</small></div>
+  </div>
+  <h1>会议录音进，<span class="hl">结构化纪要</span>出。<br />数据不出你的电脑。</h1>
+  <p class="sub">Local-first AI Meeting Minutes · 录音转写 → 场景识别 → DOCX/PDF 导出</p>
+  <div class="chips">
+    <span class="chip"><b>FunASR</b> + <b>Ollama</b> 本地双模型</span>
+    <span class="chip">Zero API Key</span>
+    <span class="chip">Docker One-command</span>
+    <span class="chip">MIT · Open Source</span>
+  </div>
+  <span class="url">github.com/wenxuanzhang1209-cyber/jkinco-listen-open</span>
+</body>
+</html>

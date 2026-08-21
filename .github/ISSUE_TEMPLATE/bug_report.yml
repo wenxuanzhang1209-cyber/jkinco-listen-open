@@ -1,0 +1,39 @@
+name: Bug report
+description: 提交一个可复现的问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: describe
+    attributes:
+      label: 问题描述
+      description: 发生了什么？预期是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 运行 docker compose up -d --build
+        2. 上传一段录音
+        3. 点击……
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      description: 仓库 VERSION 文件或 Release 标签
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志/截图
+      description: 贴出相关日志（请先抹掉敏感信息）或截图
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: 红线自查
+      options:
+        - label: 我没有在 Issue 中提交任何密钥、Token 或敏感录音
+          required: true

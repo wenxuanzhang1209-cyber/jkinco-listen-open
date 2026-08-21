@@ -9,7 +9,7 @@
 录音转写 → 场景识别 → 结构化纪要 → DOCX/PDF 导出，全流程 **100% 本地运行**。
 不需要任何 API Key，录音与纪要数据**永不离开你的电脑**。
 
-[English](README.en.md) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md)
+[English](README.en.md) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [增长手册](docs/GROWTH.md)
 
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
