@@ -82,6 +82,15 @@ docker compose up -d --build
 
 ## 🛠️ 手动安装
 
+一条命令（推荐给不想用 Docker 的用户）：
+
+```bash
+bash scripts/install.sh        # 自动装 Ollama 模型 + Python 依赖 + 前端
+bash scripts/start.sh          # 启动
+```
+
+或分步执行：
+
 ```bash
 # 1. 本地大模型（任选其一）
 brew install ollama && ollama pull qwen2.5:7b-instruct   # macOS
@@ -98,6 +107,8 @@ cd frontend && npm ci && npm run build && cd ..
 # 4. 启动
 uvicorn backend.main:app --host 0.0.0.0 --port 8080
 ```
+
+> 换更大模型：`OLLAMA_MODEL=qwen2.5:14b bash scripts/install.sh`
 
 ## 🧠 模型指南
 

@@ -60,6 +60,15 @@ sample meeting records (site meeting + customer visit) appear in history.
 
 ## Manual setup
 
+One command (recommended if you don't use Docker):
+
+```bash
+bash scripts/install.sh        # Ollama model + Python deps + frontend
+bash scripts/start.sh          # launch
+```
+
+Or step by step:
+
 ```bash
 brew install ollama && ollama pull qwen2.5:7b-instruct   # or Linux installer
 python3 -m venv .venv && source .venv/bin/activate
@@ -68,6 +77,8 @@ cp .env.example .env
 cd frontend && npm ci && npm run build && cd ..
 uvicorn backend.main:app --host 0.0.0.0 --port 8080
 ```
+
+> Bigger model: `OLLAMA_MODEL=qwen2.5:14b bash scripts/install.sh`
 
 ## Features
 
