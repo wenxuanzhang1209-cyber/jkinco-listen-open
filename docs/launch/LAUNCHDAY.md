@@ -11,6 +11,9 @@
   <https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions/1>
 - [x] 文档站已上线：<https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/>
 - [x] 发射物料包就绪：`docs/launch/`
+- [x] Awesome 列表：awesome-llm 收录 PR 已提交
+  <https://github.com/Hannibal046/Awesome-LLM/pull/794>
+- [ ] Awesome 列表：awesome-selfhosted 待修复 fork 后提交（见文末）
 - [ ] 社交预览图上传：仓库 Settings → Social preview →
   上传 `docs/social-preview.png`（1280×640）
 - [ ] 仓库置顶：个人主页 → Customize your pins → 勾选 jkinco-listen-open
@@ -58,5 +61,17 @@
 |---|---|
 | 现在 | 完成上面所有预填链接的发布 |
 | 之后 1 小时 | 回复 HN / Reddit / 微博 / 掘金全部评论 |
+
+## awesome-selfhosted 收录（待一个操作）
+
+提交收录时遇到 GitHub fork 网络异常：fork 在创建瞬间被改名，导致 PR 接口不识别
+该 fork。修复只需一步——给本机 gh 授权删除仓库：
+
+```bash
+gh auth refresh -h github.com -s delete_repo
+```
+
+然后告诉 Codex「可以删了」，Codex 会删除坏 fork、重建干净 fork 并自动提交
+awesome-selfhosted 收录 PR。
 | 之后 2 小时 | 把问题整理进 README FAQ，修第一个 Issue |
 | 当天结束 | 发 star 曲线截图 + 感谢帖（Discussions） |
