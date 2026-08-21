@@ -52,6 +52,8 @@
 
 ## 🖥️ 界面预览
 
+![演示](docs/demo.gif)
+
 ![登录页](docs/demo-login.png)
 
 ![工作台](docs/demo-workspace.png)

@@ -52,6 +52,8 @@ Open <http://localhost:8080> and sign in with `admin / 123456`.
 The first start downloads the local ASR model (≈1–2 GB) and the default LLM
 (`qwen2.5:7b-instruct`). After that it works fully offline.
 
+![Demo](docs/demo.gif)
+
 ## Manual setup
 
 ```bash
