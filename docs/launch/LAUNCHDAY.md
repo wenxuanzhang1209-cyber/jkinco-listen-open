@@ -25,7 +25,7 @@
 
 ### Reddit（r/selfhosted）
 
-<https://www.reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fwenxuanzhang1209-cyber%2Fjkinco-listen-open&title=Self-hosted%20meeting%20minutes%3A%20recording%20in%2C%20Word%2FPDF%20out%2C%20100%25%20local%20%28FunASR%20%2B%20Ollama%2C%20zero%20API%20keys%29>
+<https://www.reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fwenxuanzhang1209-cyber%2Fjkinco-listen-open&title=I%20replaced%20my%20cloud%20meeting-notes%20habit%20with%20a%20fully%20local%20one%3A%20recording%20in%2C%20Word%2FPDF%20out%2C%20audio%20never%20leaves%20my%20desk>
 
 其余三个子版块文案：`docs/launch/reddit.md`
 
