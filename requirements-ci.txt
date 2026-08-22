@@ -26,7 +26,7 @@
 # 如果你新增了一个测试会用到的运行时依赖，记得也加到这里。漏了的话 CI 会以
 # ImportError 的形式大声报错，而不是悄悄跳过。
 
-fastapi>=0.115,<1
+fastapi>=0.141.1,<1
 uvicorn[standard]>=0.34,<1
 python-multipart>=0.0.20,<1
 numpy>=1.26,<3

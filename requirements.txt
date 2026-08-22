@@ -1,6 +1,6 @@
 # JKinco Listen (Open Edition) — backend runtime dependencies
 # 筑听开源本地版 —— 后端运行时依赖
-fastapi>=0.115,<1
+fastapi>=0.141.1,<1
 uvicorn[standard]>=0.34,<1
 python-multipart>=0.0.20,<1
 numpy>=1.26,<3
