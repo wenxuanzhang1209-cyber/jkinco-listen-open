@@ -2,14 +2,14 @@
 
 <img src="assets/jkinco_logo_cropped.png" width="140" alt="JKinco Listen" />
 
-# JKinco Listen · 筑听（开源本地版）
+# JKinco Listen (Open Edition)
 
-**Local-first AI Meeting Minutes Workbench**
+**A local-first AI workbench that turns meeting recordings into finished minutes.**
 
-录音转写 → 场景识别 → 结构化纪要 → DOCX/PDF 导出，全流程 **100% 本地运行**。
-不需要任何 API Key，录音与纪要数据**永不离开你的电脑**。
+Recording → transcript → scene detection → structured minutes → DOCX/PDF, running **entirely on your own machine**.
+No API keys. No cloud calls. Your audio never leaves your computer.
 
-[English](README.en.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [增长手册](docs/GROWTH.md)
+[简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -17,7 +17,6 @@
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
-![Docker](https://img.shields.io/badge/Docker-一键部署-2496ED.svg)
 ![Tests](https://img.shields.io/badge/tests-895%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -25,78 +24,85 @@
 
 ---
 
-## 为什么会有这个项目
+## Why this exists
 
-会议录音转成纪要，市面上几乎都要走云端：录音上传、按分钟计费、数据过第三方。
-对工程监理、客户拜访、面试记录这类**敏感场景**，很多人宁愿手动整理，也不敢上传。
+Almost every meeting-notes product sends your audio to someone else's servers: upload the
+recording, pay per minute, trust a third party with the contents.
 
-筑听开源本地版把这些能力全部搬到本机：
+For a construction site review, a customer visit, or a job interview, that trade is often
+unacceptable — so people fall back to typing up notes by hand.
 
-- **本地语音识别**：中文会议级 ASR（VAD 静音检测 + 标点恢复 + 工程领域纠错）；
-- **本地大模型**：场景识别、纪要生成、质量复核、会议问答全部走本地模型；
-- **本地模板引擎**：工程例会 / 通用纪要 / 个人备忘 / 面试记录 / 客户拜访五类场景，
-  DOCX/PDF 原版式导出；
-- **本地历史库**：会议、转写、纪要、校核稿全部存在本机，随时检索与导出。
+JKinco Listen moves the whole pipeline onto your machine:
 
-> 一句话：**一条命令部署，录音进，纪要出，数据不出门。**
+- **Local speech recognition** — Chinese meeting-grade ASR with voice-activity detection,
+  punctuation restoration, and domain-term correction.
+- **Local LLM** — scene detection, minutes generation, quality review, and meeting Q&A all
+  run against a model you host (Ollama, or any OpenAI-compatible endpoint).
+- **Local template engine** — five meeting types exported to DOCX/PDF with the original
+  corporate layout preserved.
+- **Local history** — meetings, transcripts, minutes, and human edits stay in a SQLite file
+  you own.
 
-## 📊 和别的方案比
+> One command to deploy. Audio in, minutes out. Nothing leaves the building.
 
-|  | 筑听开源版 | 云端会议助手 | 直接用 Whisper / FunASR |
+## How it compares
+
+|  | JKinco Listen (Open) | Cloud note-takers | Raw Whisper / FunASR |
 |---|---|---|---|
-| 音频是否出本机 | **从不** | 是 | 从不 |
-| 需要 API Key / 订阅 | **不需要** | 需要 | 不需要 |
-| 完全离线可用 | **可以**（首次下载模型后） | 不行 | 可以 |
-| 产出物 | **排好版的 DOCX/PDF 纪要** | 转写 + 摘要 | 纯转写 |
-| 领域词准确率 | **热词词库 + 识别后纠错** | 通用 | 通用 |
-| 会议类型区分 | **五类场景，证据门控** | 单一格式 | 无 |
-| 自托管 · MIT | **是** | 否 | 仅库 |
+| Audio leaves your machine | **Never** | Yes | Never |
+| API key / subscription | **None** | Required | None |
+| Works fully offline | **Yes**, after first model download | No | Yes |
+| Output | **Formatted DOCX/PDF minutes** | Transcript + summary | Raw transcript |
+| Domain accuracy | **Hotword lexicon + post-correction** | Generic | Generic |
+| Meeting-type awareness | **5 scenes, evidence-gated** | One format | None |
+| Self-hosted, MIT licensed | **Yes** | No | Library only |
 
-只要转写的话，直接用 Whisper 更简单。这个项目要解决的是**转写之后**那一段：
-把它变成一份能归档、能发出去的文档。
+If you only need a transcript, use Whisper directly — it is simpler. This project exists for
+the part *after* the transcript: turning it into a document somebody can actually file.
 
-## ✨ 亮点
+## Highlights
 
-| | 能力 |
+| | |
 |---|---|
-| 🧠 **双本地模型栈** | FunASR `paraformer-zh` 中文识别 + Ollama 任意 OpenAI 兼容本地模型 |
-| 🏗️ **工程场景识别** | 规则证据门控 + 模型复核，拒绝“看着像工程会就套工程模板” |
-| 📄 **原版式导出** | 工程例会、面试记录、客户拜访等 DOCX/PDF，保留真实模板排版 |
-| 🔐 **隐私第一** | 无 API Key、无云端调用、无遥测；模型下载完成后完全离线可用 |
-| 🚀 **一键部署** | `docker compose up` 全家桶：Web + 后端 + Ollama + 模型拉取 |
-| 🧪 **工程级质量** | 894 个自动化测试、安全头、限流、防注入、审计日志全覆盖 |
-| 🗃️ **历史知识库** | 会议历史检索 + “问筑听”本地问答，跨会议追待办不丢上下文 |
+| **Two local model stacks** | FunASR `paraformer-zh` for speech + any Ollama / OpenAI-compatible model for text |
+| **Evidence-gated scene detection** | Rule-based gate first, model second — the model cannot force a construction template onto a meeting that lacks the evidence |
+| **Original-layout export** | DOCX/PDF that match the real corporate templates, not a generic markdown dump |
+| **Privacy by construction** | No API keys, no telemetry, no outbound model calls; CI fails the build if cloud-model traces appear in the repo |
+| **One-command deploy** | `docker compose up` brings up web, backend, Ollama, and model pull |
+| **895 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
+| **Local knowledge base** | Search past meetings and ask questions across them, without anything leaving the machine |
 
-## 🖥️ 界面预览
+## Screenshots
 
-![演示](docs/demo.gif)
+![Demo](docs/demo.gif)
 
-<sub>完整演示（有声版 MP4）：<a href="docs/demo.mp4">docs/demo.mp4</a></sub>
+<sub>Full-resolution MP4: <a href="docs/demo.mp4">docs/demo.mp4</a></sub>
 
-**产出物长这样** —— 会议概述、流程、结论、待办事项，右侧是从录音到导出的完整流水线：
+**This is what comes out** — summary, agenda flow, conclusions, and action items, with the
+full recording-to-export pipeline on the right:
 
-![结构化纪要](docs/demo-minutes.png)
+![Structured minutes](docs/demo-minutes.png)
 
 <details>
-<summary>更多界面（点开）</summary>
+<summary>More screens (click to expand)</summary>
 
-**登录页**：本地账号，没有云端注册
+**Sign-in** — a local account, no cloud registration
 
-![登录页](docs/demo-login.png)
+![Sign-in](docs/demo-login.png)
 
-**工作台**：上传录音、实时录音、设备直读三种入口，七类场景标签
+**Workspace** — upload, live recording, or read straight from a recorder; seven scene tabs
 
-![工作台](docs/demo-workspace.png)
+![Workspace](docs/demo-workspace.png)
 
-**历史会议**：按场景统计，全文检索，随时回看与导出
+**History** — per-scene stats, full-text search, reopen and export any past meeting
 
-![历史会议](docs/demo-history.png)
+![History](docs/demo-history.png)
 
 </details>
 
-## 🚀 快速开始（推荐：Docker）
+## Quick start (Docker)
 
-要求：已安装 Docker，机器建议 16GB 内存（8GB 可用但会更慢）。
+Requires Docker. 16 GB RAM recommended; 8 GB works but is slower.
 
 ```bash
 git clone https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open.git
@@ -105,174 +111,203 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-打开 <http://localhost:8080>。
+Open <http://localhost:8080>.
 
-> **接到网络上之前先改口令。** `.env.example` 里预置了 `JKINCO_AUTH=admin:123456`，
-> 是为了让本地试用能立刻跑起来。容器监听的是 `0.0.0.0` —— 只要能访问到端口的人，
-> 都能用这组默认口令登录。除 localhost 之外的任何绑定，请先改掉 `.env` 里的
-> `JKINCO_AUTH`。
+> **Set a password before you expose this to a network.** `.env.example` ships with
+> `JKINCO_AUTH=admin:123456` so that a local trial works immediately. The container listens on
+> `0.0.0.0`, so anyone who can reach the port can sign in with those credentials. Change
+> `JKINCO_AUTH` in `.env` before binding it to anything other than localhost.
 
-首次启动会自动：
+The first start automatically:
 
-1. 下载本地 ASR 模型（约 1–2GB，之后完全离线）；
-2. 拉取本地大模型 `qwen2.5:7b-instruct`（Ollama）；
-3. 构建 Web 界面并启动后端。
+1. downloads the local ASR model (~1–2 GB; fully offline afterwards);
+2. pulls the local LLM `qwen2.5:7b-instruct` via Ollama;
+3. builds the web UI and starts the backend.
 
-> 想换模型？`OLLAMA_MODEL=qwen2.5:14b docker compose up -d` 即可，其余不变。
+Want a different model? `OLLAMA_MODEL=qwen2.5:14b docker compose up -d` — nothing else changes.
 
-> NVIDIA GPU 加速：`docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d`
-> （Apple Silicon 无需配置，Ollama 自动走 Metal。）
-
-> 先看效果再下载模型：`docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d`
-> （示例模式会自动写入两条示例纪要，界面、导出、历史检索全部可用。）
-
-## 🛠️ 手动安装
-
-一条命令（推荐给不想用 Docker 的用户）：
+**NVIDIA GPU:**
 
 ```bash
-bash scripts/install.sh        # 自动装 Ollama 模型 + Python 依赖 + 前端
-bash scripts/start.sh          # 启动
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
 ```
 
-或分步执行：
+Apple Silicon needs no configuration; Ollama uses Metal automatically.
+
+**Try it before downloading any model:**
 
 ```bash
-# 1. 本地大模型（任选其一）
+docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d
+```
+
+Demo mode seeds two example minutes so the UI, exports, and history search are all usable
+without a model.
+
+## Manual setup
+
+One command, for people who would rather not use Docker:
+
+```bash
+bash scripts/install.sh        # Ollama model + Python deps + frontend
+bash scripts/start.sh
+```
+
+Or step by step:
+
+```bash
+# 1. Local LLM (pick one)
 brew install ollama && ollama pull qwen2.5:7b-instruct   # macOS
 curl -fsSL https://ollama.com/install.sh | sh             # Linux
 
-# 2. 后端
+# 2. Backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 
-# 3. 前端
+# 3. Frontend
 cd frontend && npm ci && npm run build && cd ..
 
-# 4. 启动
+# 4. Run
 uvicorn backend.main:app --host 0.0.0.0 --port 8080
 ```
 
-> 换更大模型：`OLLAMA_MODEL=qwen2.5:14b bash scripts/install.sh`
+Larger model: `OLLAMA_MODEL=qwen2.5:14b bash scripts/install.sh`
 
-## 🧠 模型指南
+## Model guide
 
-| 环节 | 默认模型 | 备选 | 说明 |
+| Stage | Default | Alternatives | Notes |
 |---|---|---|---|
-| 语音识别 | FunASR `paraformer-zh` | `fsmn-vad` + `ct-punc` | 中文会议最优性价比，CPU 可跑 |
-| 场景复核 | Ollama `qwen2.5:7b-instruct` | `qwen2.5:14b`、`qwen3:8b` 等 | 证据门控兜底，模型说错也翻不了盘 |
-| 纪要生成 | Ollama `qwen2.5:7b-instruct` | 更大模型 | 自动分块 → 并行提取 → 合成 → 质量复核 |
-| 会议问答 | 同上 | 同上 | 本地检索 + 生成，历史不出本机 |
+| Speech recognition | FunASR `paraformer-zh` | `fsmn-vad` + `ct-punc` | Best value for Chinese meetings; runs on CPU |
+| Scene review | Ollama `qwen2.5:7b-instruct` | `qwen2.5:14b`, `qwen3:8b` | The evidence gate has the final say, so a wrong model answer cannot flip the result |
+| Minutes generation | Ollama `qwen2.5:7b-instruct` | Larger models | Chunk → extract in parallel → merge → quality review |
+| Meeting Q&A | Same | Same | Local retrieval and generation; history stays on the machine |
 
-详细硬件与量化建议见 [docs/LOCAL_MODELS.md](docs/LOCAL_MODELS.md)。
+Hardware and quantization guidance: [docs/LOCAL_MODELS.en.md](docs/LOCAL_MODELS.en.md).
 
-## 🏗️ 架构
+## Architecture
 
 ```mermaid
 flowchart LR
-    U[浏览器 React + TS] -->|录音上传 / 实时录音| API[FastAPI 后端]
-    API --> ASR[FunASR 本地识别]
-    ASR --> LEX[领域词库纠错]
-    LEX --> CLS[场景识别<br/>规则证据门控 + 模型复核]
-    CLS --> LLM[Ollama 本地大模型<br/>OpenAI 兼容接口]
-    LLM --> MIN[结构化纪要 + 质量复核]
-    MIN --> EXP[DOCX / PDF 导出]
-    MIN --> DB[(本地历史库 SQLite)]
-    DB --> QA[问筑听 · 本地会议问答]
+    U[Browser · React + TS] -->|upload / live recording| API[FastAPI backend]
+    API --> ASR[FunASR local recognition]
+    ASR --> LEX[Domain lexicon correction]
+    LEX --> CLS[Scene detection<br/>evidence gate + model review]
+    CLS --> LLM[Local LLM via Ollama<br/>OpenAI-compatible API]
+    LLM --> MIN[Structured minutes + quality review]
+    MIN --> EXP[DOCX / PDF export]
+    MIN --> DB[(Local history · SQLite)]
+    DB --> QA[Ask JKinco · local meeting Q&A]
 ```
 
-模块职责、数据流与安全边界见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
+Module boundaries, data flow, and the security perimeter: [docs/ARCHITECTURE.en.md](docs/ARCHITECTURE.en.md).
 
-## 🗂️ 核心能力
+## Core capabilities
 
-### 智能场景识别
+### Evidence-gated scene detection
 
-根据转写中的角色、业务动作与交付物证据，区分五类场景：
+Five meeting types are distinguished by the roles, business actions, and deliverables that
+appear in the transcript:
 
-- **工程例会**：施工、监理、建设等多责任主体 + 生产控制议程 + 周期复盘，形成证据链才使用工程模板；
-- **通用会议纪要**：管理汇报、经营分析、项目周会等，由模型按原文组织结构；
-- **个人助手**：个人备忘、工作复盘、事项跟进；
-- **面试记录**：候选人评价、能力评估、录用建议；
-- **客户拜访**：客户诉求、沟通要点、责任分工。
+- **Construction site review** — multiple accountable parties (contractor, supervisor,
+  owner) plus a production-control agenda plus periodic review. The formal template is used
+  only when that evidence chain is present.
+- **General minutes** — management reports, business reviews, project weeklies. No fixed
+  template; the model organizes the clearest structure for the source material.
+- **Personal assistant** — personal notes, retrospectives, follow-ups.
+- **Interview record** — candidate evaluation, competency assessment, hiring recommendation.
+- **Customer visit** — customer needs, discussion points, ownership.
 
-规则证据门控优先：**模型不能仅凭“项目、进度、质量”这类泛词把会议套成工程例会**。
+The rule-based gate runs first, and it wins: **the model cannot classify a meeting as a
+construction review on the strength of generic words like "project", "schedule", "quality".**
 
-### 长录音处理
+### Long recordings
 
-- 时长闸门 + 解压炸弹防护（按解码时长而非文件大小）；
-- 超长转写自动分块，并行提取、缺失留痕、不整段作废；
-- 任务队列、按用户配额、失败可重试，断网不丢已转写内容。
+- Duration gate with decompression-bomb protection, measured by decoded duration rather than
+  file size.
+- Long transcripts are chunked and extracted in parallel; gaps are recorded rather than
+  silently discarding the whole run.
+- Job queue with per-user quotas and retries. A dropped connection does not lose work already
+  transcribed.
 
-### 导出与推送
+### Export and delivery
 
-- 六套模板（工程/通用/个人/面试/客户拜访/自定义）；
-- Word、PDF 原版式导出，文件名唯一防覆盖；
-- 可选钉钉机器人推送（加签），不配置即关闭。
+- Six templates: construction, general, personal, interview, customer visit, and custom
+  uploads.
+- DOCX and PDF export preserving the original layout, with collision-proof filenames.
+- Optional DingTalk bot delivery with request signing. Disabled unless configured.
 
-## 🔐 隐私与安全
+## Privacy and security
 
-- **无云端模型调用、无 API Key、无遥测**；
-- 音频、转写、纪要、校核稿全部保存在本机；
-- 登录限流、验证码、会话签名、CSP/安全头、审计日志；
-- 模板上传解压防护（Zip 炸弹、路径穿越、XML 实体）；
-- 开源版红线上限：CI 自动扫描，禁止任何云端模型痕迹与密钥混入仓库。
+- No cloud model calls, no API keys, no telemetry.
+- Audio, transcripts, minutes, and human edits are stored only on the local machine.
+- Login rate limiting, CAPTCHA, signed sessions, CSP and security headers, audit log.
+- Template upload hardening: zip bombs, path traversal, and XML entity attacks.
+- CI enforces the open-edition boundary: the build fails if cloud-model references or
+  credentials appear in the repository.
 
-## 🧪 测试与质量
+## Testing
 
 ```bash
-python -m pytest tests-v2 -q          # 895 个测试
-python scripts/smoke_test.py          # 离线冒烟：场景路由 + 全场景导出
-python scripts/check_open_source_hygiene.py  # 开源版红线扫描
+python -m pytest tests-v2 -q                 # 895 tests
+python scripts/smoke_test.py                 # offline smoke: scene routing + every export
+python scripts/check_open_source_hygiene.py  # open-edition boundary scan
 ```
 
-CI（GitHub Actions）自动执行：红线扫描 → 后端测试 → 前端构建。
+GitHub Actions runs the boundary scan, the backend tests, and the frontend build on every
+push.
 
-## ❓ FAQ
+## FAQ
 
-**必须要 GPU 吗？**
-不用。FunASR 中文模型与 7B 量化模型在 16GB 内存的 CPU 上可以跑，只是更慢；
-有 NVIDIA/Apple Silicon GPU 会明显加速。
+**Do I need a GPU?**
+No. The FunASR Chinese model and a quantized 7B model run on a 16 GB CPU machine — just
+slower. An NVIDIA or Apple Silicon GPU speeds things up noticeably.
 
-**模型下载失败怎么办？**
-首次下载需要网络，之后完全离线。可设置 `JKINCO_ASR_MODEL_DIR` 指定已有模型目录。
+**What if the model download fails?**
+Only the first download needs network access; everything afterwards is offline. Point
+`JKINCO_ASR_MODEL_DIR` at an existing model directory to skip the download entirely.
 
-**不想先下载模型，怎么快速体验？**
-设 `JKINCO_DEMO_DATA=1` 后启动，历史里会自动出现两条示例纪要（工程例会 + 客户拜访），
-导出、历史检索、模板都能直接玩，不依赖任何模型。
+**Can I look around before downloading models?**
+Set `JKINCO_DEMO_DATA=1` and start. Two example minutes (a construction review and a customer
+visit) appear in history, and export, search, and templates all work without any model.
 
-**支持实时字幕吗？**
-实验性支持：设置 `JKINCO_REALTIME_LOCAL_ASR=1` 后，会议/录音面板的实时字幕走本机
-`paraformer-zh-streaming`（首次使用会额外下载流式模型）。默认关闭。
+**Is there live captioning?**
+Experimental. Set `JKINCO_REALTIME_LOCAL_ASR=1` to run live captions through a local
+`paraformer-zh-streaming` model (an extra download on first use). Off by default.
 
-**可以商用吗？**
-可以，MIT License。请保留版权声明。
+**Can I use it commercially?**
+Yes, under the MIT License. Please keep the copyright notice.
 
-## 🗺️ 路线图
+**Does it work with languages other than Chinese?**
+The ASR model and the domain lexicon are tuned for Chinese meetings. The architecture is
+model-agnostic, so swapping in another FunASR or Whisper model is possible — multi-language
+support is on the roadmap rather than finished.
 
-- [x] 录音上传 → 本地转写 → 场景识别 → 纪要 → 导出全链路
-- [x] 历史知识库与本地会议问答
-- [x] 实时流式字幕（实验性：`JKINCO_REALTIME_LOCAL_ASR=1`）
-- [ ] 说话人分离 / 角色识别
-- [ ] WebDAV / 坚果云自动备份
-- [ ] 桌面安装包（macOS / Windows）
-- [ ] 多语言支持（粤语 / 英语 / 日语）
+## Roadmap
 
-完整计划见 [docs/ROADMAP.md](docs/ROADMAP.md)。
+- [x] Upload → local transcription → scene detection → minutes → export
+- [x] History knowledge base and local meeting Q&A
+- [x] Streaming live captions (experimental: `JKINCO_REALTIME_LOCAL_ASR=1`)
+- [ ] Speaker diarization and role attribution
+- [ ] WebDAV / cloud-drive backup
+- [ ] Desktop installers (macOS / Windows)
+- [ ] Multi-language support (Cantonese / English / Japanese)
 
-## 🤝 贡献
+Full plan: [docs/ROADMAP.en.md](docs/ROADMAP.en.md).
 
-欢迎 Issue、PR 与本地化贡献。提交前请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，
-并运行红线扫描与测试。
+## Contributing
 
-## 📄 许可证
+Issues, pull requests, and localization help are all welcome. Please read
+[CONTRIBUTING.md](CONTRIBUTING.md) first, and run the boundary scan and the test suite before
+submitting.
+
+## License
 
 [MIT](LICENSE) © 2026 JKinco
 
 ---
 
-## ⭐ 支持这个项目
+## Support this project
 
-如果筑听帮你省下了一次次手动整理会议纪要的时间，请点右上角 **Star** ⭐。
+If JKinco Listen saved you from typing up one more set of meeting minutes, please **Star** it ⭐.
 
 [![Star History Chart](https://api.star-history.com/svg?repos=wenxuanzhang1209-cyber/jkinco-listen-open&type=Date)](https://star-history.com/#wenxuanzhang1209-cyber/jkinco-listen-open&Date)

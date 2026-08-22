@@ -1,5 +1,6 @@
+# NVIDIA GPU overlay: give the Ollama container access to all GPUs.
 # NVIDIA GPU 加速覆盖层：让 Ollama 容器使用全部 GPU。
-# 用法：docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
+# Usage / 用法：docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
 services:
   ollama:
     deploy:
