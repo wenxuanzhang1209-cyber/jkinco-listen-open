@@ -1,8 +1,8 @@
 # JKinco Listen (Open Edition) — backend runtime dependencies
 # 筑听开源本地版 —— 后端运行时依赖
-fastapi>=0.115,<1
-uvicorn[standard]>=0.34,<1
-python-multipart>=0.0.20,<1
+fastapi>=0.141.1,<1
+uvicorn[standard]>=0.52.4,<1
+python-multipart>=0.0.32,<1
 numpy>=1.26,<3
 python-dotenv>=1.0,<2
 requests>=2.31,<3
@@ -10,7 +10,7 @@ python-docx>=1.1,<2
 reportlab>=4.0,<5
 pillow>=10,<13
 websockets>=14,<16
-livekit-api>=0.8,<2
+livekit-api>=1.2.0,<2
 
 # Local speech recognition. The paraformer-zh model downloads on first run;
 # everything afterwards is offline.
