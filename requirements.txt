@@ -10,7 +10,7 @@ python-docx>=1.1,<2
 reportlab>=4.0,<5
 pillow>=10,<13
 websockets>=14,<16
-livekit-api>=0.8,<2
+livekit-api>=1.2.0,<2
 
 # Local speech recognition. The paraformer-zh model downloads on first run;
 # everything afterwards is offline.
