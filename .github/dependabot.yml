@@ -1,0 +1,34 @@
+# Keep dependencies current so security fixes are not blocked behind a large upgrade.
+# 保持依赖更新，避免安全修复被一次大升级挡住。
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+    groups:
+      # One PR per week for routine bumps; security updates still arrive on their own.
+      # 常规升级每周合成一个 PR;安全更新仍然单独到达。
+      python-minor:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: npm
+    directory: "/frontend"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+    groups:
+      npm-minor:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"

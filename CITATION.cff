@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: "JKinco Listen (Open Edition)"
+message: "If you use this software in your research, please cite it as below."
+type: software
+authors:
+  - given-names: Wenxuan
+    family-names: Zhang
+    alias: wenxuanzhang1209-cyber
+repository-code: "https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open"
+url: "https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/"
+abstract: >-
+  A local-first AI workbench that turns meeting recordings into finished, formatted minutes.
+  Speech recognition, scene detection, minutes generation, and quality review all run on the
+  user's own machine, with no API key and no outbound model calls. Includes evidence-gated
+  meeting-type detection so that a document template asserting legal responsibility cannot be
+  applied on generic evidence alone.
+keywords:
+  - meeting-minutes
+  - speech-to-text
+  - local-first
+  - privacy
+  - self-hosted
+  - asr
+  - llm
+license: MIT
+version: 0.1.1
+date-released: "2026-08-21"
