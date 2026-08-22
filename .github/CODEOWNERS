@@ -1,0 +1,10 @@
+# Every change gets a review from the maintainer.
+# 所有改动都由维护者评审。
+*                       @wenxuanzhang1209-cyber
+
+# The boundary between the open edition and anything hosted is the project's core promise.
+# Changes here get extra scrutiny.
+# 开源版与托管服务之间的边界是这个项目的核心承诺，这些文件的改动要额外仔细看。
+/SECURITY.md            @wenxuanzhang1209-cyber
+/scripts/check_open_source_hygiene.py  @wenxuanzhang1209-cyber
+/.github/workflows/     @wenxuanzhang1209-cyber

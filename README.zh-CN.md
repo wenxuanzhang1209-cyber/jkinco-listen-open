@@ -9,7 +9,7 @@
 录音转写 → 场景识别 → 结构化纪要 → DOCX/PDF 导出，全流程 **100% 本地运行**。
 不需要任何 API Key，录音与纪要数据**永不离开你的电脑**。
 
-[English](README.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [增长手册](docs/GROWTH.md)
+[English](README.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [更新日志](CHANGELOG.md) · [支持](SUPPORT.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -264,6 +264,9 @@ CI（GitHub Actions）自动执行：红线扫描 → 后端测试 → 前端构
 
 欢迎 Issue、PR 与本地化贡献。提交前请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，
 并运行红线扫描与测试。
+
+[SUPPORT.md](SUPPORT.md) 写明了维护者的承诺——Issue 首次回应 5 个工作日、安全报告
+72 小时确认、PR 7 个工作日评审——以及同样重要的：哪些事情不在支持范围内。
 
 ## 📄 许可证
 

@@ -1,0 +1,81 @@
+# Changelog
+
+All notable changes to this project are documented here.
+
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
+adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+本项目的所有重要变更都记录在此。格式遵循 Keep a Changelog，版本号遵循语义化版本。
+
+## [Unreleased]
+
+### Changed
+
+- English is now the repository's default language. `README.md` is English; the Chinese
+  version moved to `README.zh-CN.md`. Contributor-facing files (`CONTRIBUTING.md`,
+  `SECURITY.md`, issue templates, `.env.example`) are bilingual, English first.
+- English translations added for the architecture, model guide, roadmap, and open-edition
+  documents.
+
+### Added
+
+- Demo recording rebuilt from a live instance: a 25-second walkthrough with captions covering
+  sign-in → workspace → scenes → history → structured minutes, plus a full-resolution MP4 on
+  the documentation site.
+- `docs/demo-minutes.png` — a screenshot of the actual output document, which the README
+  previously never showed.
+- Comparison table against cloud note-takers and raw Whisper, including the honest case for
+  *not* using this project.
+- CI status badge.
+
+### Security
+
+- Explicit warning about the default `JKINCO_AUTH=admin:123456` credential in `SECURITY.md`,
+  `.env.example`, the README, and the documentation site. The server binds `0.0.0.0`, so the
+  default is safe only on localhost.
+
+### Fixed
+
+- Corrected stale test counts in the documentation (888 / 894 → 895, the measured value).
+
+## [0.1.1] - 2026-08-21
+
+### Added
+
+- **Demo data mode** (`JKINCO_DEMO_DATA=1`) — seeds two example minutes so the interface,
+  export, and history search are usable before downloading any model.
+- **Experimental local live captions** (`JKINCO_REALTIME_LOCAL_ASR=1`) — meeting and recorder
+  captions run through a local `paraformer-zh-streaming` model. Data still never leaves the
+  machine.
+- **One-command install scripts** — `bash scripts/install.sh && bash scripts/start.sh` for
+  people who would rather not use Docker.
+- **Documentation site** at <https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/>.
+- GitHub Discussions, and a star-milestone workflow.
+
+### Changed
+
+- Test suite grown from 888 to 894 cases. CI covers the boundary scan, backend tests,
+  frontend build, and Docker image build.
+
+## [0.1.0] - 2026-08-21
+
+Initial public release of the Open Edition.
+
+### Added
+
+- End-to-end local pipeline: recording → transcription → scene detection → structured
+  minutes → DOCX/PDF export. No API key, no cloud call.
+- Local FunASR Chinese speech recognition plus a local LLM through Ollama or any
+  OpenAI-compatible endpoint.
+- Five meeting scenes: construction review, general minutes, personal notes, interview
+  record, customer visit.
+- **Evidence-gated scene detection** — rules decide first and the model may only review;
+  it cannot promote a meeting into the construction template on generic words alone.
+- Original-layout DOCX and PDF export, plus custom template upload.
+- Local history knowledge base with meeting Q&A.
+- One-command Docker deployment.
+- CI: open-edition boundary scan, 891 tests, frontend build, Docker image build.
+
+[Unreleased]: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/releases/tag/v0.1.1
+[0.1.0]: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/releases/tag/v0.1.0
