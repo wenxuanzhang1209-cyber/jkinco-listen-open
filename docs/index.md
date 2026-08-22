@@ -5,7 +5,7 @@
 
 *Local-first AI meeting minutes workbench. Recording → transcript → structured minutes →
 DOCX/PDF, entirely on your own machine. No API keys, no cloud calls.*
-[English README](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/blob/main/README.en.md)
+[English README](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/blob/main/README.md)
 
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">
