@@ -31,6 +31,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+- **The secret scanner missed OpenAI, Anthropic, Google, and Slack keys.** Its pattern
+  required an underscore after the prefix (`sk_`), so `sk-proj-…`, `sk-…`, `sk-ant-…`,
+  `AIza…`, and `xoxb-…` all passed straight through — two of seven common formats were
+  caught. The scanner is the repository's only automated security gate, and it had no tests
+  of its own. It now covers twelve formats, reports line numbers, scans line by line instead
+  of stopping at the first hit, and supports a line-scoped `# hygiene:allow-secret` marker so
+  that redaction tests can keep realistic fixtures without blinding the scanner to the rest
+  of the file. 19 tests now cover the scanner itself.
+- The scanner identifies virtualenvs by `pyvenv.cfg` rather than by directory name. Listing
+  `.venv` and `.venv-test` meant any other local environment got scanned, and `certifi`'s
+  bundled `cacert.pem` inside it produced a false "secret file committed" alarm. A scanner
+  that cries wolf trains people to ignore it.
 - Explicit warning about the default `JKINCO_AUTH=admin:123456` credential in `SECURITY.md`,
   `.env.example`, the README, and the documentation site. The server binds `0.0.0.0`, so the
   default is safe only on localhost.

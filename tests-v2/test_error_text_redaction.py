@@ -32,17 +32,17 @@ def test_internal_hostname_is_removed():
 
 
 def test_configured_secret_values_are_removed(monkeypatch):
-    monkeypatch.setenv("LLM_API_KEY", "sk-a-very-real-looking-key")
+    monkeypatch.setenv("LLM_API_KEY", "sk-a-very-real-looking-key")  # hygiene:allow-secret 夹具必须像真密钥，否则测不出脱敏有没有生效
     monkeypatch.setenv("DINGTALK_SECRET", "SECdingtalk12345")
-    text = "调用失败 sk-a-very-real-looking-key 以及 SECdingtalk12345"
+    text = "调用失败 sk-a-very-real-looking-key 以及 SECdingtalk12345"  # hygiene:allow-secret 夹具必须像真密钥，否则测不出脱敏有没有生效
     out = redact_secrets(text)
-    assert "sk-a-very-real-looking-key" not in out
+    assert "sk-a-very-real-looking-key" not in out  # hygiene:allow-secret 夹具必须像真密钥，否则测不出脱敏有没有生效
     assert "SECdingtalk12345" not in out
 
 
 def test_llm_failure_surface_is_clean(monkeypatch):
     """端到端:大模型不可达时,用户可见文案里不能出现凭证或内部地址。"""
-    monkeypatch.setenv("LLM_API_KEY", "sk-REAL-KEY-1234567890")
+    monkeypatch.setenv("LLM_API_KEY", "sk-REAL-KEY-1234567890")  # hygiene:allow-secret 夹具必须像真密钥，否则测不出脱敏有没有生效
     monkeypatch.setenv("LLM_BASE_URL", "https://internal-llm.corp.invalid/v1/chat?token=SECRET123")
     monkeypatch.setenv("LLM_MODEL_NAME", "test-model")
     monkeypatch.setenv("JKINCO_LLM_ATTEMPT_TIMEOUT", "1")
@@ -54,7 +54,7 @@ def test_llm_failure_surface_is_clean(monkeypatch):
     overview = generate_meeting_overview("纪要正文", "转写", "general")
     for surface in (reason, overview):
         assert "SECRET123" not in surface
-        assert "sk-REAL-KEY-1234567890" not in surface
+        assert "sk-REAL-KEY-1234567890" not in surface  # hygiene:allow-secret 夹具必须像真密钥，否则测不出脱敏有没有生效
         assert "internal-llm.corp.invalid" not in surface
 
 
