@@ -19,6 +19,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Contract tests that pin CI dependencies to runtime dependencies (`tests-v2/test_ci_requirements_match_runtime.py`).
 - Demo recording rebuilt from a live instance: a 25-second walkthrough with captions covering
   sign-in → workspace → scenes → history → structured minutes, plus a full-resolution MP4 on
   the documentation site.
@@ -36,7 +37,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- CI installed 626 MB it never used. `requirements-ci.txt` claimed to exclude FunASR and
+  torch while its first line pulled in all of `requirements.txt`. The test suite never imports
+  FunASR — `jkinco_asr.py` imports it lazily inside a function — so the CI install now drops
+  from 774 MB / 109 packages to 148 MB / 52, with the full suite still passing. Five contract
+  tests keep the two manifests from drifting apart, which is the risk that change introduces.
 - Corrected stale test counts in the documentation (888 / 894 → 895, the measured value).
+- `.gitignore` now covers virtualenvs under any name, not just `.venv/`.
 
 ## [0.1.1] - 2026-08-21
 

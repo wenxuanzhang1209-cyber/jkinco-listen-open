@@ -7,6 +7,14 @@ __pycache__/
 .coverage.*
 .venv/
 .venv-test/
+# 任何命名的虚拟环境。只列 .venv/ 的话，别人用 .venv3 / env / .vc 之类的名字
+# 就挡不住，而 774MB 的 site-packages 一旦提交上去就很难从历史里拿干净。
+# Any virtualenv, whatever it is named. Listing only .venv/ leaves .venv3, env, and
+# friends unguarded — and a committed 774 MB site-packages is painful to remove from history.
+.venv*/
+venv/
+env/
+ENV/
 
 # Node / frontend build
 node_modules/
