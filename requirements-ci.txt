@@ -1,6 +1,42 @@
-# CI test dependencies. FunASR and torch are deliberately excluded to keep CI fast;
-# the runtime image installs the full set.
-# CI 测试依赖（不含 FunASR/torch，保持测试轻量；运行时镜像才安装完整依赖）
--r requirements.txt
+# CI test dependencies.
+#
+# This intentionally does NOT do `-r requirements.txt`. The test suite never imports FunASR
+# (jkinco_asr.py imports it lazily inside a function), and pulling it in takes the CI install
+# from 148 MB / 52 packages up to 774 MB / 109 — for nothing. Measured, not assumed: the full
+# suite passes without it.
+#
+# The runtime image installs requirements.txt, FunASR included. Keeping requirements.txt as
+# the single runtime manifest matters because the Dockerfile copies only that one file, and
+# tests-v2/test_server_image_contract.py asserts the key packages are listed there.
+#
+# If you add a runtime dependency that the tests exercise, add it here too. A missing entry
+# fails loudly as an ImportError in CI rather than silently.
+#
+# CI 测试依赖。
+#
+# 这里刻意**不**写 `-r requirements.txt`。测试套件从不导入 FunASR
+# （jkinco_asr.py 是在函数内部惰性导入的），而把它拉进来会让 CI 的安装体积
+# 从 148MB / 52 个包涨到 774MB / 109 个——白涨。这是实测的结论，不是推断：
+# 不装 funasr，895 个测试照样全过。
+#
+# 运行时镜像装的是 requirements.txt（含 FunASR）。requirements.txt 必须保持
+# 「唯一运行时清单」的地位：Dockerfile 只 COPY 了这一个文件，而
+# tests-v2/test_server_image_contract.py 会断言关键包都列在里面。
+#
+# 如果你新增了一个测试会用到的运行时依赖，记得也加到这里。漏了的话 CI 会以
+# ImportError 的形式大声报错，而不是悄悄跳过。
+
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+python-multipart>=0.0.20,<1
+numpy>=1.26,<3
+python-dotenv>=1.0,<2
+requests>=2.31,<3
+python-docx>=1.1,<2
+reportlab>=4.0,<5
+pillow>=10,<13
+websockets>=14,<16
+livekit-api>=0.8,<2
+
 pytest>=8,<9
 httpx>=0.27,<1
