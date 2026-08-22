@@ -11,13 +11,14 @@
 
 [English](README.en.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [增长手册](docs/GROWTH.md)
 
+[![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
 ![Docker](https://img.shields.io/badge/Docker-一键部署-2496ED.svg)
-![Tests](https://img.shields.io/badge/tests-894%20passed-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-895%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -39,6 +40,21 @@
 
 > 一句话：**一条命令部署，录音进，纪要出，数据不出门。**
 
+## 📊 和别的方案比
+
+|  | 筑听开源版 | 云端会议助手 | 直接用 Whisper / FunASR |
+|---|---|---|---|
+| 音频是否出本机 | **从不** | 是 | 从不 |
+| 需要 API Key / 订阅 | **不需要** | 需要 | 不需要 |
+| 完全离线可用 | **可以**（首次下载模型后） | 不行 | 可以 |
+| 产出物 | **排好版的 DOCX/PDF 纪要** | 转写 + 摘要 | 纯转写 |
+| 领域词准确率 | **热词词库 + 识别后纠错** | 通用 | 通用 |
+| 会议类型区分 | **五类场景，证据门控** | 单一格式 | 无 |
+| 自托管 · MIT | **是** | 否 | 仅库 |
+
+只要转写的话，直接用 Whisper 更简单。这个项目要解决的是**转写之后**那一段：
+把它变成一份能归档、能发出去的文档。
+
 ## ✨ 亮点
 
 | | 能力 |
@@ -55,9 +71,28 @@
 
 ![演示](docs/demo.gif)
 
+<sub>完整演示（有声版 MP4）：<a href="docs/demo.mp4">docs/demo.mp4</a></sub>
+
+**产出物长这样** —— 会议概述、流程、结论、待办事项，右侧是从录音到导出的完整流水线：
+
+![结构化纪要](docs/demo-minutes.png)
+
+<details>
+<summary>更多界面（点开）</summary>
+
+**登录页**：本地账号，没有云端注册
+
 ![登录页](docs/demo-login.png)
 
+**工作台**：上传录音、实时录音、设备直读三种入口，七类场景标签
+
 ![工作台](docs/demo-workspace.png)
+
+**历史会议**：按场景统计，全文检索，随时回看与导出
+
+![历史会议](docs/demo-history.png)
+
+</details>
 
 ## 🚀 快速开始（推荐：Docker）
 
@@ -70,7 +105,12 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-打开 <http://localhost:8080>，默认账号 `admin / 123456`。
+打开 <http://localhost:8080>。
+
+> **接到网络上之前先改口令。** `.env.example` 里预置了 `JKINCO_AUTH=admin:123456`，
+> 是为了让本地试用能立刻跑起来。容器监听的是 `0.0.0.0` —— 只要能访问到端口的人，
+> 都能用这组默认口令登录。除 localhost 之外的任何绑定，请先改掉 `.env` 里的
+> `JKINCO_AUTH`。
 
 首次启动会自动：
 
@@ -181,7 +221,7 @@ flowchart LR
 ## 🧪 测试与质量
 
 ```bash
-python -m pytest tests-v2 -q          # 894 个测试
+python -m pytest tests-v2 -q          # 895 个测试
 python scripts/smoke_test.py          # 离线冒烟：场景路由 + 全场景导出
 python scripts/check_open_source_hygiene.py  # 开源版红线扫描
 ```
