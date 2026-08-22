@@ -27,7 +27,7 @@
 # ImportError 的形式大声报错，而不是悄悄跳过。
 
 fastapi>=0.115,<1
-uvicorn[standard]>=0.34,<1
+uvicorn[standard]>=0.52.4,<1
 python-multipart>=0.0.20,<1
 numpy>=1.26,<3
 python-dotenv>=1.0,<2
