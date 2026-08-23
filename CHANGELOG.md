@@ -19,6 +19,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **A reproducible domain-accuracy benchmark.** Ten noisy Chinese meeting clips covering 36
+  terms a general model tends to mishear. Local `paraformer-zh` alone scores 30/36; with
+  domain correction, 35/36. Published in the README because a comparison table full of
+  yes/no cells is not evidence.
+- Five correction rules derived from what the model **actually** produced (`航站记录`,
+  `微大工程`, `石滩落度`, `同条件是块`, `原材富是`), plus 15 tests — including eight that
+  assert normal Chinese is never damaged.
 - Contract tests that pin CI dependencies to runtime dependencies (`tests-v2/test_ci_requirements_match_runtime.py`).
 - Demo recording rebuilt from a live instance: a 25-second walkthrough with captions covering
   sign-in → workspace → scenes → history → structured minutes, plus a full-resolution MP4 on
@@ -54,6 +61,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   FunASR — `jkinco_asr.py` imports it lazily inside a function — so the CI install now drops
   from 774 MB / 109 packages to 148 MB / 52, with the full suite still passing. Five contract
   tests keep the two manifests from drifting apart, which is the risk that change introduces.
+- **The correction table was written from imagination, not from data.** Running the benchmark
+  showed that none of the original thirteen rules ever fired: the real errors (`航站记录` for
+  `旁站记录`) look nothing like the guessed ones (`旁占`). Rules are now derived from measured
+  output.
 - Corrected stale test counts in the documentation (888 / 894 → 895, the measured value).
 - `.gitignore` now covers virtualenvs under any name, not just `.venv/`.
 

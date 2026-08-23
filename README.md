@@ -82,6 +82,32 @@ This project exists for them. Everything runs on the machine in the room.
 If you only need a transcript, use Whisper directly — it is simpler. This project exists for
 the part *after* the transcript: turning it into a document somebody can actually file.
 
+### Measured, not claimed
+
+Ten noisy Chinese meeting clips, 36 domain terms that a general model tends to get wrong
+(construction, HR, and commercial vocabulary), run through the local `paraformer-zh`:
+
+| | Terms recognised |
+|---|---|
+| Local ASR alone | 30 / 36 |
+| **+ domain correction** | **35 / 36** |
+
+Every one of the six failures was a construction term:
+
+```
+航站记录 ← 旁站记录      微大工程 ← 危大工程
+石滩落度 ← 时坍落度      同条件是块 ← 同条件试块
+```
+
+The correction table is built from **what the model actually gets wrong**, not from what a
+human might mistype — the first thirteen entries were written by imagining plausible errors,
+and when this benchmark ran, not one of them fired. Reproduce it yourself: the clips are
+synthesised with `say` + `ffmpeg`, and the correction rules are in `jkinco_lexicon.py`.
+
+<sub>十段加噪中文会议音频、36 个通用模型容易听错的领域词，过本地 paraformer-zh：
+仅本地识别 30/36，加上领域纠错 35/36。六处失误全在工程术语上。
+纠错表是照着**模型真正会犯的错**写的——最初那 13 条是想象出来的，跑基准时一条都没命中。</sub>
+
 ## Highlights
 
 | | |
