@@ -3,9 +3,7 @@
 本地优先的 AI 会议纪要工作台：**录音转写 → 场景识别 → 结构化纪要 → DOCX/PDF 导出**，
 全流程 100% 本地运行，数据不出本机。
 
-*Local-first AI meeting minutes workbench. Recording → transcript → structured minutes →
-DOCX/PDF, entirely on your own machine. No API keys, no cloud calls.*
-[English README](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/blob/main/README.md)
+*[English](en.md)*
 
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">

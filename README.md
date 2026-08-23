@@ -9,7 +9,7 @@
 Recording → transcript → scene detection → structured minutes → DOCX/PDF, running **entirely on your own machine**.
 No API keys. No cloud calls. Your audio never leaves your computer.
 
-[简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
+[简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/en.html) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
