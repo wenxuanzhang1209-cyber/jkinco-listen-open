@@ -148,8 +148,9 @@ SPECS: dict[str, dict] = {
         "cjk_line": "轻量自动化脚本——每一步都自己校验结果。",
         "flow": ["Run", "self-check", "fail loudly"],
         # requirements.txt 里 0 行非注释依赖：只用标准库
+        # 9: python -m unittest discover -s tests，CI 会核对 README 徽章
         "chips": [("Python stdlib only", False), ("Zero dependencies", True),
-                  ("Self-verifying", True), ("MIT", False)],
+                  ("9 tests", False), ("Self-verifying", True), ("MIT", False)],
     },
 }
 
