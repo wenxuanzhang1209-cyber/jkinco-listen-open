@@ -101,8 +101,17 @@ Every one of the six failures was a construction term:
 
 The correction table is built from **what the model actually gets wrong**, not from what a
 human might mistype — the first thirteen entries were written by imagining plausible errors,
-and when this benchmark ran, not one of them fired. Reproduce it yourself: the clips are
-synthesised with `say` + `ffmpeg`, and the correction rules are in `jkinco_lexicon.py`.
+and when this benchmark ran, not one of them fired. Reproduce it yourself — one command, no arguments:
+
+```bash
+pip install funasr torch torchaudio numpy
+python3 scripts/benchmark_domain_accuracy.py
+```
+
+It synthesises the clips, degrades them with noise and tempo shift, runs the local model, and
+prints the same table. The audio is synthetic and therefore **cleaner than a real meeting room**
+— treat the number as an upper bound. Its value is comparability: change the model or the
+lexicon, run it again, and the delta is trustworthy.
 
 <sub>十段加噪中文会议音频、36 个通用模型容易听错的领域词，过本地 paraformer-zh：
 仅本地识别 30/36，加上领域纠错 35/36。六处失误全在工程术语上。

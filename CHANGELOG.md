@@ -19,6 +19,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **`scripts/benchmark_domain_accuracy.py`** — the benchmark as a runnable script rather than
+  a claim. One command synthesises the clips, degrades them, runs the local model, and prints
+  the table. Seven contract tests keep it honest: targets must come from the lexicon, the
+  degradation knobs must stay in place (clean TTS scores near-perfect and measures nothing),
+  and the README's numbers must match the script's.
+- **243 more lexicon terms** — meeting-minutes vocabulary, organisation and role words,
+  digital-platform terms, and commercial/management terms. Writing the benchmark is what
+  exposed the gap: 17 of its 36 target words were not in the lexicon at all.
 - **A reproducible domain-accuracy benchmark.** Ten noisy Chinese meeting clips covering 36
   terms a general model tends to mishear. Local `paraformer-zh` alone scores 30/36; with
   domain correction, 35/36. Published in the README because a comparison table full of
