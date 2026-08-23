@@ -40,6 +40,21 @@
 
 > 一句话：**一条命令部署，录音进，纪要出，数据不出门。**
 
+## 这个项目是为什么样的约束造的
+
+有些会议不是"最好别上传"，是**不能上传**。
+
+工程例会决定的是缺陷责任归谁；面试记录里是候选人的个人信息；客户拜访里有报价和商务条款。
+在受监管的行业里，这些录音属于法律档案——把它们发给第三方服务器，不是一个可以商量的
+策略开关，而是根本不在选项里。
+
+云端会议助手在**架构上**服务不了这类场景。它们的价值来自跑在自己机房里的模型，
+所以音频必须传过去。这不是它们的产品有缺口，这就是它们的产品本身。
+
+于是这些会议的与会者只剩一条路：**手打纪要。**
+
+这个项目就是为他们做的。全部计算发生在会议室那台机器上。
+
 ## 📊 和别的方案比
 
 |  | 筑听开源版 | 云端会议助手 | 直接用 Whisper / FunASR |
@@ -273,6 +288,17 @@ CI（GitHub Actions）自动执行：红线扫描 → 后端测试 → 前端构
 [MIT](LICENSE) © 2026 JKinco
 
 ---
+
+---
+
+<sub>
+<b>JKinco</b> — local-first tools for work whose data cannot leave the building ·
+<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open">Listen</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-slides">Slides</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/JKinco-Skills-Lab">Skills Lab</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/personal-life-hub">Life Hub</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-tools">Tools</a>
+</sub>
 
 ## ⭐ 支持这个项目
 

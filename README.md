@@ -45,6 +45,28 @@ JKinco Listen moves the whole pipeline onto your machine:
 
 > One command to deploy. Audio in, minutes out. Nothing leaves the building.
 
+## The constraint this is built for
+
+Some meetings cannot be uploaded. Not "should not" — **cannot**.
+
+A construction site review decides who is accountable for a defect. An interview record holds
+a candidate's personal data. A client visit contains pricing. In regulated industries these
+recordings are part of a legal archive, and sending them to a third-party server is not a
+policy preference you can toggle — it is off the table.
+
+Cloud meeting assistants are architecturally unable to serve that case. Their value comes
+from models running on their infrastructure, so the audio has to get there. That is not a
+gap in their product; it is what their product *is*.
+
+So the people in those meetings do the only thing left: **they type the notes by hand.**
+
+This project exists for them. Everything runs on the machine in the room.
+
+<sub>有些会议不是"最好别上传"，是**不能上传**。工程例会决定责任归属、面试记录含个人信息、
+客户拜访含报价——在受监管的行业里，这些录音属于法律档案，传给第三方服务器不是一个可以
+开关的选项。云端会议助手在架构上就服务不了这类场景：它们的价值来自跑在自己机房里的模型，
+音频必须传过去。于是这些会议的与会者只能手打纪要。这个项目就是为他们做的。</sub>
+
 ## How it compares
 
 |  | JKinco Listen (Open) | Cloud note-takers | Raw Whisper / FunASR |
@@ -309,6 +331,17 @@ and, just as importantly, what is out of scope.
 [MIT](LICENSE) © 2026 JKinco
 
 ---
+
+---
+
+<sub>
+<b>JKinco</b> — local-first tools for work whose data cannot leave the building ·
+<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open">Listen</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-slides">Slides</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/JKinco-Skills-Lab">Skills Lab</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/personal-life-hub">Life Hub</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-tools">Tools</a>
+</sub>
 
 ## Support this project
 
