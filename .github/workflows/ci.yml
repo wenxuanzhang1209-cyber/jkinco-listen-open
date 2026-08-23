@@ -31,8 +31,12 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install Python deps
         run: pip install -r requirements-ci.txt
+      # 不要在这里再加 -q：pyproject.toml 的 addopts 里已经有一个了，
+      # 两个叠起来就是 -qq，而 -qq 会把「N passed」那行汇总整个吞掉。
+      # 失败详情还在、退出码还是 1，所以 CI 该红还是红 —— 但日志里
+      # 看不出跑了多少个、挂了几个。出事的时候正是最需要这一行的时候。
       - name: Run tests
-        run: python -m pytest tests-v2 -q
+        run: python -m pytest tests-v2
 
   frontend:
     name: Frontend build
