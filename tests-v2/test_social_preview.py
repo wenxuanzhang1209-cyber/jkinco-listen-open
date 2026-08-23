@@ -199,18 +199,38 @@ def test_the_tofu_detector_actually_detects_tofu(gen):
     """给检测器本身做体检。
 
     没有这一条，上面那些「没有方块」的断言可能全是空转 —— `_is_tofu`
-    永远返回 False 的话，它们照样绿。所以这里拿**当初真正翻车的那个组合**
-    去问它：拉丁字体画箭头，你认不认得出来。
+    永远返回 False 的话，它们照样绿。
+
+    判据必须跨平台成立。第一版拿「拉丁字体画不出箭头」当正例，那是一条
+    **macOS 事实**：Helvetica 确实没有「→」，而 Ubuntu 上的 DejaVu 有。
+    于是 CI 一开始装上字体真跑起来，这条就挂了 —— 测试本身编码了一个
+    只在我这台机器上为真的前提。
+
+    换成汉字：任何纯拉丁字体都没有 CJK 字形，这在哪儿都成立。
     """
     latin = gen._font(gen.LATIN_FONTS, 27)
     cjk = gen._font(gen.CJK_FONTS, 27)
     if latin is None or cjk is None:
         pytest.skip("这台机器上缺字体")
 
-    assert _is_tofu(latin, "→"), "检测器失灵：这正是第一版画出方块的那个组合"
-    assert _is_tofu(latin, "筑"), "检测器失灵：拉丁字体没有汉字"
-    assert not _is_tofu(cjk, "→"), "误报：中文字体是有箭头的"
+    assert _is_tofu(latin, "筑"), "检测器失灵：纯拉丁字体不可能有汉字字形"
     assert not _is_tofu(latin, "A"), "误报：拉丁字体当然有 A"
+    assert not _is_tofu(cjk, "筑"), "误报：中文字体当然有汉字"
+    assert not _is_tofu(cjk, "→"), "误报：中文字体是有箭头的"
+
+    # 当初翻车的那个具体组合。有些拉丁字体（DejaVu）是有箭头的，
+    # 所以这条只在确实缺字形时才有话可说 —— 但只要它缺，检测器就必须认出来。
+    from PIL import ImageFont
+
+    helvetica = None
+    for path in gen.LATIN_FONTS:
+        if "Helvetica" in path and Path(path).exists():
+            helvetica = ImageFont.truetype(path, 27)
+            break
+    if helvetica is not None:
+        assert _is_tofu(helvetica, "→"), (
+            "检测器失灵：Helvetica 没有箭头字形，这正是第一版画出方块的原因"
+        )
 
 
 def test_the_test_count_on_the_card_is_current(request, gen):
