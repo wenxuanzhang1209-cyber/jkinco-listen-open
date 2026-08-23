@@ -102,6 +102,19 @@ def degrade(aiff: Path, pcm: Path) -> None:
     )
 
 
+#: 比对前要剥掉的标点。
+#:
+#: 模型会插入断句标点，而它插的位置不一定尊重词的边界 —— 实测「见证取样送检」
+#: 被断成了「见证取样，送检」：**每个字都对**，只是中间多了个逗号。
+#: 按原样比对会把它算成识别失败，那是在低估模型，也会让人误以为词库该为此负责。
+#: 领域词识别的正确与否与标点无关，所以两边都剥掉再比。
+_PUNCTUATION = "，。、？！；：""''（）()【】,.?!;: \n\t"
+
+
+def strip_punctuation(text: str) -> str:
+    return "".join(ch for ch in text if ch not in _PUNCTUATION)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--keep-audio", metavar="DIR", help="保留生成的音频，方便自己听一遍")
@@ -141,8 +154,9 @@ def main() -> int:
         text = result[0]["text"] if result else ""
         corrected = correct_domain_terms(text)
 
-        raw = sum(1 for t in targets if t in text)
-        fixed = sum(1 for t in targets if t in corrected)
+        bare_raw, bare_fixed = strip_punctuation(text), strip_punctuation(corrected)
+        raw = sum(1 for t in targets if strip_punctuation(t) in bare_raw)
+        fixed = sum(1 for t in targets if strip_punctuation(t) in bare_fixed)
         raw_hits += raw
         fixed_hits += fixed
         total += len(targets)

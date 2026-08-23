@@ -1,0 +1,77 @@
+{
+  "raw": 31,
+  "corrected": 36,
+  "total": 36,
+  "clips": [
+    {
+      "clip": "supervision",
+      "raw": 3,
+      "corrected": 4,
+      "targets": 4,
+      "transcript": "今天，监理单位对这个检验批做了平行检验，旁站记录已经归档。"
+    },
+    {
+      "clip": "high-risk",
+      "raw": 2,
+      "corrected": 3,
+      "targets": 3,
+      "transcript": "这个属于危大工程专项施工方案，必须经过专家论证。"
+    },
+    {
+      "clip": "sampling",
+      "raw": 3,
+      "corrected": 4,
+      "targets": 4,
+      "transcript": "钢筋原材复试要见证取样，送检见证员和取样员都要签字。"
+    },
+    {
+      "clip": "slump",
+      "raw": 0,
+      "corrected": 2,
+      "targets": 2,
+      "transcript": "混凝土进场时坍落度不合格，同条件试块也要重做。"
+    },
+    {
+      "clip": "interview",
+      "raw": 4,
+      "corrected": 4,
+      "targets": 4,
+      "transcript": "候选人的背景调查已经做完，薪资期望和到岗时间还要再谈。"
+    },
+    {
+      "clip": "commercial",
+      "raw": 3,
+      "corrected": 3,
+      "targets": 3,
+      "transcript": "客户的商务条款还没谈拢，回款节点和验收标准要写进合同。"
+    },
+    {
+      "clip": "settlement",
+      "raw": 4,
+      "corrected": 4,
+      "targets": 4,
+      "transcript": "这个项目中标以后，结算和产值要分开算回款，按付款节点走。"
+    },
+    {
+      "clip": "organisation",
+      "raw": 3,
+      "corrected": 3,
+      "targets": 3,
+      "transcript": "上海建科咨询这边由事业部牵头，雄安质量的报告下周交付。"
+    },
+    {
+      "clip": "ai-platform",
+      "raw": 5,
+      "corrected": 5,
+      "targets": 5,
+      "transcript": "这个智能体要接多模态的大模型，向量库和知识库都要打通。"
+    },
+    {
+      "clip": "permissions",
+      "raw": 4,
+      "corrected": 4,
+      "targets": 4,
+      "transcript": "数据权限按三级目录配角色权限和字段映射要对齐。"
+    }
+  ]
+}

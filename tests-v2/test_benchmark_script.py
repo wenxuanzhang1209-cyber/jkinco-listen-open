@@ -89,3 +89,34 @@ def test_readme_points_at_the_script(readme):
     assert "scripts/benchmark_domain_accuracy.py" in text, (
         "README 声称可复现，却没告诉读者跑哪个脚本"
     )
+
+
+def test_published_numbers_match_the_recorded_results():
+    """README 与结果页里的数字必须和 docs/benchmark-results.json 对得上。
+
+    这份 JSON 是脚本真实跑出来的输出。手抄的数字会漂 —— 这次就漂过一次：
+    修正标点比对口径之后总分从 35/36 变成 36/36，而 README、CHANGELOG、
+    结果页三处都要跟着改。让测试来盯着，比让人记得住可靠。
+    """
+    import json
+
+    recorded = json.loads((ROOT / "docs" / "benchmark-results.json").read_text(encoding="utf-8"))
+    raw, corrected, total = recorded["raw"], recorded["corrected"], recorded["total"]
+
+    for name in ("README.md", "README.zh-CN.md", "docs/BENCHMARK.md"):
+        text = (ROOT / name).read_text(encoding="utf-8")
+        assert f"{corrected}" in text and f"{raw}" in text, (
+            f"{name} 里的数字和 docs/benchmark-results.json 对不上"
+            f"（记录的是 {raw}/{total} -> {corrected}/{total}）"
+        )
+
+
+def test_punctuation_is_stripped_before_comparing():
+    """标点插在词中间不算识别错误。
+
+    实测「见证取样送检」被模型断成「见证取样，送检」—— 每个字都对。
+    按原样比对会把它算成失败，那是在低估模型，也会让人误以为词库该为此负责。
+    """
+    module = _load()
+    assert hasattr(module, "strip_punctuation"), "标点归一化被去掉了，分数会被低估"
+    assert module.strip_punctuation("见证取样，送检") == "见证取样送检"

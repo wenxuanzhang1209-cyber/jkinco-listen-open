@@ -58,6 +58,7 @@ docker compose up -d --build
 ## 文档
 
 - [项目主页（README）](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+- [**领域词识别基准**](BENCHMARK.md) —— 31/36 → 36/36，附可复现脚本
 - [架构](ARCHITECTURE.md)
 - [模型指南](LOCAL_MODELS.md)
 - [路线图](ROADMAP.md)

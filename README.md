@@ -84,13 +84,15 @@ the part *after* the transcript: turning it into a document somebody can actuall
 
 ### Measured, not claimed
 
+Full results and methodology: **[docs/BENCHMARK.md](docs/BENCHMARK.md)**
+
 Ten noisy Chinese meeting clips, 36 domain terms that a general model tends to get wrong
 (construction, HR, and commercial vocabulary), run through the local `paraformer-zh`:
 
 | | Terms recognised |
 |---|---|
-| Local ASR alone | 30 / 36 |
-| **+ domain correction** | **35 / 36** |
+| Local ASR alone | 31 / 36 |
+| **+ domain correction** | **36 / 36** |
 
 Every one of the six failures was a construction term:
 
@@ -114,7 +116,7 @@ prints the same table. The audio is synthetic and therefore **cleaner than a rea
 lexicon, run it again, and the delta is trustworthy.
 
 <sub>十段加噪中文会议音频、36 个通用模型容易听错的领域词，过本地 paraformer-zh：
-仅本地识别 30/36，加上领域纠错 35/36。六处失误全在工程术语上。
+仅本地识别 31/36，加上领域纠错 36/36。六处失误全在工程术语上。
 纠错表是照着**模型真正会犯的错**写的——最初那 13 条是想象出来的，跑基准时一条都没命中。</sub>
 
 ## Highlights

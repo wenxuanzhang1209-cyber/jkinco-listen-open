@@ -19,6 +19,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)** — the benchmark as a published page, with the
+  raw JSON output alongside it, so the number can be checked without reading code.
 - **`scripts/benchmark_domain_accuracy.py`** — the benchmark as a runnable script rather than
   a claim. One command synthesises the clips, degrades them, runs the local model, and prints
   the table. Seven contract tests keep it honest: targets must come from the lexicon, the
@@ -28,8 +30,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   digital-platform terms, and commercial/management terms. Writing the benchmark is what
   exposed the gap: 17 of its 36 target words were not in the lexicon at all.
 - **A reproducible domain-accuracy benchmark.** Ten noisy Chinese meeting clips covering 36
-  terms a general model tends to mishear. Local `paraformer-zh` alone scores 30/36; with
-  domain correction, 35/36. Published in the README because a comparison table full of
+  terms a general model tends to mishear. Local `paraformer-zh` alone scores 31/36; with
+  domain correction, 36/36. Published in the README because a comparison table full of
   yes/no cells is not evidence.
 - Five correction rules derived from what the model **actually** produced (`航站记录`,
   `微大工程`, `石滩落度`, `同条件是块`, `原材富是`), plus 15 tests — including eight that
@@ -64,6 +66,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- **The benchmark was measuring the wrong thing and under-reporting its own score.** Target
+  terms were compared against the transcript verbatim, so `见证取样送检` counted as a miss
+  when the model produced `见证取样，送检` — every character correct, with a sentence comma
+  inserted mid-term. Punctuation is now stripped from both sides before comparing, and the
+  score moves from 35/36 to **36/36**. A test now pins the published numbers to the recorded
+  JSON so they cannot drift apart again.
 - CI installed 626 MB it never used. `requirements-ci.txt` claimed to exclude FunASR and
   torch while its first line pulled in all of `requirements.txt`. The test suite never imports
   FunASR — `jkinco_asr.py` imports it lazily inside a function — so the CI install now drops
