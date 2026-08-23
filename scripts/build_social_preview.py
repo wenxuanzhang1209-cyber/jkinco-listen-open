@@ -25,6 +25,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -81,9 +82,9 @@ SPECS: dict[str, dict] = {
         ],
         "cjk_line": "录音进，结构化纪要出。数据不出你的电脑。",
         "flow": ["Local ASR", "scene detection", "DOCX / PDF"],
-        # 960: pytest --collect-only 的实际数量，由 test_social_preview.py 盯着
+        # 948: pytest --collect-only；434: jkinco_lexicon 去重词条数
         "chips": [("FunASR + Ollama", False), ("Zero API key", True),
-                  ("Offline capable", True), ("960 tests", False), ("MIT", False)],
+                  ("Offline capable", True), ("961 tests", False), ("MIT", False)],
     },
     "jkinco-slides": {
         "name": "JKinco Slides",
@@ -153,15 +154,21 @@ SPECS: dict[str, dict] = {
 }
 
 
+#: 本次渲染真正用上的字体文件。逐字节比对只在字体相同时才有意义。
+_FONTS_USED: set[str] = set()
+
+
 def _font(paths: list[str], size: int, index: int = 0):
     from PIL import ImageFont
 
     for path in paths:
         if Path(path).exists():
             try:
-                return ImageFont.truetype(path, size, index=index)
+                font = ImageFont.truetype(path, size, index=index)
             except OSError:
                 continue
+            _FONTS_USED.add(path)
+            return font
     return None
 
 
@@ -180,6 +187,32 @@ def _fit(draw, segments, paths, start_size: int, max_width: int, index: int = 0)
         if draw.textlength(text, font=font) <= max_width:
             return font, size
     return _font(paths, 30, index=index) or _font(paths, 30), 30
+
+
+def fingerprint(spec: dict, repo: str) -> str:
+    """这张图是照着什么画出来的。
+
+    存进 PNG 的元数据，是为了让「改了文案但忘了重新生成」这件事
+    在**任何平台**都能被发现。
+
+    为什么不直接逐字节比对产物：那只在同一台机器上成立。这张图在
+    macOS 上用 PingFang 和 Helvetica 渲染，CI 的 Ubuntu 上只有
+    DejaVu，字宽完全不同，字节自然对不上 —— 第一版就是这么把 CI
+    弄红的。字体不同不代表图过期，但文案不同一定代表。
+    """
+    payload = {
+        "repo": repo,
+        "size": [W, H],
+        "spec": {
+            "name": spec["name"],
+            "cjk_sub": spec["cjk_sub"],
+            "headline": [[text for text, _ in line] for line in spec["headline"]],
+            "cjk_line": spec["cjk_line"],
+            "flow": list(spec["flow"]),
+            "chips": [[text, bool(flag)] for text, flag in spec["chips"]],
+        },
+    }
+    return json.dumps(payload, ensure_ascii=False, sort_keys=True)
 
 
 def render(spec: dict, repo: str, logo_path: Path, output: Path) -> Path:
@@ -273,8 +306,14 @@ def render(spec: dict, repo: str, logo_path: Path, output: Path) -> Path:
         draw.text((W - MARGIN - draw.textlength(text, font=url_font), 574),
                   text, font=url_font, fill=BLUE)
 
+    from PIL import PngImagePlugin
+
+    meta = PngImagePlugin.PngInfo()
+    meta.add_text("jkinco-spec", fingerprint(spec, repo))
+    meta.add_text("jkinco-fonts", json.dumps(sorted(_FONTS_USED)))
+
     output.parent.mkdir(parents=True, exist_ok=True)
-    image.save(output, optimize=True)
+    image.save(output, optimize=True, pnginfo=meta)
     return output
 
 

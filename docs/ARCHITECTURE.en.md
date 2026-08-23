@@ -69,6 +69,6 @@ construction review is a document that misstates legal responsibility.
 
 ## Testing
 
-`tests-v2/` contains 960 tests covering the API, security, concurrency, templates, export,
+`tests-v2/` contains 961 tests covering the API, security, concurrency, templates, export,
 scene rules, and module contracts. `scripts/smoke_test.py` provides an offline smoke entry
 point that exercises scene routing and every export path without needing a model.

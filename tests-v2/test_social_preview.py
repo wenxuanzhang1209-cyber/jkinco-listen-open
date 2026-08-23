@@ -154,21 +154,45 @@ def test_render_produces_the_documented_size(tmp_path, gen):
         assert image.size == (1280, 640)
 
 
-def test_committed_card_matches_the_script(tmp_path, gen):
+def test_committed_card_matches_the_script(gen):
     """仓库里那张 PNG 必须是当前脚本的产物。
 
     不然改了文案却忘了重新生成，仓库里躺着的还是旧卡 —— 而这件事
     只有在别人分享链接的时候才会暴露。
+
+    比的是写在 PNG 元数据里的**文案指纹**，不是文件字节。
+    第一版比的是字节，结果 CI 一跑就红：那张图在 macOS 上用 PingFang
+    和 Helvetica 渲染，Ubuntu runner 上只有 DejaVu，字宽不同，
+    字节当然对不上。字体不同不代表图过期，但文案不同一定代表。
     """
+    from PIL import Image
+
     committed = ROOT / "docs" / "social-preview.png"
     if not committed.exists():
         pytest.skip("还没有提交过社交预览图")
-    fresh = gen.render(gen.SPECS[gen.REPO], gen.REPO,
-                       ROOT / gen.LOGO_RELATIVE, tmp_path / "fresh.png")
-    assert committed.read_bytes() == fresh.read_bytes(), (
-        "docs/social-preview.png 与脚本产物不一致，重新跑一次 "
-        "scripts/build_social_preview.py"
+
+    with Image.open(committed) as image:
+        stored = image.text.get("jkinco-spec")
+        assert image.size == (gen.W, gen.H)
+
+    assert stored, (
+        "这张 PNG 里没有 jkinco-spec 指纹，说明它不是当前脚本生成的。"
+        "重新跑一次 scripts/build_social_preview.py"
     )
+    assert stored == gen.fingerprint(gen.SPECS[gen.REPO], gen.REPO), (
+        "docs/social-preview.png 里的文案和 SPECS 里的对不上，"
+        "重新跑一次 scripts/build_social_preview.py"
+    )
+
+
+def test_fingerprint_reacts_to_a_copy_change(gen):
+    """指纹本身要真的会变，否则上面那条测试是空转。"""
+    import copy
+
+    spec = copy.deepcopy(gen.SPECS[gen.REPO])
+    before = gen.fingerprint(spec, gen.REPO)
+    spec["chips"] = list(spec["chips"]) + [("New claim", False)]
+    assert gen.fingerprint(spec, gen.REPO) != before
 
 
 def test_the_tofu_detector_actually_detects_tofu(gen):

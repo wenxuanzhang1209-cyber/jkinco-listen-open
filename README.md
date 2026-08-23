@@ -17,7 +17,7 @@ No API keys. No cloud calls. Your audio never leaves your computer.
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
-![Tests](https://img.shields.io/badge/tests-960%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-961%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -307,7 +307,7 @@ construction review on the strength of generic words like "project", "schedule",
 ## Testing
 
 ```bash
-python -m pytest tests-v2 -q                 # 960 tests
+python -m pytest tests-v2                    # 961 tests
 python scripts/smoke_test.py                 # offline smoke: scene routing + every export
 python scripts/check_open_source_hygiene.py  # open-edition boundary scan
 ```
