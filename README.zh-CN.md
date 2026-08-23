@@ -18,7 +18,7 @@
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
 ![Docker](https://img.shields.io/badge/Docker-一键部署-2496ED.svg)
-![Tests](https://img.shields.io/badge/tests-895%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-960%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -267,7 +267,7 @@ flowchart LR
 ## 🧪 测试与质量
 
 ```bash
-python -m pytest tests-v2 -q          # 895 个测试
+python -m pytest tests-v2 -q          # 960 个测试
 python scripts/smoke_test.py          # 离线冒烟：场景路由 + 全场景导出
 python scripts/check_open_source_hygiene.py  # 开源版红线扫描
 ```
