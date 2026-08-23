@@ -21,16 +21,34 @@ jobs:
   backend-tests:
     name: Backend tests
     runs-on: ubuntu-latest
+    # 等前端构建完，才能拿到 dist。多花一两分钟，换回一条真的在跑的测试。
+    needs: frontend
+    env:
+      # 生产容器跑在 Asia/Shanghai。CI 默认 UTC，于是那条「显示时间必须
+      # 等于北京时间」的断言永远跳过 —— 它恰恰是用来挡「慢 8 小时」这个
+      # 面向用户的 bug 的。本机分别用两个时区跑过全量：
+      #   TZ=Asia/Shanghai → 961 passed, 0 skipped
+      #   TZ=UTC           → 960 passed, 1 skipped
+      TZ: Asia/Shanghai
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
+      # fonts-noto-cjk 是给社交预览图那组测试用的：没有中文字体，
+      # 「字体缺字形会画成方块」的检测器就没法自检，只能跳过。
       - name: Install system deps
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
       - name: Install Python deps
         run: pip install -r requirements-ci.txt
+      - name: Fetch built frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
       # 不要在这里再加 -q：pyproject.toml 的 addopts 里已经有一个了，
       # 两个叠起来就是 -qq，而 -qq 会把「N passed」那行汇总整个吞掉。
       # 失败详情还在、退出码还是 1，所以 CI 该红还是红 —— 但日志里
@@ -57,6 +75,16 @@ jobs:
       - name: Build
         working-directory: frontend
         run: npm run build
+      # 把构建产物交给 backend-tests。那边有一条测试检查静态资源的缓存头
+      # 和 HTML 外壳的 no-cache，没有 dist 就只能跳过 —— 于是它在 CI 里
+      # 从来没跑过。而它挡的是一个真实修过的 bug：根目录下约 470KB 的
+      # 图片不带缓存头，每次打开页面都重下。
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+          retention-days: 1
 
   docker-build:
     name: Docker image build
