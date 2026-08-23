@@ -36,7 +36,10 @@ jobs:
       # 失败详情还在、退出码还是 1，所以 CI 该红还是红 —— 但日志里
       # 看不出跑了多少个、挂了几个。出事的时候正是最需要这一行的时候。
       - name: Run tests
-        run: python -m pytest tests-v2
+        # -rs 把跳过的测试和跳过原因打出来。上一次 CI 显示
+        # 「958 passed, 3 skipped」—— 而没人知道是哪三个、为什么。
+        # 静默跳过的测试等于没有的覆盖，只是看起来是绿的。
+        run: python -m pytest tests-v2 -rs
 
   frontend:
     name: Frontend build
