@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  discussions: write
 
 jobs:
   milestone:
@@ -20,7 +21,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          stars=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .stargazers_count)
+          stars=$(gh api "repos/${GITHUB_REPOSITORY}" --jq .stargazers_count)
           echo "stars=$stars" >> "$GITHUB_OUTPUT"
 
       - name: Post milestone discussion if crossed
@@ -28,9 +29,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           STARS: ${{ steps.stars.outputs.stars }}
         run: |
+          set -euo pipefail
+
           state=".github/star-milestone"
           last=0
           if [ -f "$state" ]; then last=$(cat "$state"); fi
+
           milestone=""
           for m in 10 50 100 500 1000 2000 5000 10000; do
             if [ "$STARS" -ge "$m" ] && [ "$last" -lt "$m" ]; then
@@ -38,20 +42,62 @@ jobs:
             fi
           done
           if [ -z "$milestone" ]; then
-            echo "No new milestone (stars=$STARS, last=$last)"
+            echo "还没有新的里程碑（stars=$STARS，上次记录=$last）"
             exit 0
           fi
 
-          repo_id=$(gh api repos/wenxuanzhang1209-cyber/jkinco-listen-open --jq .id)
-          category_id=$(gh api graphql -f query='{ repository(owner:"wenxuanzhang1209-cyber", name:"jkinco-listen-open") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id')
-          title="⭐ 达成 ${milestone} Stars！感谢每一个支持者"
-          body="🎉 **JKinco Listen (Open Edition) 已达成 ${milestone} Stars！**\n\n感谢每一位 Star、Issue、PR 与试用者。下一个里程碑继续冲！\n\n[仓库](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)"
+          # 这里必须用 node_id，不能用 REST 的 id。
+          #
+          # 原来写的是 `--jq .id`，拿到的是 1341409634 —— REST 的数字主键。
+          # 而 GraphQL 的 createDiscussion 要的是全局节点 ID（R_kgDOT_RJYg）。
+          # 结果是 `Could not resolve to a node with the global id of '1341409634'`。
+          #
+          # 这个 bug 只在真的跨过里程碑那一刻才会触发，也就是最不希望它出问题的
+          # 那一刻。姊妹 workflow weekly-digest 每周跑，所以先暴露了出来。
+          repo_id=$(gh api "repos/${GITHUB_REPOSITORY}" --jq .node_id)
 
-          gh api graphql -f query="mutation { createDiscussion(input: {repositoryId:\"$repo_id\", categoryId:\"$category_id\", title:\"$title\", body:\"$body\"}) { discussion { url } } }" >/dev/null
+          owner="${GITHUB_REPOSITORY%%/*}"
+          name="${GITHUB_REPOSITORY##*/}"
+          category_id=$(gh api graphql \
+            -f query='query($owner:String!, $name:String!) {
+              repository(owner:$owner, name:$name) {
+                discussionCategories(first:25) { nodes { id name } }
+              }
+            }' -F owner="$owner" -F name="$name" \
+            --jq '.data.repository.discussionCategories.nodes[]
+                  | select(.name=="Announcements") | .id')
+
+          if [ -z "$category_id" ]; then
+            echo "::error::找不到 Announcements 分类——Discussions 没开，或分类被改名了"
+            exit 1
+          fi
+
+          # 正文用变量传，不要拼进查询字符串。
+          #
+          # 原来是 body="...\n\n..." 然后塞进 -f query="mutation {...}"。
+          # 双引号里的 \n 在 bash 里是字面的反斜杠加 n，不是换行 —— 发出去的
+          # 帖子里会直接显示 \n。而且标题正文一旦含引号，整个 mutation 就散了。
+          title="⭐ 达成 ${milestone} Stars"
+          body=$(printf '%s\n' \
+            "**JKinco Listen（开源版）已达成 ${milestone} Stars。**" \
+            "" \
+            "感谢每一位 Star、Issue、PR 与试用者。" \
+            "" \
+            "[仓库](https://github.com/${GITHUB_REPOSITORY})")
+
+          gh api graphql \
+            -f query='mutation($repoId:ID!, $categoryId:ID!, $title:String!, $body:String!) {
+              createDiscussion(input:{
+                repositoryId:$repoId, categoryId:$categoryId, title:$title, body:$body
+              }) { discussion { url } }
+            }' \
+            -F repoId="$repo_id" -F categoryId="$category_id" \
+            -F title="$title" -F body="$body" \
+            --jq '.data.createDiscussion.discussion.url'
+
           echo "$milestone" > "$state"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "$state"
           git commit -m "chore: star milestone ${milestone}"
           git push
-          echo "Posted milestone ${milestone}"
