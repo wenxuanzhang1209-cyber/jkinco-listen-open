@@ -9,7 +9,7 @@ requests>=2.31,<3
 python-docx>=1.1,<2
 reportlab>=4.0,<5
 pillow>=10,<13
-websockets>=14,<16
+websockets>=17.0.1,<18
 livekit-api>=1.2.0,<2
 
 # Local speech recognition. The paraformer-zh model downloads on first run;
