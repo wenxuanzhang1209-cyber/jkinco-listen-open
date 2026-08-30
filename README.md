@@ -128,7 +128,7 @@ lexicon, run it again, and the delta is trustworthy.
 | **Original-layout export** | DOCX/PDF that match the real corporate templates, not a generic markdown dump |
 | **Privacy by construction** | No API keys, no telemetry, no outbound model calls; CI fails the build if cloud-model traces appear in the repo |
 | **One-command deploy** | `docker compose up` brings up web, backend, Ollama, and model pull |
-| **895 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
+| **961 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
 | **Local knowledge base** | Search past meetings and ask questions across them, without anything leaving the machine |
 
 ## Screenshots
