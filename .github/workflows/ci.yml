@@ -45,7 +45,7 @@ jobs:
       - name: Install Python deps
         run: pip install -r requirements-ci.txt
       - name: Fetch built frontend
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: frontend-dist
           path: frontend/dist
