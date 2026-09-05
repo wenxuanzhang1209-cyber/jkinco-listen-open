@@ -10,10 +10,10 @@
     "audit:ui": "node scripts/ui-audit.cjs"
   },
   "dependencies": {
-    "@livekit/components-react": "^2.9.15",
+    "@livekit/components-react": "^2.9.24",
     "@livekit/components-styles": "^1.1.6",
     "@vitejs/plugin-react": "latest",
-    "livekit-client": "^2.15.13",
+    "livekit-client": "^2.22.2",
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest"
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "playwright": "^1.61.1",
+    "playwright": "^1.62.1",
     "typescript": "latest",
     "vite": "latest"
   }
