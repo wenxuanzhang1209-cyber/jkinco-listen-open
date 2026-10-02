@@ -80,7 +80,7 @@ jobs:
       # 从来没跑过。而它挡的是一个真实修过的 bug：根目录下约 470KB 的
       # 图片不带缓存头，每次打开页面都重下。
       - name: Upload dist
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-dist
           path: frontend/dist
