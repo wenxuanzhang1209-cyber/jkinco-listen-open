@@ -15,4 +15,4 @@ livekit-api>=1.2.0,<2
 # Local speech recognition. The paraformer-zh model downloads on first run;
 # everything afterwards is offline.
 # 本地语音识别（首次运行自动下载 paraformer-zh 模型，之后完全离线）
-funasr>=1.3,<2
+funasr>=1.4.3,<2
