@@ -80,6 +80,7 @@ SPECS: dict[str, dict] = {
         "name": "MeetDo",
         "cjk_sub": "筑听开源版 · Meeting-to-Action AI",
         "logo": "assets/jkinco-listen-app-icon.png",
+        "social_source": "assets/meetdo-social-preview-source.png",
         "logo_tile": True,
         "headline": [
             [("Meetings stay live.", WHITE)],
@@ -209,12 +210,23 @@ def fingerprint(spec: dict, repo: str) -> str:
     """
     root = _repo_root()
     logo = _logo_for_spec(spec)
+    social_source = (
+        root / spec["social_source"] if spec.get("social_source") else None
+    )
     payload = {
         "repo": repo,
         "size": [W, H],
         "logo": {
             "path": str(logo.relative_to(root)),
             "sha256": hashlib.sha256(logo.read_bytes()).hexdigest() if logo.exists() else None,
+        },
+        "social_source": {
+            "path": str(social_source.relative_to(root)) if social_source else None,
+            "sha256": (
+                hashlib.sha256(social_source.read_bytes()).hexdigest()
+                if social_source and social_source.exists()
+                else None
+            ),
         },
         "spec": {
             "name": spec["name"],
@@ -238,6 +250,34 @@ def _logo_for_spec(spec: dict) -> Path:
 
 def render(spec: dict, repo: str, logo_path: Path, output: Path) -> Path:
     from PIL import Image, ImageDraw
+
+    if spec.get("social_source"):
+        source_path = _repo_root() / spec["social_source"]
+        with Image.open(source_path) as source_image:
+            source = source_image.convert("RGB")
+            background = source.getpixel((0, 0))
+            image = Image.new("RGB", (W, H), background)
+            scale = min(W / source.width, H / source.height)
+            resized = source.resize(
+                (
+                    max(1, round(source.width * scale)),
+                    max(1, round(source.height * scale)),
+                ),
+                Image.LANCZOS,
+            )
+            image.paste(
+                resized,
+                ((W - resized.width) // 2, (H - resized.height) // 2),
+            )
+
+        from PIL import PngImagePlugin
+
+        meta = PngImagePlugin.PngInfo()
+        meta.add_text("jkinco-spec", fingerprint(spec, repo))
+        meta.add_text("jkinco-fonts", "[]")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        image.save(output, optimize=True, pnginfo=meta)
+        return output
 
     if spec.get("logo"):
         logo_path = _logo_for_spec(spec)
