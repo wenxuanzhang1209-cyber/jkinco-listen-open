@@ -11,13 +11,15 @@ services:
       JKINCO_SESSION_SECRET: ${JKINCO_SESSION_SECRET:-}
       LLM_BASE_URL: http://ollama:11434/v1/chat/completions
       LLM_MODEL_NAME: ${OLLAMA_MODEL:-qwen2.5:7b-instruct}
+      JKINCO_REALTIME_LOCAL_ASR: ${JKINCO_REALTIME_LOCAL_ASR:-1}
       JKINCO_HISTORY_DIR: /data/history
       JKINCO_ASR_MODEL_DIR: /models/modelscope
       DINGTALK_WEBHOOK: ${DINGTALK_WEBHOOK:-}
       DINGTALK_SECRET: ${DINGTALK_SECRET:-}
-      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-}
-      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-}
-      LIVEKIT_PUBLIC_URL: ${LIVEKIT_PUBLIC_URL:-}
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-devkey}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-secret}
+      LIVEKIT_PUBLIC_URL: ${LIVEKIT_PUBLIC_URL:-ws://127.0.0.1:7880}
+      LIVEKIT_API_URL: ${LIVEKIT_API_URL:-http://livekit:7880}
     ports:
       - "8080:8080"
     volumes:
@@ -26,12 +28,33 @@ services:
     depends_on:
       ollama:
         condition: service_healthy
+      livekit:
+        condition: service_started
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8080/api/health',timeout=5)"]
       interval: 30s
       timeout: 8s
       retries: 5
       start_period: 60s
+
+  # Local WebRTC media server. This is LiveKit dev mode: key=devkey, secret=secret.
+  # Ports are bound to loopback only by default. For LAN or public use, replace the
+  # key/secret, set LIVEKIT_HOST_BIND/LIVEKIT_NODE_IP/LIVEKIT_PUBLIC_URL, and terminate
+  # TLS in front of LiveKit. See docs/ARCHITECTURE.en.md.
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: jkinco-livekit
+    restart: unless-stopped
+    command:
+      - --dev
+      - --bind
+      - 0.0.0.0
+      - --node-ip
+      - ${LIVEKIT_NODE_IP:-127.0.0.1}
+    ports:
+      - "${LIVEKIT_HOST_BIND:-127.0.0.1}:7880:7880"
+      - "${LIVEKIT_HOST_BIND:-127.0.0.1}:7881:7881"
+      - "${LIVEKIT_HOST_BIND:-127.0.0.1}:7882:7882/udp"
 
   ollama:
     image: ollama/ollama:latest

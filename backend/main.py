@@ -59,7 +59,7 @@ from backend.auth import (
     verify_session,
     write_profile,
 )
-from backend.meetings import register_meeting_routes
+from backend.meetings import REALTIME_LOCAL_ASR, register_meeting_routes
 from backend.custom_templates import (
     MAX_TEMPLATE_BYTES,
     create_template,
@@ -83,6 +83,7 @@ from jkinco_text import clean_speaker_name, has_meaningful_speech, user_facing_e
 LOGGER = get_logger("api")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+APP_VERSION = (BASE_DIR / "VERSION").read_text(encoding="utf-8").strip()
 FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
 UPLOAD_DIR = Path(os.getenv("JKINCO_UPLOAD_DIR", "/tmp/jkinco-v2-uploads"))
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -645,7 +646,7 @@ CONTENT_SECURITY_POLICY = os.getenv("JKINCO_CSP", "; ".join([
 ]))
 
 
-app = FastAPI(title="筑听平台 API", version="3.0.0-open.2")
+app = FastAPI(title="筑听平台 API", version=APP_VERSION)
 app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 
@@ -680,12 +681,17 @@ async def security_headers(request: Request, call_next):
 
 @app.get("/api/health")
 def health():
+    configured_media = bool(
+        os.getenv("LIVEKIT_API_KEY", "").strip()
+        and os.getenv("LIVEKIT_API_SECRET", "").strip()
+        and os.getenv("LIVEKIT_PUBLIC_URL", "").strip()
+    )
     return {
         "status": "ok",
         "service": "jkinco-listen-open",
-        "version": "3.0.0-open.1",
-        "realtime_asr": "disabled",
-        "meeting_media": "livekit" if os.getenv("LIVEKIT_API_KEY") else "disabled",
+        "version": APP_VERSION,
+        "realtime_asr": "local_streaming" if REALTIME_LOCAL_ASR else "disabled",
+        "meeting_media": "livekit" if configured_media else "disabled",
     }
 
 

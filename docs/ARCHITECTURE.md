@@ -4,8 +4,10 @@
 
 ```mermaid
 flowchart LR
-    U[浏览器 React + TypeScript] -->|上传 / 实时录音| API[FastAPI 后端]
-    API --> ASR[FunASR 本地识别]
+    U[浏览器 React + TypeScript] -->|WebRTC| LK[自托管 LiveKit]
+    U -->|上传 / 麦克风| API[FastAPI 后端]
+    LK -->|会议音频| ASR[FunASR 本地识别]
+    API --> ASR
     ASR --> LEX[领域词库纠错]
     LEX --> CLS[场景识别<br/>规则证据门控 + 模型复核]
     CLS --> LLM[Ollama 本地大模型]
@@ -21,7 +23,7 @@ flowchart LR
 |---|---|
 | `frontend/` | React + TypeScript 工作台：录音上传、实时录音、校核、导出、历史、会议 |
 | `backend/main.py` | FastAPI 路由、认证、限流、任务队列、静态资源 |
-| `backend/meetings.py` | 实时会议生命周期（可选 LiveKit）、历史归档 |
+| `backend/meetings.py` | 实时会议生命周期、LiveKit 令牌、本地流式 ASR、历史归档 |
 | `backend/auth.py` | 本地账号、验证码、会话签名、访客配额 |
 | `jkinco_asr.py` | FunASR 本地语音识别，时长闸门，领域纠错 |
 | `jkinco_llm.py` | OpenAI 兼容调用，主/备模型降级，重试 |
@@ -34,7 +36,7 @@ flowchart LR
 
 ## 数据流
 
-1. 用户上传录音或浏览器实时录音；
+1. 用户上传录音，或通过自托管 LiveKit 加入 WebRTC 实时会议；
 2. ffmpeg 探测时长，超限拦截；
 3. FunASR 本地转写，按 300 秒批处理；
 4. 领域词库纠错（工程术语、人名、单位）；
@@ -44,13 +46,17 @@ flowchart LR
 
 ## 安全边界
 
-- 所有推理在进程内或本机 Ollama 完成，音频与文本不出本机；
-- 无任何云端凭据；CI 红线扫描拒绝云端模型痕迹与密钥；
+- 所有推理在进程内或本机 Ollama 完成，音频与文本留在用户控制的部署中，
+  不依赖第三方云端推理；
+- 无任何云端凭据；CI 同时扫描工作区与完整 Git 历史，命中只输出脱敏位置，
+  并拒绝云端模型痕迹与密钥；
+- 默认 Compose 仅把 LiveKit 端口绑定到回环地址；开放局域网/公网前必须更换开发凭据，
+  配置可达的公网地址与节点 IP，并启用 TLS；
 - 登录限流、验证码、会话 HMAC 签名、CSP/安全头；
 - 模板上传防 Zip 炸弹、路径穿越、XML 实体攻击；
 - 任务槽位按账号与访客分别配额。
 
 ## 测试
 
-`tests-v2/` 共 961 个测试，覆盖 API、安全、并发、模板、导出、场景规则与模块契约。
+`tests-v2/` 共 965 个测试，覆盖 API、安全、并发、模板、导出、场景规则与模块契约。
 `scripts/smoke_test.py` 提供离线冒烟入口。

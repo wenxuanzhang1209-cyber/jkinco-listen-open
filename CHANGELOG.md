@@ -11,6 +11,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- The default Docker experience now starts a self-hosted LiveKit media server, enables
+  `JKINCO_REALTIME_LOCAL_ASR` by default, and exposes the real-time meeting as a first-class
+  product path instead of an FAQ item. LiveKit ports stay loopback-only unless the operator
+  explicitly configures LAN/public access.
+- README, documentation-site landing pages, and the social preview now lead with the general
+  market: live meetings, local captions, structured minutes, and filed documents. Engineering
+  is presented as the hardest benchmark and domain proof, not as the product's only audience.
+- `VERSION`, the API application version, the health endpoint, the frontend package, and the
+  Docker image now share one release identifier instead of drifting independently.
 - English is now the repository's default language. `README.md` is English; the Chinese
   version moved to `README.zh-CN.md`. Contributor-facing files (`CONTRIBUTING.md`,
   `SECURITY.md`, issue templates, `.env.example`) are bilingual, English first.
@@ -19,6 +28,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A global-release package for `v0.2.0`: English-first positioning, a live-meeting quick
+  start, and a bilingual release note draft under `docs/launch/`.
 - **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)** — the benchmark as a published page, with the
   raw JSON output alongside it, so the number can be checked without reading code.
 - **`scripts/benchmark_domain_accuracy.py`** — the benchmark as a runnable script rather than

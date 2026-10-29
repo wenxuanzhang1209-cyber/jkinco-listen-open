@@ -74,7 +74,7 @@ Posting because this sub helped me choose the stack:
 • Fallbacks: model failover, per-chunk resilience (one bad chunk doesn't kill
   the whole 3-hour meeting)
 
-961 tests, MIT, docker one-command, fully offline after model download.
+965 tests, MIT, docker one-command, fully offline after model download.
 
 Open questions for you:
 1. Which local model gives you the best Chinese meeting-minutes quality on 16GB?
@@ -90,7 +90,7 @@ Open questions for you:
 
 ### 标题（三选一）
 
-- I just open-sourced (MIT) a local-first meeting minutes tool with 961 tests and a CI that even builds the Docker image
+- I just open-sourced (MIT) a local-first meeting minutes tool with 965 tests and a CI that even builds the Docker image
 - Open-sourcing my local AI meeting minutes workbench — no SaaS, no keys, no telemetry
 - MIT-licensed local meeting minutes: the full pipeline in one repo (FastAPI + React + FunASR + Ollama)
 
@@ -150,7 +150,7 @@ I built a fully local tool:
   resources / actions with owners and dates
 • Original-layout Word/PDF export
 
-Docker one-command, MIT, 961 tests, works offline.
+Docker one-command, MIT, 965 tests, works offline.
 
 If you deal with 工地例会 / 监理例会, try it and tell me what the template
 gets wrong — real-domain feedback is the fastest way to make it better.
@@ -182,7 +182,7 @@ the actual site-meeting template, not a generic summary.
 Key difference from every SaaS: audio and text never leave the computer.
 No API key, no account, no telemetry. It even works with the Wi-Fi off.
 
-Docker one-command. MIT. 961 tests.
+Docker one-command. MIT. 965 tests.
 
 Curious: how do your projects handle meeting minutes today? By hand, by
 recording app, or does someone just "have it in their head"?

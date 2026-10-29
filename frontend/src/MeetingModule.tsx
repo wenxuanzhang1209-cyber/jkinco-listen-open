@@ -233,7 +233,7 @@ function CreateMeetingDialog({ open, mode, close, onCreated }: { open: boolean; 
       {mode === "scheduled" && <label className="meeting-field schedule-field">重复频率<select value={recurrence} onChange={event => setRecurrence(event.target.value)}>{RECURRENCE_OPTIONS.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>}
       {mode === "scheduled" && recurrence !== "none" && <p className="meeting-hint">会议号与邀请链接保持不变，每次结束后自动排到下一次同一时间。</p>}
       <div className="meeting-options">
-        <label><span><Captions /><b>实时转录</b><small>开源版暂未开放实时字幕</small></span><input type="checkbox" checked={transcription} onChange={event => setTranscription(event.target.checked)} /></label>
+        <label><span><Captions /><b>本地实时字幕</b><small>本机流式识别，音频不出设备</small></span><input type="checkbox" checked={transcription} onChange={event => setTranscription(event.target.checked)} /></label>
         <label><span><ShieldCheck /><b>自动纪要</b><small>结束后生成结构化筑听纪要</small></span><input type="checkbox" checked={minutes} onChange={event => setMinutes(event.target.checked)} /></label>
       </div>
       <p className="meeting-consent">进入会议即表示知悉：会议可能进行实时转录，转录内容仅用于生成会议纪要。</p>
@@ -393,7 +393,7 @@ export function MeetingLobby({ user, onJoin, onBack, onOpenRecord }: { user: Use
   };
   const openCreate = (mode: "instant" | "scheduled") => { setCreateMode(mode); setCreateOpen(true); };
   return <main className="meeting-lobby">
-    <header className="meeting-lobby-header"><button className="icon" aria-label="返回录音纪要" onClick={onBack}><ChevronLeft /></button><div><h1>实时会议</h1></div><div className="meeting-lobby-actions"><button className="secondary" title="预约会议" onClick={() => openCreate("scheduled")}><CalendarClock />预约会议</button><button className="primary" title="开始会议" onClick={() => openCreate("instant")}><Plus />开始会议</button></div></header>
+    <header className="meeting-lobby-header"><button className="icon" aria-label="返回录音纪要" onClick={onBack}><ChevronLeft /></button><div><h1>实时会议</h1><p>本地实时字幕 · 屏幕共享 · 会后自动纪要</p></div><div className="meeting-lobby-actions"><button className="secondary" title="预约会议" onClick={() => openCreate("scheduled")}><CalendarClock />预约会议</button><button className="primary" title="开始会议" onClick={() => openCreate("instant")}><Plus />开始会议</button></div></header>
     <section className="meeting-launch-band"><div><Radio /><span><b>发起或加入会议</b></span></div><div className="join-code"><input
         value={code}
         inputMode="numeric"

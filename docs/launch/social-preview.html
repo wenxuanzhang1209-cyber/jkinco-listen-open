@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <style>
@@ -22,7 +22,7 @@
       mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
     }
     .logo-row { display: flex; align-items: center; gap: 20px; margin-bottom: 26px; position: relative; }
-    .logo-row img { width: 78px; height: 78px; border-radius: 18px; }
+    .logo-row img { width: 132px; height: auto; }
     .brand { font-size: 40px; font-weight: 800; letter-spacing: .5px; }
     .brand small { display: block; font-size: 18px; font-weight: 500; color: #8fb7ff; margin-top: 4px; }
     h1 { font-size: 58px; line-height: 1.18; font-weight: 800; position: relative; max-width: 920px; }
@@ -40,15 +40,16 @@
 <body>
   <div class="grid"></div>
   <div class="logo-row">
-    <img src="../assets/jkinco_logo_cropped.png" alt="logo" />
+    <img src="../../assets/jkinco_logo_cropped.png" alt="JKinco logo" />
     <div class="brand">JKinco Listen<small>筑听 · 开源本地版</small></div>
   </div>
-  <h1>会议录音进，<span class="hl">结构化纪要</span>出。<br />数据不出你的电脑。</h1>
-  <p class="sub">Local-first AI Meeting Minutes · 录音转写 → 场景识别 → DOCX/PDF 导出</p>
+  <h1>Meetings stay live.<br /><span class="hl">Minutes stay private.</span></h1>
+  <p class="sub">Local live captions → structured minutes → DOCX/PDF · 本地实时字幕，数据留在你控制的部署里</p>
   <div class="chips">
-    <span class="chip"><b>FunASR</b> + <b>Ollama</b> 本地双模型</span>
-    <span class="chip">Zero API Key</span>
-    <span class="chip">Docker One-command</span>
+    <span class="chip"><b>Local live captions</b></span>
+    <span class="chip">Self-hosted meetings</span>
+    <span class="chip">No cloud API key</span>
+    <span class="chip">Docker one-command</span>
     <span class="chip">MIT · Open Source</span>
   </div>
   <span class="url">github.com/wenxuanzhang1209-cyber/jkinco-listen-open</span>

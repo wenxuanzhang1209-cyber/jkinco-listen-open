@@ -4,10 +4,11 @@
 
 # JKinco Listen (Open Edition)
 
-**A local-first AI workbench that turns meeting recordings into finished minutes.**
+**Live captions in the room. Filed minutes on your machine.**
 
-Recording → transcript → scene detection → structured minutes → DOCX/PDF, running **entirely on your own machine**.
-No API keys. No cloud calls. Your audio never leaves your computer.
+Start a browser meeting with self-hosted media, watch captions stream from a local ASR model,
+and finish with structured minutes plus **DOCX/PDF**. No cloud model calls. Your meeting
+audio stays on infrastructure you control.
 
 [简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/en.html) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
 
@@ -17,7 +18,9 @@ No API keys. No cloud calls. Your audio never leaves your computer.
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
-![Tests](https://img.shields.io/badge/tests-961%20passing-brightgreen.svg)
+![Live captions](https://img.shields.io/badge/Live_captions-local-3fb950.svg)
+![Self-hosted](https://img.shields.io/badge/Meetings-self--hosted-1f6feb.svg)
+![Tests](https://img.shields.io/badge/tests-965%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
@@ -26,54 +29,57 @@ No API keys. No cloud calls. Your audio never leaves your computer.
 
 ## Why this exists
 
-Almost every meeting-notes product sends your audio to someone else's servers: upload the
-recording, pay per minute, trust a third party with the contents.
+Most meeting tools stop at a transcript, or send the room to somebody else's infrastructure.
+Neither is enough when the transcript needs to become an accountable document and the audio
+cannot leave the building.
 
-For a construction site review, a customer visit, or a job interview, that trade is often
-unacceptable — so people fall back to typing up notes by hand.
+JKinco Listen is for the whole path from conversation to filing:
 
-JKinco Listen moves the whole pipeline onto your machine:
-
-- **Local speech recognition** — Chinese meeting-grade ASR with voice-activity detection,
+- **Live meeting** — browser video, screen sharing, chat, and local streaming captions.
+- **Local speech recognition** — meeting-grade Mandarin ASR with voice-activity detection,
   punctuation restoration, and domain-term correction.
-- **Local LLM** — scene detection, minutes generation, quality review, and meeting Q&A all
-  run against a model you host (Ollama, or any OpenAI-compatible endpoint).
-- **Local template engine** — five meeting types exported to DOCX/PDF with the original
-  corporate layout preserved.
+- **Local LLM** — scene detection, minutes generation, quality review, and meeting Q&A run
+  against a model you host (Ollama, or any OpenAI-compatible endpoint).
+- **Documents people can file** — five meeting types and custom templates exported to
+  DOCX/PDF with the original layout preserved.
 - **Local history** — meetings, transcripts, minutes, and human edits stay in a SQLite file
   you own.
 
-> One command to deploy. Audio in, minutes out. Nothing leaves the building.
+> One command to deploy. Join a meeting, speak, and leave with a document.
 
-## The constraint this is built for
+## Built for any high-context meeting
 
-Some meetings cannot be uploaded. Not "should not" — **cannot**.
+The product is intentionally general: the same workspace handles a management review, a
+customer call, a project weekly, an interview, a training session, or a research interview.
+Industry vocabulary and templates are extensions, not the front door.
 
-A construction site review decides who is accountable for a defect. An interview record holds
-a candidate's personal data. A client visit contains pricing. In regulated industries these
-recordings are part of a legal archive, and sending them to a third-party server is not a
-policy preference you can toggle — it is off the table.
+| Meeting | What JKinco Listen adds |
+|---|---|
+| Management / board review | Decisions, owners, risks, and follow-ups in one structured record |
+| Project weekly / operations | Live captions, searchable history, and repeatable action-item extraction |
+| Customer call / discovery | Needs, objections, commitments, and next steps without uploading the call |
+| Interview / hiring panel | A consistent evidence-oriented record and exportable interview minutes |
+| Training / workshop | Searchable notes and a durable summary for people who could not attend |
+| Research / field interview | Local storage, editable transcript, and portable DOCX/PDF output |
 
-Cloud meeting assistants are architecturally unable to serve that case. Their value comes
-from models running on their infrastructure, so the audio has to get there. That is not a
-gap in their product; it is what their product *is*.
+### Engineering is our stress test, not our ceiling
 
-So the people in those meetings do the only thing left: **they type the notes by hand.**
+A construction site review has multiple accountable parties, dense domain terms, formal
+deliverables, and legal consequences if a responsibility is transcribed incorrectly. We use
+that environment to harden the generic pipeline: the domain lexicon, evidence gate, and
+original-layout export all started there.
 
-This project exists for them. Everything runs on the machine in the room.
-
-<sub>有些会议不是"最好别上传"，是**不能上传**。工程例会决定责任归属、面试记录含个人信息、
-客户拜访含报价——在受监管的行业里，这些录音属于法律档案，传给第三方服务器不是一个可以
-开关的选项。云端会议助手在架构上就服务不了这类场景：它们的价值来自跑在自己机房里的模型，
-音频必须传过去。于是这些会议的与会者只能手打纪要。这个项目就是为他们做的。</sub>
+The result is stronger for every meeting: evidence-gated scene detection, exact templates,
+and a local model stack you can replace.
 
 ## How it compares
 
 |  | JKinco Listen (Open) | Cloud note-takers | Raw Whisper / FunASR |
 |---|---|---|---|
 | Audio leaves your machine | **Never** | Yes | Never |
-| API key / subscription | **None** | Required | None |
+| Cloud AI API key / subscription | **None** | Required | None |
 | Works fully offline | **Yes**, after first model download | No | Yes |
+| Live meeting + local captions | **Yes, self-hosted** | Yes, through their cloud | Captions only |
 | Output | **Formatted DOCX/PDF minutes** | Transcript + summary | Raw transcript |
 | Domain accuracy | **Hotword lexicon + post-correction** | Generic | Generic |
 | Meeting-type awareness | **5 scenes, evidence-gated** | One format | None |
@@ -82,7 +88,7 @@ This project exists for them. Everything runs on the machine in the room.
 If you only need a transcript, use Whisper directly — it is simpler. This project exists for
 the part *after* the transcript: turning it into a document somebody can actually file.
 
-### Measured, not claimed
+### Measured domain accuracy
 
 Full results and methodology: **[docs/BENCHMARK.md](docs/BENCHMARK.md)**
 
@@ -123,12 +129,13 @@ lexicon, run it again, and the delta is trustworthy.
 
 | | |
 |---|---|
+| **Live meeting, local captions** | Self-hosted LiveKit rooms, screen sharing, chat, and local streaming ASR in one workspace |
 | **Two local model stacks** | FunASR `paraformer-zh` for speech + any Ollama / OpenAI-compatible model for text |
 | **Evidence-gated scene detection** | Rule-based gate first, model second — the model cannot force a construction template onto a meeting that lacks the evidence |
 | **Original-layout export** | DOCX/PDF that match the real corporate templates, not a generic markdown dump |
-| **Privacy by construction** | No API keys, no telemetry, no outbound model calls; CI fails the build if cloud-model traces appear in the repo |
-| **One-command deploy** | `docker compose up` brings up web, backend, Ollama, and model pull |
-| **961 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
+| **Privacy by construction** | No cloud AI keys, no telemetry, no outbound model calls; CI scans the working tree and Git history |
+| **One-command deploy** | `docker compose up` brings up web, backend, local ASR, Ollama, and a self-hosted LiveKit room |
+| **965 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
 | **Local knowledge base** | Search past meetings and ask questions across them, without anything leaving the machine |
 
 ## Screenshots
@@ -172,10 +179,14 @@ docker compose up -d --build
 
 Open <http://localhost:8080>.
 
-> **Set a password before you expose this to a network.** `.env.example` ships with
-> `JKINCO_AUTH=admin:123456` so that a local trial works immediately. The container listens on
-> `0.0.0.0`, so anyone who can reach the port can sign in with those credentials. Change
-> `JKINCO_AUTH` in `.env` before binding it to anything other than localhost.
+**First live meeting:** sign in → **实时会议** / Live meetings → **开始会议** → allow the
+browser microphone and camera. The first caption downloads the local streaming ASR model;
+after that, recognition runs on the same machine.
+
+> **Local trial credentials are deliberately obvious.** `.env.example` ships with the web
+> login `admin:123456` and LiveKit development mode (`devkey` / `secret`). The web app listens
+> on `0.0.0.0`, while LiveKit's ports bind to loopback by default. Replace both credentials,
+> set a reachable `LIVEKIT_PUBLIC_URL`, and terminate TLS before exposing meetings to a network.
 
 The first start automatically:
 
@@ -232,23 +243,33 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8080
 
 Larger model: `OLLAMA_MODEL=qwen2.5:14b bash scripts/install.sh`
 
+The script starts the application and local ASR. For browser meetings, run LiveKit separately
+or use the Docker path above, which starts it automatically.
+
 ## Model guide
 
 | Stage | Default | Alternatives | Notes |
 |---|---|---|---|
 | Speech recognition | FunASR `paraformer-zh` | `fsmn-vad` + `ct-punc` | Best value for Chinese meetings; runs on CPU |
+| Live captions | FunASR `paraformer-zh-streaming` | Replace the adapter with another streaming ASR | Runs locally; extra model download on first use |
 | Scene review | Ollama `qwen2.5:7b-instruct` | `qwen2.5:14b`, `qwen3:8b` | The evidence gate has the final say, so a wrong model answer cannot flip the result |
 | Minutes generation | Ollama `qwen2.5:7b-instruct` | Larger models | Chunk → extract in parallel → merge → quality review |
 | Meeting Q&A | Same | Same | Local retrieval and generation; history stays on the machine |
 
 Hardware and quantization guidance: [docs/LOCAL_MODELS.en.md](docs/LOCAL_MODELS.en.md).
 
+English-first documentation and contributor workflow are part of the open repository. The
+default speech models are Mandarin-first; the architecture is model-agnostic, and additional
+language adapters remain an explicit roadmap item rather than an accuracy claim.
+
 ## Architecture
 
 ```mermaid
 flowchart LR
-    U[Browser · React + TS] -->|upload / live recording| API[FastAPI backend]
-    API --> ASR[FunASR local recognition]
+    U[Browser · React + TS] -->|WebRTC meeting| LK[Self-hosted LiveKit]
+    U -->|upload / microphone| API[FastAPI backend]
+    LK -->|audio in the browser| ASR[FunASR local recognition]
+    API --> ASR
     ASR --> LEX[Domain lexicon correction]
     LEX --> CLS[Scene detection<br/>evidence gate + model review]
     CLS --> LLM[Local LLM via Ollama<br/>OpenAI-compatible API]
@@ -261,6 +282,13 @@ flowchart LR
 Module boundaries, data flow, and the security perimeter: [docs/ARCHITECTURE.en.md](docs/ARCHITECTURE.en.md).
 
 ## Core capabilities
+
+### Real-time meetings
+
+- Self-hosted LiveKit for audio, video, screen sharing, and meeting chat.
+- Local streaming captions with reconnect handling for long meetings.
+- Meeting controls enforced by server-side grants, not hidden buttons.
+- End the room, and the final transcript feeds the same local minutes pipeline.
 
 ### Evidence-gated scene detection
 
@@ -301,13 +329,13 @@ construction review on the strength of generic words like "project", "schedule",
 - Audio, transcripts, minutes, and human edits are stored only on the local machine.
 - Login rate limiting, CAPTCHA, signed sessions, CSP and security headers, audit log.
 - Template upload hardening: zip bombs, path traversal, and XML entity attacks.
-- CI enforces the open-edition boundary: the build fails if cloud-model references or
-  credentials appear in the repository.
+- CI enforces the open-edition boundary and scans the full Git history with redacted output;
+  the build fails if cloud-model references or credentials appear in either place.
 
 ## Testing
 
 ```bash
-python -m pytest tests-v2                    # 961 tests
+python -m pytest tests-v2                    # 965 tests
 python scripts/smoke_test.py                 # offline smoke: scene routing + every export
 python scripts/check_open_source_hygiene.py  # open-edition boundary scan
 ```
@@ -330,26 +358,28 @@ Set `JKINCO_DEMO_DATA=1` and start. Two example minutes (a construction review a
 visit) appear in history, and export, search, and templates all work without any model.
 
 **Is there live captioning?**
-Experimental. Set `JKINCO_REALTIME_LOCAL_ASR=1` to run live captions through a local
-`paraformer-zh-streaming` model (an extra download on first use). Off by default.
+Yes. `docker compose up` starts a self-hosted LiveKit server and enables local streaming
+captions by default. The first use downloads `paraformer-zh-streaming`; no meeting audio is
+sent to a cloud ASR provider. Set `JKINCO_REALTIME_LOCAL_ASR=0` to disable it.
 
 **Can I use it commercially?**
 Yes, under the MIT License. Please keep the copyright notice.
 
 **Does it work with languages other than Chinese?**
-The ASR model and the domain lexicon are tuned for Chinese meetings. The architecture is
-model-agnostic, so swapping in another FunASR or Whisper model is possible — multi-language
-support is on the roadmap rather than finished.
+The repository, documentation, and contributor workflow are English-first. The default ASR
+model and domain lexicon are tuned for Mandarin meetings. The architecture is model-agnostic,
+so an English or multilingual ASR adapter can be contributed and benchmarked; built-in
+multilingual accuracy is not claimed until it is measured.
 
 ## Roadmap
 
 - [x] Upload → local transcription → scene detection → minutes → export
+- [x] Self-hosted real-time meeting, live local captions, screen sharing, and chat
 - [x] History knowledge base and local meeting Q&A
-- [x] Streaming live captions (experimental: `JKINCO_REALTIME_LOCAL_ASR=1`)
 - [ ] Speaker diarization and role attribution
 - [ ] WebDAV / cloud-drive backup
 - [ ] Desktop installers (macOS / Windows)
-- [ ] Multi-language support (Cantonese / English / Japanese)
+- [ ] Additional speech-model adapters (Cantonese / multilingual English / Japanese)
 
 Full plan: [docs/ROADMAP.en.md](docs/ROADMAP.en.md).
 

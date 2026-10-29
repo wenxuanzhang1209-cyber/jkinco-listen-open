@@ -6,7 +6,7 @@
 ## 基本信息
 
 - Name: JKinco Listen (Open Edition)
-- Tagline: Local-first AI meeting minutes for engineering & business
+- Tagline: Self-hosted live meetings that leave you with filed minutes
 - URL: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
 - Topics: Artificial Intelligence, Developer Tools, Productivity
 
@@ -15,22 +15,23 @@
 ```text
 Hey PH 👋
 
-Recording a meeting is easy. Writing the minutes is not.
+Live captions are useful. A document someone can actually file is better.
 
-JKinco Listen turns a recording into structured, scene-aware meeting
-minutes entirely on your own machine:
+JKinco Listen is a private meeting workspace that runs on infrastructure you control:
 
-🎙 FunASR Chinese speech-to-text (local)
+🎥 Self-hosted LiveKit rooms: audio, video, screen sharing, and chat
+🎙 Local streaming captions with FunASR
 🧠 Ollama / any OpenAI-compatible local model
-🏗 Rule-gated scene recognition: site meeting, general, personal notes,
-   interview, customer visit
+🏗 Evidence-gated scene recognition: general, personal, interview,
+   customer visit, and construction review
 📄 Original-layout DOCX/PDF export
-🔒 Zero API keys, zero cloud, zero telemetry
+🔒 No cloud AI API key, no cloud inference, no telemetry
 
 Docker one-command: docker compose up -d --build
 
-MIT licensed, 961 tests, fully offline after first model download.
-If you've ever feared uploading sensitive audio to a SaaS, this is for you.
+MIT licensed, 965 tests, fully offline after the first model download.
+Management reviews, customer calls, interviews, training sessions, research,
+and regulated meetings can all use the same local pipeline.
 ```
 
 ## 运营动作

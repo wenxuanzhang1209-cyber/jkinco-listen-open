@@ -77,14 +77,14 @@ SPECS: dict[str, dict] = {
         "name": "JKinco Listen",
         "cjk_sub": "筑听 · 开源本地版",
         "headline": [
-            [("Audio in. Filed minutes out.", WHITE)],
-            [("Nothing leaves ", WHITE), ("your machine.", AMBER)],
+            [("Meetings stay live.", WHITE)],
+            [("Minutes stay ", WHITE), ("private.", AMBER)],
         ],
-        "cjk_line": "录音进，结构化纪要出。数据不出你的电脑。",
-        "flow": ["Local ASR", "scene detection", "DOCX / PDF"],
-        # 948: pytest --collect-only；434: jkinco_lexicon 去重词条数
-        "chips": [("FunASR + Ollama", False), ("Zero API key", True),
-                  ("Offline capable", True), ("961 tests", False), ("MIT", False)],
+        "cjk_line": "本地实时字幕，结构化纪要，数据留在你控制的部署里。",
+        "flow": ["Live captions", "structured minutes", "DOCX / PDF"],
+        # 965: pytest --collect-only；434: jkinco_lexicon 去重词条数
+        "chips": [("Local live captions", True), ("Self-hosted", False),
+                  ("No cloud API key", True), ("965 tests", False), ("MIT", False)],
     },
     "jkinco-slides": {
         "name": "JKinco Slides",

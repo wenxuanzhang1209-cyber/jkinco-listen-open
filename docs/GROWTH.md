@@ -1,4 +1,4 @@
-# 增长作战手册：向千星日发起冲击
+# 开源增长手册：从实时会议走向全球开发者
 
 > 目标不是“慢慢涨”，而是把项目打磨到**顶级开源项目的水准**，
 > 再用一次高密度发射制造速度。GitHub Trending 不看绝对 star 数，
@@ -12,18 +12,18 @@
 | 开箱即用 | 一条命令跑起来 | ✅ `docker compose up` |
 | 可信度 | CI 全绿、测试数量、许可证、安全声明 | ✅ 894 测试 + 红线扫描 + MIT |
 | 持续迭代 | Roadmap、Issue 模板、Contributing | ✅ 文档齐备 |
-| 差异化叙事 | 一个让人记住的“为什么” | ✅ “工程监理级中文纪要，数据不出门” |
+| 差异化叙事 | 一个让人记住的“为什么” | ✅ “实时会议在本地跑，纪要直接变成可归档文档” |
 
 ## 2. 定位一句话
 
-> **本地方案里的“工程会议纪要工具”**：FunASR + Ollama，中文工程场景，
-> 原版式 Word/PDF，零云零密钥。
+> **私有实时会议工作台**：自托管 LiveKit + 本机流式字幕 + 本地大模型，
+> 会后直接导出可归档的 Word/PDF。通用会议优先，工程场景作为最严苛的专业验证。
 
 这条定位同时踩中三个大池子：
 
-- self-hosted / privacy（faster-whisper、whisper.cpp 用户群）；
+- self-hosted / privacy / meeting tools（LiveKit、whisper.cpp、会议效率用户群）；
 - Chinese NLP / FunASR 生态（ModelScope 开发者）；
-- AI 办公效率（会议纪要工具，天然适合短视频传播）。
+- AI 办公效率与文档自动化（实时字幕 → 结论/待办 → DOCX/PDF，天然适合短视频传播）。
 
 ## 3. 发射计划（D-7 → D+90）
 
@@ -33,7 +33,7 @@
 ### D-7：蓄水
 
 - [ ] 发布 `v0.1.0` Release，写清变更与截图；
-- [ ] 录制 60 秒演示视频（录音→纪要→导出），中英双语字幕；
+- [ ] 录制 60 秒演示视频（实时字幕→结论/待办→导出），中英双语字幕；
 - [ ] 写 3 篇技术文章：掘金 / 知乎 / CSDN（“怎么把会议纪要全放本地”）；
 - [ ] 预热社群：微信 / 知识星球 / Discord / 本地 LLM 群；
 - [ ] 联系 5–10 位中文技术 KOL（异步，发体验链接）。
@@ -41,7 +41,7 @@
 ### D-0：同一天高密度发射（Stacked Launch）
 
 - [ ] 00:00 UTC+8：GitHub Release + 置顶 tweet/微博（演示视频优先）；
-- [ ] Show HN（标题带“engineering supervision meeting minutes, 100% local”）；
+- [ ] Show HN（标题讲清“self-hosted live meetings + private filed minutes”）；
 - [ ] Reddit：`r/selfhosted`、`r/LocalLLaMA`、`r/opensource`、`r/ChineseLanguage`；
 - [ ] Product Hunt（美西 0 点对应北京时间下午，卡位 TOP 5）；
 - [ ] 掘金 / 知乎 / V2EX / 即刻同步发布；
@@ -52,12 +52,12 @@
 - [ ] 每天 1 条 build-in-public 进展（修 issue、加功能、晒 star 曲线）；
 - [ ] 提交 awesome 列表：`awesome-selfhosted`、`awesome-llm`、
       `awesome-chinese-nlp`、`selfh.st`、`osalt.dev`；
-- [ ] 发布 3 个“换皮”演示：工地例会 / 面试 / 个人复盘，各 30 秒；
+- [ ] 发布 3 个通用演示：管理层会议 / 客户沟通 / 面试，各 30 秒；
 - [ ] 邀请 3–5 位社区用户写评测并联动转发。
 
 ### D+15 ~ D+90：复利
 
-- [ ] 每周一个功能迭代（先做实时字幕 / 说话人分离，戳中刚需）；
+- [ ] 每周一个功能迭代（优先说话人分离、流式 ASR 适配器与真实会议基准）；
 - [ ] 每月一份“被 Star 的项目”复盘：哪些渠道转化最高；
 - [ ] 冲 GitHub Trending（中/美区语言榜）；
 - [ ] 目标里程碑：D+30 达 1k，D+90 达 5k–10k。
