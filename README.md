@@ -163,7 +163,7 @@ Ten noisy Chinese meeting clips, 36 domain terms that a general model tends to g
 | Local ASR alone | 31 / 36 |
 | **+ domain correction** | **36 / 36** |
 
-Every one of the six failures was a construction term:
+Every one of the five failures was a construction term:
 
 ```
 航站记录 ← 旁站记录      微大工程 ← 危大工程
@@ -185,7 +185,7 @@ prints the same table. The audio is synthetic and therefore **cleaner than a rea
 lexicon, run it again, and the delta is trustworthy.
 
 <sub>十段加噪中文会议音频、36 个通用模型容易听错的领域词，过本地 paraformer-zh：
-仅本地识别 31/36，加上领域纠错 36/36。六处失误全在工程术语上。
+仅本地识别 31/36，加上领域纠错 36/36。五处失误全在工程术语上。
 纠错表是照着**模型真正会犯的错**写的——最初那 13 条是想象出来的，跑基准时一条都没命中。</sub>
 
 ## Highlights
