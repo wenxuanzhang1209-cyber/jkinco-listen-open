@@ -12,8 +12,11 @@
 
 ## 首图与使用入口
 
-- 首图：`docs/production-app-demo-poster.png`
-- 产品动效：`docs/production-app-demo.gif`
+- 首图：`docs/production-download-tour.png`
+- 产品动效：`docs/production-download-tour.gif`
+- 分镜动效：`docs/production-recording.gif`、`docs/production-generation.gif`、
+  `docs/production-sona.gif`
+- 硬件产品卡：`docs/jkinco-z1-product-card.png`
 - 正式产品：<https://jkincolisten.cloud>
 - 三端下载：<https://jkincolisten.cloud/download/ios>
 

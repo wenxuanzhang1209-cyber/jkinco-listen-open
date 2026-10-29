@@ -32,6 +32,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- A production-product tour captured from the public download page, including a three-device
+  composite and separate live-capture, automatic-minutes, and Sona Q&A clips.
+- Promotion of the official iOS / Android / HarmonyOS app and 筑听 Z1 capture hardware
+  alongside the self-hosted Open Edition.
 - A rebuilt `docs/production-app-demo.gif` from the public product tour: live recording →
   automatic minutes → Sona meeting Q&A, plus a poster image and reproducible build script.
 - A global-release package for `v0.2.0`: English-first positioning, a live-meeting quick

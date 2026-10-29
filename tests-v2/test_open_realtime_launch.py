@@ -68,3 +68,23 @@ def test_public_readmes_route_users_to_the_finished_product_and_downloads():
         assert "https://jkincolisten.cloud/download/android" in text
         assert "https://jkincolisten.cloud/download/harmony/app.hap" in text
         assert "docs/production-app-demo.gif" in text
+        assert "docs/production-download-tour.gif" in text
+        assert "docs/jkinco-z1-product-card.png" in text
+
+    for relative in (
+        "docs/production-download-tour.gif",
+        "docs/production-download-tour.png",
+        "docs/production-recording.gif",
+        "docs/production-generation.gif",
+        "docs/production-sona.gif",
+        "docs/jkinco-z1-product-card.png",
+        "scripts/capture_production_tour.mjs",
+        "scripts/build_production_tour.py",
+    ):
+        assert (ROOT / relative).is_file(), relative
+
+    capture = (ROOT / "scripts" / "capture_production_tour.mjs").read_text(encoding="utf-8")
+    assert "https://jkincolisten.cloud/download/ios" in capture
+    assert 'kind: "recording"' in capture
+    assert 'kind: "generation"' in capture
+    assert 'kind: "sona"' in capture

@@ -20,9 +20,9 @@
 - [x] Awesome 列表：awesome-llm 收录 PR 已提交
   <https://github.com/Hannibal046/Awesome-LLM/pull/794>
 - [ ] Awesome 列表：awesome-selfhosted 待修复 fork 后提交（见文末）
-- [ ] 使用正式 App 图标的社交预览图上传：仓库 Settings → Social preview →
+- [x] 使用正式 App 图标的社交预览图上传：仓库 Settings → Social preview →
   上传 `docs/social-preview.png`（1280×640）
-- [ ] 仓库 Homepage 指向 <https://jkincolisten.cloud/download/ios>
+- [x] 仓库 Homepage 指向 <https://jkincolisten.cloud/download/ios>
 - [ ] 仓库置顶：个人主页 → Customize your pins → 勾选 jkinco-listen-open
 - [ ] 60 秒演示视频录制并上传（Bilibili + YouTube）
 

@@ -2,7 +2,7 @@
 
 原则：**先讲真实痛点，再给方案**；标题像“用户在抱怨”，不像“开发者在推销”。
 自托管版带 `docs/demo.gif`；面向普通用户和行业用户的帖子优先带正式 App 动效
-（`docs/production-app-demo.gif`）。正文不超过 8 行核心内容，结尾给一个具体问题请人回答
+（`docs/production-download-tour.gif`）。正文不超过 8 行核心内容，结尾给一个具体问题请人回答
 （评论数 = 传播权重）。
 
 ---
@@ -171,7 +171,7 @@ gets wrong — real-domain feedback is the fastest way to make it better.
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
 
-![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-app-demo.gif)
+![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-download-tour.gif)
 ```
 
 ---
@@ -206,7 +206,7 @@ recording app, or does someone just "have it in their head"?
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
 
-![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-app-demo.gif)
+![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-download-tour.gif)
 ```
 
 ---

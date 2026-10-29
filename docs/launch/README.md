@@ -19,9 +19,9 @@
 - [ ] 仓库 CI 全绿（工作区与 Git 历史密钥扫描 / 977 测试 / 前端构建 / Docker 镜像构建）
 - [ ] Release v0.2.0 已发布且含实时会议截图
 - [ ] 60 秒通用演示已上传 YouTube / Bilibili：实时字幕 → 结论/待办 → 导出
-- [ ] 仓库 Homepage 已设为正式产品演示与三端下载页
-- [ ] 正式 App 图标社交预览已上传：仓库 Settings → Social preview（`docs/social-preview.png`）
-- [ ] README 首屏的正式站、三端下载、开源版三个入口都点得通
+- [x] 仓库 Homepage 已设为正式产品演示与三端下载页
+- [x] 正式 App 图标社交预览已上传：仓库 Settings → Social preview（`docs/social-preview.png`）
+- [x] README 首屏的正式站、三端下载、筑听 Z1、开源版入口都点得通
 - [ ] GitHub Discussions 已开启
 - [ ] 已把仓库置顶到个人主页（Settings → Pinned）
 - [ ] 提前联系 5–10 位 KOL，确认发射日转发
@@ -41,6 +41,9 @@
 
 - [Show HN 文案](show-hn.md)
 - [Product Hunt 文案](product-hunt.md)
+- 产品动效：`docs/production-download-tour.gif`；分镜素材：
+  `production-recording.gif`、`production-generation.gif`、`production-sona.gif`
+- 硬件产品卡：`docs/jkinco-z1-product-card.png`
 - [Reddit 文案](reddit.md)
 - [掘金 / 知乎 / CSDN 文案](china.md)
 - [X / 微博 / 即刻文案](x-twitter.md)

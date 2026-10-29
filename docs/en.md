@@ -17,10 +17,23 @@ model call and no cloud API key.
 > [Open 筑听](https://jkincolisten.cloud) ·
 > [Product tour + iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
 
-![Production App: recording, automatic minutes, and meeting Q&A](production-app-demo.gif)
+![Official product tour: live capture, automatic minutes, and meeting Q&A](production-download-tour.gif)
 
 <sub>The public product tour is Chinese-first; this repository and its contributor
-documentation are English-first.</sub>
+documentation are English-first. [Static poster](production-download-tour.png) ·
+[Full-screen overview](production-app-demo.gif)</sub>
+
+### Capture hardware: 筑听 Z1
+
+The production product also exposes **筑听 Z1** as a recording source: an approximately 44 g
+magnetic capture card with dual omnidirectional microphones, a bone-conduction microphone,
+8 / 16 / 32 / 64 GB storage, iOS / Android support, and recognition across more than 120
+languages and dialects.
+
+[![Official 筑听 Z1 product card](jkinco-z1-product-card.png)](https://jkincolisten.cloud/download/ios)
+
+<sub>Product availability, configuration, and pricing remain governed by the official product
+page.</sub>
 
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">

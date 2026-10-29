@@ -12,13 +12,15 @@ Start a browser meeting with self-hosted media, watch captions stream from a loc
 and finish with structured minutes plus **DOCX/PDF**. No cloud model calls. Your meeting audio
 stays on infrastructure you control.
 
-**The finished mobile product is live:** [Open 筑听](https://jkincolisten.cloud) ·
-[Product tour + iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
+**The finished product is live:** [Open 筑听](https://jkincolisten.cloud) ·
+[Product tour, iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
+· [筑听 Z1 recorder](https://jkincolisten.cloud/download/ios)
 
 [简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/en.html) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 [![Production App](https://img.shields.io/badge/Production_App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
+[![Capture Hardware](https://img.shields.io/badge/Capture_Hardware-JKinco_Z1-38bdf8.svg)](https://jkincolisten.cloud/download/ios)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
@@ -46,22 +48,41 @@ structured minutes, Word/PDF export, and **Sona 妙思** meeting Q&A.
 [Android](https://jkincolisten.cloud/download/android) ·
 [HarmonyOS](https://jkincolisten.cloud/download/harmony/app.hap)
 
-![Production app: live recording, automatic minutes, and meeting Q&A](docs/production-app-demo.gif)
+![Official product tour: live recording, automatic minutes, and meeting Q&A](docs/production-download-tour.gif)
 
-<sub>Production App tour: **record → automatic minutes → ask the meeting**. The public product
-tour is Chinese-first; this repository and its contributor documentation are English-first.</sub>
+<sub>Captured from the public download page: **live capture → filed minutes → grounded meeting
+Q&amp;A**. The product tour is Chinese-first; this repository and its contributor documentation
+are English-first. [Static poster](docs/production-download-tour.png) ·
+[Full-screen overview](docs/production-app-demo.gif) ·
+[Capture clip](docs/production-recording.gif) · [Minutes clip](docs/production-generation.gif) ·
+[Sona clip](docs/production-sona.gif)</sub>
 
 Built for management reviews, customer calls, project weeklies, interviews, training,
 research, and regulated meetings. Engineering supervision is the stress test — multiple
 accountable parties, dense vocabulary, formal deliverables, and consequences when a
 responsibility is transcribed incorrectly.
 
+### A voice-first capture card: 筑听 Z1
+
+JKinco Listen is not limited to a phone microphone. The public product tour includes **筑听 Z1**,
+a roughly 44 g magnetic recorder card with dual omnidirectional microphones, a bone-conduction
+microphone, 8 / 16 / 32 / 64 GB storage, iOS / Android support, and recognition across more
+than 120 languages and dialects. In the production app it appears as a first-class recording
+source alongside the phone.
+
+<a href="https://jkincolisten.cloud/download/ios">
+  <img src="docs/jkinco-z1-product-card.png" alt="筑听 Z1 smart recording card: portable magnetic capture, dual microphones, multi-language recognition, and phone/PC access" />
+</a>
+
+<sub>Source: the official Z1 product card. Product availability, configuration, and current
+pricing remain governed by the official product page.</sub>
+
 ### Production App or Open Edition?
 
 | | Production App | Open Edition in this repository |
 |---|---|---|
 | Best for | Using the polished product now | Self-hosting, extending, and auditing the stack |
-| Entry point | iOS, Android, HarmonyOS | Browser + Docker Compose |
+| Entry point | iOS, Android, HarmonyOS, 筑听 Z1 | Browser + Docker Compose |
 | Core flow | One-tap recording, auto minutes, Sona Q&A | Self-hosted LiveKit room, local live captions, local LLM, DOCX/PDF |
 | Data boundary | Governed by the production service and its terms | Runs on infrastructure you control |
 | Customization | Product experience and templates | Source, models, vocabularies, templates, and deployment |

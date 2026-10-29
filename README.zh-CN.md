@@ -11,13 +11,14 @@
 用自托管会议房间开视频会、共享屏幕、实时生成本地字幕，再把整场会议变成结构化
 纪要和 **DOCX/PDF**。不调用云端模型，会议音频留在你控制的基础设施里。
 
-**正式 App 已上线：** [打开筑听](https://jkincolisten.cloud) ·
-[产品演示与 iOS / Android / 鸿蒙三端下载](https://jkincolisten.cloud/download/ios)
+**正式产品已上线：** [打开筑听](https://jkincolisten.cloud) ·
+[产品演示、三端下载与筑听 Z1](https://jkincolisten.cloud/download/ios)
 
 [English](README.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [更新日志](CHANGELOG.md) · [支持](SUPPORT.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 [![正式 App](https://img.shields.io/badge/App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
+[![筑听 Z1](https://img.shields.io/badge/Capture_Hardware-JKinco_Z1-38bdf8.svg)](https://jkincolisten.cloud/download/ios)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
@@ -45,21 +46,35 @@
 [安卓](https://jkincolisten.cloud/download/android) ·
 [鸿蒙](https://jkincolisten.cloud/download/harmony/app.hap)
 
-![正式 App：录音实时转写、自动成稿与会议问答](docs/production-app-demo.gif)
+![正式产品演示：现场录音、自动成稿与会议问答](docs/production-download-tour.gif)
 
-<sub>正式 App 演示：**录音 → 自动成稿 → 基于会议追问**。公开产品介绍目前以中文为主；
-本开源仓库与贡献文档采用英文优先。</sub>
+<sub>动图录制自公开下载页：**现场采集 → 纪要成稿 → 基于会议追问**。公开产品介绍目前以
+中文为主；本开源仓库与贡献文档采用英文优先。[静态海报](docs/production-download-tour.png) ·
+[全流程总览](docs/production-app-demo.gif) · [现场采集](docs/production-recording.gif) ·
+[自动成稿](docs/production-generation.gif) · [妙思问答](docs/production-sona.gif)</sub>
 
 它面向管理层会议、客户沟通、项目周会、面试、培训、研究访谈和合规要求高的会议。
 工程监理则是最严苛的压力测试：多责任主体、密集术语、正式交付物，以及转错一个责任主体
 就可能改变文件含义的真实后果。
+
+### 随身录音卡：筑听 Z1
+
+筑听不只是一款手机 App。公开产品页已经支持 **筑听 Z1**：约 44 g、磁吸随身，
+双全向麦克风加 1 个骨传导麦克风，提供 8 / 16 / 32 / 64 GB 存储，支持 Android / iOS，
+并可识别 120+ 种语言和方言。在正式 App 中，Z1 与手机录音并列，作为一等的采集入口。
+
+<a href="https://jkincolisten.cloud/download/ios">
+  <img src="docs/jkinco-z1-product-card.png" alt="筑听 Z1 智能录音卡：轻巧磁吸、双全向麦克风、多语言识别，手机与电脑随时查看" />
+</a>
+
+<sub>素材来自官方 Z1 产品卡。具体在售状态、配置与价格以正式产品页为准。</sub>
 
 ### 正式 App 和开源版怎么选？
 
 | | 正式 App | 本仓库的开源本地版 |
 |---|---|---|
 | 适合谁 | 想立即使用成熟产品的人 | 需要自托管、扩展和审计技术栈的人 |
-| 使用入口 | iOS、Android、鸿蒙 | 浏览器 + Docker Compose |
+| 使用入口 | iOS、Android、鸿蒙、筑听 Z1 | 浏览器 + Docker Compose |
 | 核心流程 | 一键录音、自动成稿、Sona 会议问答 | 自托管 LiveKit、本地实时字幕、本地大模型、DOCX/PDF |
 | 数据边界 | 以正式产品服务及其条款为准 | 运行在你控制的基础设施上 |
 | 可定制项 | 产品体验与模板 | 源码、模型、词库、模板和部署方式 |

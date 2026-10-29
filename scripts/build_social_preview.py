@@ -85,11 +85,11 @@ SPECS: dict[str, dict] = {
             [("Meetings stay live.", WHITE)],
             [("Minutes stay ", WHITE), ("private.", AMBER)],
         ],
-        "cjk_line": "正式 App 已上线 iOS / Android / 鸿蒙；开源版可自托管。",
-        "flow": ["Live captions", "structured minutes", "DOCX / PDF"],
+        "cjk_line": "正式 App 支持 iOS / Android / 鸿蒙与筑听 Z1；开源版可自托管。",
+        "flow": ["Z1 / phone capture", "structured minutes", "DOCX / PDF"],
         # 977: pytest --collect-only；434: jkinco_lexicon 去重词条数
         "chips": [("Self-hosted captions", True), ("No cloud API key", False),
-                  ("Production app · 3 OS", True), ("977 tests", False),
+                  ("App + Z1 · 3 OS", True), ("977 tests", False),
                   ("MIT", False)],
     },
     "jkinco-slides": {
