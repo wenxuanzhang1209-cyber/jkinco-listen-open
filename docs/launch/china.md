@@ -16,7 +16,7 @@
 工程监理、客户拜访、面试记录，每一类都不适合交给第三方 SaaS。
 
 ## 方案
-开源本地版 jkinco-listen-open：录音 → 本地 FunASR 转写 → 规则证据门控的
+开源本地版 meetdo：录音 → 本地 FunASR 转写 → 规则证据门控的
 场景识别 → 本地 LLM 生成纪要 → DOCX/PDF 原版式导出。
 
 ## 三个关键设计
@@ -32,7 +32,7 @@ docker compose up -d --build
 https://jkincolisten.cloud/download/ios
 
 ## 仓库
-https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
+https://github.com/wenxuanzhang1209-cyber/meetdo
 （MIT，欢迎 Star / Issue / PR）
 ```
 

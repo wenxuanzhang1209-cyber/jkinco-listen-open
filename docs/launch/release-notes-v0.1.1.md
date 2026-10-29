@@ -8,7 +8,7 @@
 - **实验性本地实时字幕**：`JKINCO_REALTIME_LOCAL_ASR=1`，会议/录音面板走本机
   `paraformer-zh-streaming`，数据依旧不出门
 - **一键安装脚本**：`bash scripts/install.sh && bash scripts/start.sh`（非 Docker 路径）
-- **文档站**：https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/
+- **文档站**：https://wenxuanzhang1209-cyber.github.io/meetdo/
 
 ### 🚀 工程化
 

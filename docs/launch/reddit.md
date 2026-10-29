@@ -45,13 +45,13 @@ MIT, 977 automated tests, CI green (tests + frontend + docker image build).
 
 What would make you actually switch from your current workflow?
 
-[repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+[repo](https://github.com/wenxuanzhang1209-cyber/meetdo)
 
 Prefer a ready-to-use mobile product instead of running Docker?
 The public 筑听 app is available for iOS, Android, and HarmonyOS:
 https://jkincolisten.cloud/download/ios
 
-![demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif)
+![demo](https://github.com/wenxuanzhang1209-cyber/meetdo/raw/main/docs/demo.gif)
 ```
 
 ---
@@ -86,7 +86,7 @@ Open questions for you:
 2. Anyone running streaming local ASR (paraformer-zh-streaming / sherpa) in
    production? That's our next milestone.
 
-[repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+[repo](https://github.com/wenxuanzhang1209-cyber/meetdo)
 
 The finished product is live on iOS, Android, and HarmonyOS:
 https://jkincolisten.cloud/download/ios
@@ -124,7 +124,7 @@ model download.
 Looking for contributors on: streaming realtime subtitles, speaker
 diarization, desktop installers.
 
-[repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+[repo](https://github.com/wenxuanzhang1209-cyber/meetdo)
 
 Want the product experience without self-hosting? The production app is here:
 https://jkincolisten.cloud/download/ios
@@ -169,9 +169,9 @@ Docker one-command, MIT, 977 tests, works offline.
 If you deal with 工地例会 / 监理例会, try it and tell me what the template
 gets wrong — real-domain feedback is the fastest way to make it better.
 
-[repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+[repo](https://github.com/wenxuanzhang1209-cyber/meetdo)
 
-![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-download-tour.gif)
+![product demo](https://github.com/wenxuanzhang1209-cyber/meetdo/raw/main/docs/production-download-tour.gif)
 ```
 
 ---
@@ -204,9 +204,9 @@ Docker one-command. MIT. 977 tests.
 Curious: how do your projects handle meeting minutes today? By hand, by
 recording app, or does someone just "have it in their head"?
 
-[repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+[repo](https://github.com/wenxuanzhang1209-cyber/meetdo)
 
-![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-download-tour.gif)
+![product demo](https://github.com/wenxuanzhang1209-cyber/meetdo/raw/main/docs/production-download-tour.gif)
 ```
 
 ---
@@ -240,7 +240,7 @@ MIT 开源，977 个自动化测试。
 
 如果你们项目也是“录音一时爽，纪要火葬场”，欢迎试试，顺便告诉我模板哪里不对。
 
-[仓库](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+[仓库](https://github.com/wenxuanzhang1209-cyber/meetdo)
 
 想直接在手机上用，正式版筑听支持 iPhone / 安卓 / 鸿蒙：
 https://jkincolisten.cloud/download/ios

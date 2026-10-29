@@ -18,7 +18,7 @@
 JKinco Listen (Open Edition) — local-first meeting minutes workbench:
 FunASR Chinese ASR + Ollama LLM + rule-gated scene recognition,
 original-layout DOCX/PDF export, zero API keys, Docker one-command.
-MIT. https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
+MIT. https://github.com/wenxuanzhang1209-cyber/meetdo
 ```
 
 ## 关键动作

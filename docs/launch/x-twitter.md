@@ -11,7 +11,7 @@ The finished 筑听 app is live on iOS, Android, and HarmonyOS:
 https://jkincolisten.cloud/download/ios
 
 Need self-hosted LiveKit + local ASR/LLM? The MIT Open Edition is here:
-https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
+https://github.com/wenxuanzhang1209-cyber/meetdo
 
 Production app for immediate use. Open Edition for control and source.
 ```
@@ -27,7 +27,7 @@ https://jkincolisten.cloud/download/ios
 LiveKit、本地 FunASR 流式识别、Ollama 和证据门控场景识别。
 不依赖云端 AI API Key，数据留在你控制的部署里，Docker 一条命令。
 
-开源仓库：https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
+开源仓库：https://github.com/wenxuanzhang1209-cyber/meetdo
 ```
 
 ## 连续发布节奏（发射后 14 天）

@@ -2,7 +2,7 @@
 
 100% 本地运行的智能会议纪要工作台：录音转写 → 场景识别 → 结构化纪要 → DOCX/PDF 导出，数据不出本机。
 
-![demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif)
+![demo](https://github.com/wenxuanzhang1209-cyber/meetdo/raw/main/docs/demo.gif)
 
 ### 亮点
 

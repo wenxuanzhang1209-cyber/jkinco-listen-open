@@ -1,28 +1,29 @@
 <div align="center">
 
 <a href="https://jkincolisten.cloud">
-  <img src="frontend/public/jkinco-listen-logo.png" width="520" alt="JKinco Listen | 筑听" />
+  <img src="frontend/public/jkinco-listen-logo.png" width="520" alt="MeetDo by JKinco Listen | 筑听" />
 </a>
 
-# JKinco Listen · 筑听（开源本地版）
+# MeetDo
 
+**筑听开源版 · Open-source Meeting-to-Action AI**
 **会议驱动的 AI 工作执行平台。会议结束，AI 继续把事办完。**
 
-用自托管会议房间开视频会、共享屏幕、实时生成本地字幕，再把整场会议变成结构化
-纪要和 **DOCX/PDF**。不调用云端模型，会议音频留在你控制的基础设施里。产品进一步通过
-Personal Agent 与办公生态承接会后工作，WorkBuddy 连接已经完成。
+MeetDo 是筑听的开源社区版。用自托管会议房间开视频会、共享屏幕、实时生成本地字幕，
+再把整场会议变成结构化纪要和 **DOCX/PDF**。不调用云端模型，会议音频留在你控制的基础
+设施里。产品进一步通过 Personal Agent 与办公生态承接会后工作，WorkBuddy 连接已经完成。
 
 **正式产品已上线：** [打开筑听](https://jkincolisten.cloud) ·
 [产品演示、三端下载与筑听 Z1](https://jkincolisten.cloud/download/ios)
 
-[English](README.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [更新日志](CHANGELOG.md) · [支持](SUPPORT.md)
+[English](README.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/meetdo/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [更新日志](CHANGELOG.md) · [支持](SUPPORT.md)
 
-[![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
+[![CI](https://github.com/wenxuanzhang1209-cyber/meetdo/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/meetdo/actions/workflows/ci.yml)
 [![正式 App](https://img.shields.io/badge/App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
 [![筑听 Z1](https://img.shields.io/badge/Capture_Hardware-JKinco_Z1-38bdf8.svg)](https://jkincolisten.cloud/download/ios)
 [![WorkBuddy 已连接](https://img.shields.io/badge/WorkBuddy-已连接-7c3aed.svg)](https://open.workbuddy.cn)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
-![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
+![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/meetdo?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
@@ -86,7 +87,7 @@ Personal Agent 与办公生态承接会后工作，WorkBuddy 连接已经完成�
 
 ### 正式 App 和开源版怎么选？
 
-| | 正式 App | 本仓库的开源本地版 |
+| | 正式 App | MeetDo 开源版 |
 |---|---|---|
 | 适合谁 | 想立即使用成熟产品的人 | 需要自托管、扩展和审计技术栈的人 |
 | 使用入口 | iOS、Android、鸿蒙、筑听 Z1 | 浏览器 + Docker Compose |
@@ -102,7 +103,7 @@ Personal Agent 与办公生态承接会后工作，WorkBuddy 连接已经完成�
 大多数会议工具只交出一段转写，或者要求把整场会议交给第三方基础设施。可真正重要的是
 一份能追责、能归档的文档；如果录音本身不能离开现场，方案就更少了。
 
-筑听开源版覆盖从会议现场到文件归档的完整路径：
+MeetDo 覆盖从会议现场到文件归档的完整路径：
 
 - **实时会议**：浏览器视频、屏幕共享、会议聊天、本机流式字幕；
 - **本地语音识别**：中文会议级 ASR（VAD 静音检测 + 标点恢复 + 领域纠错）；
@@ -114,7 +115,7 @@ Personal Agent 与办公生态承接会后工作，WorkBuddy 连接已经完成�
 
 ## 为所有高信息密度的会议设计
 
-筑听不是只服务某一个行业。管理层会议、客户沟通、项目周会、面试、培训、研究访谈，
+MeetDo 不是只服务某一个行业。管理层会议、客户沟通、项目周会、面试、培训、研究访谈，
 都使用同一个工作台；行业词库和专属模板是扩展能力，不是使用门槛。
 
 | 会议场景 | 筑听带来的价值 |
@@ -226,8 +227,8 @@ python3 scripts/benchmark_domain_accuracy.py
 要求：已安装 Docker，机器建议 16GB 内存（8GB 可用但会更慢）。
 
 ```bash
-git clone https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open.git
-cd jkinco-listen-open
+git clone https://github.com/wenxuanzhang1209-cyber/meetdo.git
+cd meetdo
 cp .env.example .env
 docker compose up -d --build
 ```
@@ -427,7 +428,7 @@ CI（GitHub Actions）自动执行：红线扫描 → 后端测试 → 前端构
 
 <sub>
 <b>JKinco</b> — local-first tools for work whose data cannot leave the building ·
-<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open">Listen</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/meetdo">MeetDo</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/jkinco-slides">Slides</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/JKinco-Skills-Lab">Skills Lab</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/personal-life-hub">Life Hub</a> ·
@@ -436,6 +437,6 @@ CI（GitHub Actions）自动执行：红线扫描 → 后端测试 → 前端构
 
 ## ⭐ 支持这个项目
 
-如果筑听帮你省下了一次次手动整理会议纪要的时间，请点右上角 **Star** ⭐。
+如果 MeetDo 帮你省下了一次次手动整理会议纪要的时间，请点右上角 **Star** ⭐。
 
-[![Star History Chart](https://api.star-history.com/svg?repos=wenxuanzhang1209-cyber/jkinco-listen-open&type=Date)](https://star-history.com/#wenxuanzhang1209-cyber/jkinco-listen-open&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=wenxuanzhang1209-cyber/meetdo&type=Date)](https://star-history.com/#wenxuanzhang1209-cyber/meetdo&Date)

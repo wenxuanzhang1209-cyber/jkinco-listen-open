@@ -1,30 +1,32 @@
 <div align="center">
 
 <a href="https://jkincolisten.cloud">
-  <img src="frontend/public/jkinco-listen-logo.png" width="520" alt="JKinco Listen | 筑听" />
+  <img src="frontend/public/jkinco-listen-logo.png" width="520" alt="MeetDo by JKinco Listen | 筑听" />
 </a>
 
-# JKinco Listen (Open Edition)
+# MeetDo
 
-**Meeting-to-Action AI Platform. The meeting ends. AI keeps the work moving.**
+**Open-source Meeting-to-Action AI, by 筑听 · JKinco Listen.**
+**The meeting ends. AI keeps the work moving.**
 
-Start a browser meeting with self-hosted media, watch captions stream from a local ASR model,
-and finish with structured minutes plus **DOCX/PDF**. No cloud model calls. Your meeting audio
-stays on infrastructure you control. The product direction extends that context into a Personal
-Agent and connected office workflows, with a completed WorkBuddy connection.
+MeetDo is the open-source edition of 筑听 · JKinco Listen. Start a browser meeting with
+self-hosted media, watch captions stream from a local ASR model, and finish with structured
+minutes plus **DOCX/PDF**. No cloud model calls. Your meeting audio stays on infrastructure you
+control. The product direction extends that context into a Personal Agent and connected office
+workflows, with a completed WorkBuddy connection.
 
 **The finished product is live:** [Open 筑听](https://jkincolisten.cloud) ·
 [Product tour, iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
 · [筑听 Z1 recorder](https://jkincolisten.cloud/download/ios)
 
-[简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/en.html) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
+[简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/meetdo/en.html) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
 
-[![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
+[![CI](https://github.com/wenxuanzhang1209-cyber/meetdo/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/meetdo/actions/workflows/ci.yml)
 [![Production App](https://img.shields.io/badge/Production_App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
 [![Capture Hardware](https://img.shields.io/badge/Capture_Hardware-JKinco_Z1-38bdf8.svg)](https://jkincolisten.cloud/download/ios)
 [![WorkBuddy connected](https://img.shields.io/badge/WorkBuddy-connected-7c3aed.svg)](https://open.workbuddy.cn)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
-![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
+![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/meetdo?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
@@ -95,7 +97,7 @@ pricing remain governed by the official product page.</sub>
 
 ### Production App or Open Edition?
 
-| | Production App | Open Edition in this repository |
+| | Production App | MeetDo Open Edition |
 |---|---|---|
 | Best for | Using the polished product now | Self-hosting, extending, and auditing the stack |
 | Entry point | iOS, Android, HarmonyOS, 筑听 Z1 | Browser + Docker Compose |
@@ -112,7 +114,7 @@ Most meeting tools stop at a transcript, or send the room to somebody else's inf
 Neither is enough when the transcript needs to become an accountable document and the audio
 cannot leave the building.
 
-JKinco Listen is for the whole path from conversation to filing:
+MeetDo is for the whole path from conversation to filing:
 
 - **Live meeting** — browser video, screen sharing, chat, and local streaming captions.
 - **Local speech recognition** — meeting-grade Mandarin ASR with voice-activity detection,
@@ -132,7 +134,7 @@ The product is intentionally general: the same workspace handles a management re
 customer call, a project weekly, an interview, a training session, or a research interview.
 Industry vocabulary and templates are extensions, not the front door.
 
-| Meeting | What JKinco Listen adds |
+| Meeting | What MeetDo adds |
 |---|---|
 | Management / board review | Decisions, owners, risks, and follow-ups in one structured record |
 | Project weekly / operations | Live captions, searchable history, and repeatable action-item extraction |
@@ -153,7 +155,7 @@ and a local model stack you can replace.
 
 ## How it compares
 
-|  | JKinco Listen (Open) | Cloud note-takers | Raw Whisper / FunASR |
+|  | MeetDo (Open) | Cloud note-takers | Raw Whisper / FunASR |
 |---|---|---|---|
 | Audio leaves your machine | **Never** | Yes | Never |
 | Cloud AI API key / subscription | **None** | Required | None |
@@ -250,8 +252,8 @@ full recording-to-export pipeline on the right:
 Requires Docker. 16 GB RAM recommended; 8 GB works but is slower.
 
 ```bash
-git clone https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open.git
-cd jkinco-listen-open
+git clone https://github.com/wenxuanzhang1209-cyber/meetdo.git
+cd meetdo
 cp .env.example .env
 docker compose up -d --build
 ```
@@ -482,7 +484,7 @@ and, just as importantly, what is out of scope.
 
 <sub>
 <b>JKinco</b> — local-first tools for work whose data cannot leave the building ·
-<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open">Listen</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/meetdo">MeetDo</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/jkinco-slides">Slides</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/JKinco-Skills-Lab">Skills Lab</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/personal-life-hub">Life Hub</a> ·
@@ -491,6 +493,6 @@ and, just as importantly, what is out of scope.
 
 ## Support this project
 
-If JKinco Listen saved you from typing up one more set of meeting minutes, please **Star** it ⭐.
+If MeetDo saved you from typing up one more set of meeting minutes, please **Star** it ⭐.
 
-[![Star History Chart](https://api.star-history.com/svg?repos=wenxuanzhang1209-cyber/jkinco-listen-open&type=Date)](https://star-history.com/#wenxuanzhang1209-cyber/jkinco-listen-open&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=wenxuanzhang1209-cyber/meetdo&type=Date)](https://star-history.com/#wenxuanzhang1209-cyber/meetdo&Date)

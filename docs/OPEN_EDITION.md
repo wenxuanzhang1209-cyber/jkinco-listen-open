@@ -1,10 +1,10 @@
-# 开源版说明
+# MeetDo 开源版说明
 
 > 想直接使用成熟移动端产品？
 > [打开筑听](https://jkincolisten.cloud) ·
 > [iOS / Android / 鸿蒙三端下载](https://jkincolisten.cloud/download/ios)
 
-本仓库是筑听的**开源本地版（Open Edition）**，定位是：
+本仓库是 **MeetDo**，也就是筑听的开源社区版，定位是：
 
 - 100% 本地运行，无需任何 API Key；
 - 实时会议 / 录音 → 本地转写 → 场景识别 → 纪要 → 导出完整闭环；

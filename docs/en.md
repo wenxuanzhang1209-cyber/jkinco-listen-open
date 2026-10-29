@@ -1,13 +1,15 @@
 <p align="center">
   <a href="https://jkincolisten.cloud">
-    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/jkinco-listen-open/main/frontend/public/jkinco-listen-logo.png"
-         width="480" alt="JKinco Listen | 筑听" />
+    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/meetdo/main/frontend/public/jkinco-listen-logo.png"
+         width="480" alt="MeetDo by JKinco Listen | 筑听" />
   </a>
 </p>
 
-# JKinco Listen (Open Edition)
+# MeetDo
 
 *[简体中文](index.md)*
+
+**Open-source Meeting-to-Action AI, by 筑听 · JKinco Listen.**
 
 **A private meeting workspace that runs live.** Join a self-hosted browser meeting, watch
 local streaming captions, then turn the room into structured minutes and DOCX/PDF. No cloud
@@ -60,7 +62,7 @@ Most meeting tools stop at a transcript. Cloud note-takers can produce a reasona
 but they require the conversation to reach their infrastructure. Neither model is enough when
 the output has to become an accountable document and the recording cannot leave the building.
 
-JKinco Listen handles management reviews, customer calls, project weeklies, interview panels,
+MeetDo handles management reviews, customer calls, project weeklies, interview panels,
 training sessions, research interviews, and regulated meetings in one workspace. The important
 part is not one industry: it is the entire path from live conversation to a file someone can
 review, search, and archive.
@@ -94,8 +96,8 @@ per-clip results, and the three bugs writing that benchmark found in this projec
 ## Quick start
 
 ```bash
-git clone https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open.git
-cd jkinco-listen-open
+git clone https://github.com/wenxuanzhang1209-cyber/meetdo.git
+cd meetdo
 cp .env.example .env
 docker compose up -d --build
 ```
@@ -114,7 +116,7 @@ example meetings appear, with export, search, and templates all usable.
 
 ## How it compares
 
-|  | JKinco Listen | Cloud note-takers | Raw Whisper |
+|  | MeetDo | Cloud note-takers | Raw Whisper |
 |---|---|---|---|
 | Audio leaves your machine | **Never** | Yes | Never |
 | API key required | **No** | Yes | No |
@@ -142,7 +144,7 @@ not an accuracy claim.
 
 ## Documentation
 
-- [Project home (README)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+- [Project home (README)](https://github.com/wenxuanzhang1209-cyber/meetdo)
 - [Benchmark](BENCHMARK.md)
 - [Architecture](ARCHITECTURE.en.md)
 - [Model guide](LOCAL_MODELS.en.md)
@@ -151,8 +153,8 @@ not an accuracy claim.
 
 ## Community
 
-- [Discussions](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions)
-- [Issues](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/issues)
+- [Discussions](https://github.com/wenxuanzhang1209-cyber/meetdo/discussions)
+- [Issues](https://github.com/wenxuanzhang1209-cyber/meetdo/issues)
 
 If this saved you from typing up one more set of meeting minutes, please ⭐ the repository.
 
@@ -162,7 +164,7 @@ MIT License © 2026 JKinco
 
 <sub>
 <b>JKinco</b> — local-first tools for work whose data cannot leave the building ·
-<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open">Listen</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/meetdo">MeetDo</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/jkinco-slides">Slides</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/JKinco-Skills-Lab">Skills Lab</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/personal-life-hub">Life Hub</a> ·

@@ -1,4 +1,4 @@
-# About the Open Edition
+# About MeetDo
 
 *[中文版 / Chinese version](OPEN_EDITION.md)*
 
@@ -6,7 +6,7 @@
 > [Open 筑听](https://jkincolisten.cloud) ·
 > [iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
 
-This repository is the **Open Edition** of JKinco Listen:
+This repository is **MeetDo**, the open-source edition of JKinco Listen:
 
 - Runs 100% locally, with no API key required.
 - Complete loop: live meeting / recording → local transcription → scene detection → minutes → export.

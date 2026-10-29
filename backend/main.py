@@ -688,7 +688,7 @@ def health():
     )
     return {
         "status": "ok",
-        "service": "jkinco-listen-open",
+        "service": "meetdo",
         "version": APP_VERSION,
         "realtime_asr": "local_streaming" if REALTIME_LOCAL_ASR else "disabled",
         "meeting_media": "livekit" if configured_media else "disabled",

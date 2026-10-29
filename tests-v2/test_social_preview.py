@@ -64,7 +64,7 @@ def test_the_whole_family_is_listed(gen):
     少一个，那个仓库的卡片就没人生成，它在分享链接里长得跟别人不一样。
     """
     assert set(gen.SPECS) == {
-        "jkinco-listen-open", "jkinco-slides", "personal-life-hub",
+        "meetdo", "jkinco-slides", "personal-life-hub",
         "recipe-miniprogram", "JKinco-Skills-Lab", "jkinco-tools",
     }
 
@@ -249,7 +249,7 @@ def test_the_test_count_on_the_card_is_current(request, gen):
 
     只在跑全量时检查 —— 用 -k 过滤或只跑单个文件时收集数当然对不上。
     """
-    chips = dict(gen.SPECS["jkinco-listen-open"]["chips"])
+    chips = dict(gen.SPECS["meetdo"]["chips"])
     claimed = next(int(text.split()[0]) for text in chips if text.endswith("tests"))
 
     # 怎么判断「这是一次全量运行」：无参调用时 pytest 会把 pyproject 里的

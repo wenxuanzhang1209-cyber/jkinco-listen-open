@@ -34,7 +34,7 @@ from pathlib import Path
 OWNER = "wenxuanzhang1209-cyber"
 
 #: 本仓库在 SPECS 里的键。同一份脚本发到六个仓库，只有这两行不同。
-REPO = "jkinco-listen-open"
+REPO = "meetdo"
 LOGO_RELATIVE = "assets/jkinco_logo_cropped.png"
 DEFAULT_LOGO_RELATIVE = LOGO_RELATIVE
 
@@ -76,9 +76,9 @@ MAX_TEXT_WIDTH = W - MARGIN * 2
 # headline 是两行，每行若干 (文字, 颜色) 段。字号自动收缩以适应宽度。
 # ---------------------------------------------------------------------------
 SPECS: dict[str, dict] = {
-    "jkinco-listen-open": {
-        "name": "JKinco Listen",
-        "cjk_sub": "筑听 · 正式 App + 开源本地版",
+    "meetdo": {
+        "name": "MeetDo",
+        "cjk_sub": "筑听开源版 · Meeting-to-Action AI",
         "logo": "assets/jkinco-listen-app-icon.png",
         "logo_tile": True,
         "headline": [

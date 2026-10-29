@@ -140,7 +140,7 @@ python3 scripts/benchmark_domain_accuracy.py
 
 <sub>
 <b>JKinco</b> — local-first tools for work whose data cannot leave the building ·
-<a href="https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open">Listen</a> ·
+<a href="https://github.com/wenxuanzhang1209-cyber/meetdo">Listen</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/jkinco-slides">Slides</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/JKinco-Skills-Lab">Skills Lab</a> ·
 <a href="https://github.com/wenxuanzhang1209-cyber/personal-life-hub">Life Hub</a> ·

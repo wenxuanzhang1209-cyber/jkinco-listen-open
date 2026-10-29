@@ -1,10 +1,10 @@
-name: jkinco-listen-open
+name: meetdo
 
 services:
   app:
     build: .
-    image: jkinco/jkinco-listen-open:latest
-    container_name: jkinco-listen-open
+    image: jkinco/meetdo:latest
+    container_name: meetdo
     restart: unless-stopped
     environment:
       JKINCO_AUTH: ${JKINCO_AUTH:-admin:123456}

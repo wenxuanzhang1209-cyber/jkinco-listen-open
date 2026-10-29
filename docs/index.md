@@ -1,13 +1,15 @@
 <p align="center">
   <a href="https://jkincolisten.cloud">
-    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/jkinco-listen-open/main/frontend/public/jkinco-listen-logo.png"
-         width="480" alt="JKinco Listen | 筑听" />
+    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/meetdo/main/frontend/public/jkinco-listen-logo.png"
+         width="480" alt="MeetDo by JKinco Listen | 筑听" />
   </a>
 </p>
 
-# JKinco Listen · 筑听（开源本地版）
+# MeetDo
 
-一个能直接开会的私有会议工作台：**自托管实时会议 → 本机流式字幕 → 场景识别 →
+**筑听开源版 · Open-source Meeting-to-Action AI**
+
+MeetDo 是一个能直接开会的私有会议工作台：**自托管实时会议 → 本机流式字幕 → 场景识别 →
 结构化纪要 → DOCX/PDF 导出**。不调用云端模型，不依赖云端 API Key。
 
 *[English](en.md)*
@@ -65,8 +67,8 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open.git
-cd jkinco-listen-open
+git clone https://github.com/wenxuanzhang1209-cyber/meetdo.git
+cd meetdo
 cp .env.example .env
 docker compose up -d --build
 ```
@@ -85,7 +87,7 @@ docker compose up -d --build
 
 ## 和别的方案比
 
-|  | 筑听开源版 | 云端会议助手 | 直接用 Whisper |
+|  | MeetDo 开源版 | 云端会议助手 | 直接用 Whisper |
 |---|---|---|---|
 | 音频是否出本机 | **从不** | 是 | 从不 |
 | 需要 API Key | **不需要** | 需要 | 不需要 |
@@ -97,7 +99,7 @@ docker compose up -d --build
 
 ## 文档
 
-- [项目主页（README）](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+- [项目主页（README）](https://github.com/wenxuanzhang1209-cyber/meetdo)
 - [**领域词识别基准**](BENCHMARK.md) —— 31/36 → 36/36，附可复现脚本
 - [架构](ARCHITECTURE.md)
 - [模型指南](LOCAL_MODELS.md)
@@ -106,8 +108,8 @@ docker compose up -d --build
 
 ## 社区
 
-- [Discussions](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions)
-- [Issue](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/issues)
+- [Discussions](https://github.com/wenxuanzhang1209-cyber/meetdo/discussions)
+- [Issue](https://github.com/wenxuanzhang1209-cyber/meetdo/issues)
 
 如果它帮你省下了手动整理纪要的时间，请去仓库点个 ⭐ Star。
 

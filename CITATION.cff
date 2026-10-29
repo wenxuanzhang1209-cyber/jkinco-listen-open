@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-title: "JKinco Listen (Open Edition)"
+title: "MeetDo (JKinco Listen Open Edition)"
 message: "If you use this software in your research, please cite it as below."
 type: software
 authors:
   - given-names: Wenxuan
     family-names: Zhang
     alias: wenxuanzhang1209-cyber
-repository-code: "https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open"
-url: "https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/"
+repository-code: "https://github.com/wenxuanzhang1209-cyber/meetdo"
+url: "https://wenxuanzhang1209-cyber.github.io/meetdo/"
 abstract: >-
   A local-first AI workbench that turns meeting recordings into finished, formatted minutes.
   Speech recognition, scene detection, minutes generation, and quality review all run on the

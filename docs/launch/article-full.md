@@ -56,8 +56,8 @@
 ## 快速体验
 
 ```bash
-git clone https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open.git
-cd jkinco-listen-open
+git clone https://github.com/wenxuanzhang1209-cyber/meetdo.git
+cd meetdo
 cp .env.example .env
 docker compose up -d --build
 ```
@@ -78,9 +78,9 @@ docker compose up -d --build
 
 本地模型这几年的进步，已经让“会议纪要不出门”从理想变成现实。如果你也有一堆不敢上传的录音，试试这个项目，也欢迎点个 Star 支持一下。
 
-仓库地址：<https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open>
+仓库地址：<https://github.com/wenxuanzhang1209-cyber/meetdo>
 
-![demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif)
+![demo](https://github.com/wenxuanzhang1209-cyber/meetdo/raw/main/docs/demo.gif)
 
 正式 App 与三端下载：<https://jkincolisten.cloud/download/ios>
 

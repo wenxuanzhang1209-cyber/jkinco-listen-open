@@ -118,7 +118,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   machine.
 - **One-command install scripts** — `bash scripts/install.sh && bash scripts/start.sh` for
   people who would rather not use Docker.
-- **Documentation site** at <https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/>.
+- **Documentation site** at <https://wenxuanzhang1209-cyber.github.io/meetdo/>.
 - GitHub Discussions, and a star-milestone workflow.
 
 ### Changed
@@ -145,6 +145,6 @@ Initial public release of the Open Edition.
 - One-command Docker deployment.
 - CI: open-edition boundary scan, 891 tests, frontend build, Docker image build.
 
-[Unreleased]: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/compare/v0.1.1...HEAD
-[0.1.1]: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/releases/tag/v0.1.1
-[0.1.0]: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/releases/tag/v0.1.0
+[Unreleased]: https://github.com/wenxuanzhang1209-cyber/meetdo/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/wenxuanzhang1209-cyber/meetdo/releases/tag/v0.1.1
+[0.1.0]: https://github.com/wenxuanzhang1209-cyber/meetdo/releases/tag/v0.1.0

@@ -37,7 +37,7 @@ localhost. This is the one configuration mistake most likely to matter in practi
 Please do **not** post secrets or sensitive recordings in a public issue.
 
 Report security problems through
-[GitHub Security Advisories](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/security/advisories/new)
+[GitHub Security Advisories](https://github.com/wenxuanzhang1209-cyber/meetdo/security/advisories/new)
 or by contacting the maintainer directly. We aim to acknowledge reports quickly and will
 credit reporters unless they prefer otherwise.
 
@@ -83,7 +83,7 @@ python scripts/check_open_source_hygiene.py
 请**不要**在公开 Issue 中提交密钥或敏感录音。
 
 请通过
-[GitHub Security Advisory](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/security/advisories/new)
+[GitHub Security Advisory](https://github.com/wenxuanzhang1209-cyber/meetdo/security/advisories/new)
 或直接联系维护者报告安全问题。我们会尽快响应，并在报告者不反对的前提下致谢。
 
 ## 支持的版本

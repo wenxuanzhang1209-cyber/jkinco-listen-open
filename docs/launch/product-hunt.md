@@ -7,7 +7,7 @@
 
 - Name: JKinco Listen (Open Edition)
 - Tagline: Self-hosted live meetings that leave you with filed minutes
-- URL: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
+- URL: https://github.com/wenxuanzhang1209-cyber/meetdo
 - Topics: Artificial Intelligence, Developer Tools, Productivity
 
 ## 首图与使用入口

@@ -104,6 +104,6 @@ jobs:
         with:
           context: .
           push: false
-          tags: jkinco/jkinco-listen-open:ci
+          tags: jkinco/meetdo:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max

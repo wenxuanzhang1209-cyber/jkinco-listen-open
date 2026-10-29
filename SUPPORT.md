@@ -6,10 +6,10 @@
 
 | I want to… | Go to |
 |---|---|
-| Ask a question, share a setup, compare models | [Discussions](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions) |
-| Report a reproducible bug | [Open an issue](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/issues/new?template=bug_report.yml) |
-| Propose a feature | [Open an issue](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/issues/new?template=feature_request.yml) |
-| Report a security problem | [Security advisory](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/security/advisories/new) — see [SECURITY.md](SECURITY.md) |
+| Ask a question, share a setup, compare models | [Discussions](https://github.com/wenxuanzhang1209-cyber/meetdo/discussions) |
+| Report a reproducible bug | [Open an issue](https://github.com/wenxuanzhang1209-cyber/meetdo/issues/new?template=bug_report.yml) |
+| Propose a feature | [Open an issue](https://github.com/wenxuanzhang1209-cyber/meetdo/issues/new?template=feature_request.yml) |
+| Report a security problem | [Security advisory](https://github.com/wenxuanzhang1209-cyber/meetdo/security/advisories/new) — see [SECURITY.md](SECURITY.md) |
 
 Questions in English or Chinese are equally welcome.
 
@@ -57,10 +57,10 @@ patched on your behalf.
 
 | 我想… | 去这里 |
 |---|---|
-| 提问、分享部署方案、比较模型 | [Discussions](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions) |
-| 报告可复现的 bug | [提交 Issue](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/issues/new?template=bug_report.yml) |
-| 提议新功能 | [提交 Issue](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/issues/new?template=feature_request.yml) |
-| 报告安全问题 | [Security Advisory](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/security/advisories/new)，见 [SECURITY.md](SECURITY.md) |
+| 提问、分享部署方案、比较模型 | [Discussions](https://github.com/wenxuanzhang1209-cyber/meetdo/discussions) |
+| 报告可复现的 bug | [提交 Issue](https://github.com/wenxuanzhang1209-cyber/meetdo/issues/new?template=bug_report.yml) |
+| 提议新功能 | [提交 Issue](https://github.com/wenxuanzhang1209-cyber/meetdo/issues/new?template=feature_request.yml) |
+| 报告安全问题 | [Security Advisory](https://github.com/wenxuanzhang1209-cyber/meetdo/security/advisories/new)，见 [SECURITY.md](SECURITY.md) |
 
 中英文提问一视同仁。
 

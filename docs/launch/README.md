@@ -1,6 +1,6 @@
 # 发射中心（Launch Kit）
 
-这里存放的是把 `jkinco-listen-open` 推向 1000 star/天量级的全部弹药。
+这里存放的是把 `meetdo` 推向 1000 star/天量级的全部弹药。
 所有文案都可以直接复制粘贴，占位符用 `[...]` 标出。
 
 ## 两条固定入口
@@ -9,7 +9,7 @@
 
 - **正式 App / 产品介绍：** <https://jkincolisten.cloud>
 - **三端下载与产品动效：** <https://jkincolisten.cloud/download/ios>
-- **开源本地版：** <https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open>
+- **开源本地版：** <https://github.com/wenxuanzhang1209-cyber/meetdo>
 
 正式 App 面向“现在就想用”的人；开源版面向“要自托管、扩展和审计”的人。两个入口同时出现，
 但不要混写数据边界。
