@@ -8,6 +8,15 @@
 - 首次运行自动从 ModelScope 下载（约 1–2GB）；
 - 可用 `JKINCO_ASR_MODEL_DIR` 指向已有模型目录，跳过重复下载。
 
+## 实时字幕
+
+默认：FunASR `paraformer-zh-streaming`，由 `JKINCO_REALTIME_LOCAL_ASR=1` 开启。
+
+- 在运行应用的机器上识别，会议音频不发送给云端 ASR；
+- 流式模型首次使用需要额外下载；
+- 当前以中文普通话为第一优先；英语/多语种属于 ASR 适配器与可复现基准的贡献方向，
+  不以“已支持且准确”作为宣传口径。
+
 ## 大模型（LLM）
 
 默认：Ollama `qwen2.5:7b-instruct`。

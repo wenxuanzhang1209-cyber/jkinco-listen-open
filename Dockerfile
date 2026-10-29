@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend ./backend
 COPY jkinco_*.py ./
 COPY report_templates.py ./
+COPY VERSION ./
 COPY templates ./templates
 COPY assets ./assets
 COPY --from=frontend /web/dist ./frontend/dist

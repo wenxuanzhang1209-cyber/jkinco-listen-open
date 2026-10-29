@@ -3,9 +3,12 @@
 
 在 CI 和本地 git pre-commit 中运行。任何违规内容都会让检查失败：
   - 云端模型 API 名称 / 域名 / 环境变量
-  - 生产环境域名、IP、备案信息
+  - 未经批准的生产环境路径、IP、备案信息
   - 疑似 API Key / 私钥 / Token
   - 意外提交的 .env / 证书文件
+
+公开产品介绍与三端下载页是有意面向用户发布的入口，因此只有下面这几个精确 URL 可以
+出现在公开文档中；同一域名下的任意其他路径仍会被当成生产痕迹拒绝。
 """
 
 from __future__ import annotations
@@ -14,9 +17,11 @@ import pathlib
 import re
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PRODUCTION_HOST = "jkincolisten.cloud"
 
 FORBIDDEN_TERMS = (
     "dashscope",
@@ -33,7 +38,6 @@ FORBIDDEN_TERMS = (
     "阿里云",
     "沪ICP",
     "ICP备案",
-    "jkincolisten.cloud",
     "compatible-mode",
     "X-DashScope",
     "DASHSCOPE",
@@ -42,6 +46,15 @@ FORBIDDEN_TERMS = (
     "JKINCO_ASR_VOCABULARY_ID",
     "筑衍",
     "47.103.",
+)
+
+#: 明确批准公开的产品入口。必须带完整路径或紧接 URL 边界，避免把
+#: `jkincolisten.cloud/internal-...` 这类未公开路径一起放行。
+PUBLIC_PRODUCT_URL = re.compile(
+    r"(?:https://)?" + PRODUCTION_HOST.replace(".", r"\.") + r"(?:"
+    r"/download/(?:ios(?:/manifest\.plist)?|android|harmony/app\.hap)"
+    r"|/icon-512\.png"
+    r")?(?=[\s<>)\]}\"'`·,;]|$)"
 )
 
 #: 行内豁免标记。写在哪一行,就只放过哪一行 —— 不放过整个文件。
@@ -91,6 +104,11 @@ def _virtualenv_dirs() -> set[pathlib.Path]:
     return {marker.parent for marker in ROOT.rglob("pyvenv.cfg")}
 
 
+def without_public_product_urls(text: str) -> str:
+    """Remove only the deliberately public product/download URLs before scanning."""
+    return PUBLIC_PRODUCT_URL.sub("", unquote(text))
+
+
 def iter_text_files():
     virtualenvs = _virtualenv_dirs()
     for path in ROOT.rglob("*"):
@@ -115,14 +133,26 @@ def main() -> int:
             text = path.read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
-        lowered = text.lower()
-        for term in FORBIDDEN_TERMS:
-            if term.lower() in lowered:
-                problems.append(f"{path.relative_to(ROOT)}: 出现云端/生产痕迹「{term}」")
         # 逐行扫,而不是整篇 search。原先只报第一个命中,一个文件里有两处就只看得见
         # 一处;而且没有行号,得自己去文件里翻。
         for number, line in enumerate(text.splitlines(), 1):
             if ALLOW_MARKER in line:
+                continue
+            public_safe = without_public_product_urls(line).lower()
+            if PRODUCTION_HOST in public_safe:
+                problems.append(
+                    f"{path.relative_to(ROOT)}:{number}: "
+                    f"出现未经批准的生产域名路径「{PRODUCTION_HOST}」"
+                )
+                continue
+            matched_term = next(
+                (term for term in FORBIDDEN_TERMS if term.lower() in public_safe), None
+            )
+            if matched_term:
+                problems.append(
+                    f"{path.relative_to(ROOT)}:{number}: "
+                    f"出现云端/生产痕迹「{matched_term}」"
+                )
                 continue
             for pattern in SECRET_PATTERNS:
                 match = pattern.search(line)

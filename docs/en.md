@@ -1,9 +1,39 @@
+<p align="center">
+  <a href="https://jkincolisten.cloud">
+    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/jkinco-listen-open/main/frontend/public/jkinco-listen-logo.png"
+         width="480" alt="JKinco Listen | 筑听" />
+  </a>
+</p>
+
 # JKinco Listen (Open Edition)
 
 *[简体中文](index.md)*
 
-**A local-first AI meeting-minutes workbench.** Recording → transcript → scene detection →
-structured minutes → DOCX/PDF, entirely on your own machine. No API key, no cloud call.
+**A private meeting workspace that runs live.** Join a self-hosted browser meeting, watch
+local streaming captions, then turn the room into structured minutes and DOCX/PDF. No cloud
+model call and no cloud API key.
+
+> **The finished product is live.**<br>
+> [Open 筑听](https://jkincolisten.cloud) ·
+> [Product tour + iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
+
+![Official product tour: live capture, automatic minutes, and meeting Q&A](production-download-tour.gif)
+
+<sub>The public product tour is Chinese-first; this repository and its contributor
+documentation are English-first. [Static poster](production-download-tour.png) ·
+[Full-screen overview](production-app-demo.gif)</sub>
+
+### Capture hardware: 筑听 Z1
+
+The production product also exposes **筑听 Z1** as a recording source: an approximately 44 g
+magnetic capture card with dual omnidirectional microphones, a bone-conduction microphone,
+8 / 16 / 32 / 64 GB storage, iOS / Android support, and recognition across more than 120
+languages and dialects.
+
+[![Official 筑听 Z1 product card](jkinco-z1-product-card.png)](https://jkincolisten.cloud/download/ios)
+
+<sub>Product availability, configuration, and pricing remain governed by the official product
+page.</sub>
 
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">
@@ -12,22 +42,35 @@ structured minutes → DOCX/PDF, entirely on your own machine. No API key, no cl
 
 ---
 
-## The constraint this is built for
+## One product, two ways to use it
 
-Some meetings cannot be uploaded. Not "should not" — **cannot**.
+| | Production App | Open Edition |
+|---|---|---|
+| Best for | Using the polished product now | Self-hosting, extending, and auditing |
+| Platforms | iOS, Android, HarmonyOS | Browser + Docker Compose |
+| Workflow | One-tap recording, auto minutes, Sona Q&A | LiveKit rooms, local live captions, local LLM, DOCX/PDF |
+| Data boundary | Governed by the production service and its terms | Runs on infrastructure you control |
 
-A construction site review decides who is accountable for a defect. An interview record holds
-a candidate's personal data. A client visit contains pricing. In regulated industries these
-recordings are part of a legal archive, and sending them to a third-party server is not a
-policy preference you can toggle.
+The public mobile product and this repository share the same product direction: useful live
+capture, reliable structured minutes, and a file that is ready when the meeting ends.
 
-Cloud meeting assistants are architecturally unable to serve that case. Their value comes from
-models running on their infrastructure, so the audio has to get there. That is not a gap in
-their product; it is what their product *is*.
+## The general problem
 
-So the people in those meetings do the only thing left: **they type the notes by hand.**
+Most meeting tools stop at a transcript. Cloud note-takers can produce a reasonable summary,
+but they require the conversation to reach their infrastructure. Neither model is enough when
+the output has to become an accountable document and the recording cannot leave the building.
 
-This project is for them. Everything runs on the machine in the room.
+JKinco Listen handles management reviews, customer calls, project weeklies, interview panels,
+training sessions, research interviews, and regulated meetings in one workspace. The important
+part is not one industry: it is the entire path from live conversation to a file someone can
+review, search, and archive.
+
+### Engineering is the stress test
+
+A construction site review combines multiple accountable parties, dense terminology, formal
+templates, and legal consequences when a responsibility is transcribed incorrectly. We use
+that environment to harden the generic pipeline. It proves the evidence gate and original-layout
+export under unusually demanding conditions; it does not limit who the product is for.
 
 ## What comes out
 
@@ -59,9 +102,12 @@ docker compose up -d --build
 
 Open <http://localhost:8080>.
 
-> ⚠️ **Change the password before exposing this to a network.** `.env.example` ships with
-> `JKINCO_AUTH=admin:123456` so a local trial works immediately, and the container binds
-> `0.0.0.0` — anyone who can reach the port can sign in with it.
+Start a live meeting from the meeting lobby. The first caption downloads the local streaming
+ASR model; after that, captions run on the machine hosting the service.
+
+> ⚠️ **Local trial credentials are deliberately obvious.** The web login is
+> `admin:123456`, and LiveKit runs in development mode. Replace both credentials, configure a
+> reachable `LIVEKIT_PUBLIC_URL`, and terminate TLS before exposing the service.
 
 Want to see the interface before downloading 2 GB of models? Set `JKINCO_DEMO_DATA=1` and two
 example meetings appear, with export, search, and templates all usable.
@@ -81,13 +127,18 @@ If you only need a transcript, use Whisper directly — it is simpler. This exis
 ## Under the hood
 
 - 🎙 **Local speech recognition** — FunASR `paraformer-zh`
+- 🎥 **Self-hosted live meetings** — LiveKit rooms, screen sharing, chat, and local streaming captions
 - 🧠 **Local LLM** — Ollama (`qwen2.5:7b-instruct` by default) or any OpenAI-compatible endpoint
 - 🏗 **Evidence-gated scene detection** — rules decide first; the model may downgrade a
   classification but never promote one, because the wrong template produces a document
   asserting the wrong legal responsibility
 - 📄 **Original-layout DOCX/PDF export**
-- 🔐 **No API key, no cloud, no telemetry** — enforced in CI, not asserted in a README
+- 🔐 **No cloud AI API key, no cloud inference, no telemetry** — checked in CI, not only asserted in a README
 - 🐳 **One-command Docker deploy**
+
+English-first documentation and contributor workflow are part of this repository. The default
+ASR model is Mandarin-first; multilingual recognition is an adapter and benchmark milestone,
+not an accuracy claim.
 
 ## Documentation
 

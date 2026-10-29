@@ -43,6 +43,13 @@ def test_this_repo_has_a_spec(gen):
     assert gen.REPO in gen.SPECS
 
 
+def test_this_repo_uses_the_production_app_icon(gen):
+    """社交卡必须使用正式产品 App 图标，而不是公司品牌组合标。"""
+    spec = gen.SPECS[gen.REPO]
+    assert spec["logo"] == "assets/jkinco-listen-app-icon.png"
+    assert (ROOT / spec["logo"]).is_file()
+
+
 def test_every_spec_is_complete(gen):
     required = {"name", "cjk_sub", "headline", "cjk_line", "flow", "chips"}
     for repo, spec in gen.SPECS.items():

@@ -50,8 +50,8 @@ SCHEDULED_START_GRACE_SECONDS = int(os.getenv("JKINCO_SCHEDULED_START_GRACE", st
 # 会议聊天单次返回的最大条数。取 400 与前端的保留条数一致 —— 两处不一致时,
 # 要么白传一批立刻被丢掉的消息,要么用户滚不到自己刚看过的那条。
 CHAT_HISTORY_LIMIT = int(os.getenv("JKINCO_CHAT_HISTORY_LIMIT", "400"))
-# 实验性本地实时字幕：默认关闭。开启后 WebSocket 字幕走本机
-# paraformer-zh-streaming，不依赖任何外部服务。
+# 本地实时字幕：docker-compose 默认开启；单独运行后端时可通过环境变量显式开启。
+# 开启后 WebSocket 字幕走本机 paraformer-zh-streaming，不依赖任何外部服务。
 REALTIME_LOCAL_ASR = os.getenv("JKINCO_REALTIME_LOCAL_ASR", "0").strip().lower() not in {"0", "false", "no", "off"}
 # 实时转写空闲超时：一段时间收不到音频就结束会话，避免连接悬挂。
 ASR_IDLE_TIMEOUT_SECONDS = max(10.0, float(os.getenv("JKINCO_ASR_IDLE_TIMEOUT", "120") or 120))
@@ -1733,12 +1733,12 @@ def _register_realtime_asr_route(app: FastAPI, verify_session: Callable[[str | N
     """实时转写 WebSocket（开源版）。
 
     默认返回明确错误，避免前端无限重连；设置 JKINCO_REALTIME_LOCAL_ASR=1
-    后启用实验性本地流式字幕（FunASR paraformer-zh-streaming）。
+    后启用本地流式字幕（FunASR paraformer-zh-streaming）。Docker Compose 默认已开启。
     鉴权与会议开关校验照旧。
     """
 
     async def _stream_local_realtime_asr(websocket: WebSocket, on_sentence: Callable[[dict, str], dict]) -> None:
-        """实验性本地流式转写：PCM 分块 → FunASR streaming → 字幕下发。"""
+        """本地流式转写：PCM 分块 → FunASR streaming → 字幕下发。"""
         await websocket.accept()
         await websocket.send_json({"type": "asr.ready", "model": "paraformer-zh-streaming (local)"})
         cache: dict = {}
@@ -1854,13 +1854,13 @@ def _register_realtime_asr_route(app: FastAPI, verify_session: Callable[[str | N
             await websocket.accept()
             await websocket.send_json({
                 "type": "asr.error",
-                "message": "开源版实时流式转写未启用：设置 JKINCO_REALTIME_LOCAL_ASR=1 可开启实验性本地字幕",
+                "message": "本地流式转写未启用：设置 JKINCO_REALTIME_LOCAL_ASR=1 可开启本地字幕",
             })
             await websocket.close(code=4503)
 
     @app.websocket("/api/realtime/asr")
     async def realtime_asr_recorder(websocket: WebSocket):
-        """录音面板的实时转写：开源版暂不支持，返回明确错误。"""
+        """录音面板的实时转写；本地流式 ASR 未开启时返回明确错误。"""
         if not _websocket_origin_matches_host(websocket):
             await websocket.close(code=4403)
             return
@@ -1874,7 +1874,7 @@ def _register_realtime_asr_route(app: FastAPI, verify_session: Callable[[str | N
             await websocket.accept()
             await websocket.send_json({
                 "type": "asr.error",
-                "message": "开源版实时流式转写未启用：设置 JKINCO_REALTIME_LOCAL_ASR=1 可开启实验性本地字幕",
+                "message": "本地流式转写未启用：设置 JKINCO_REALTIME_LOCAL_ASR=1 可开启本地字幕",
             })
             await websocket.close(code=4503)
 

@@ -6,8 +6,10 @@
 
 ```mermaid
 flowchart LR
-    U[Browser · React + TypeScript] -->|upload / live recording| API[FastAPI backend]
-    API --> ASR[FunASR local recognition]
+    U[Browser · React + TypeScript] -->|WebRTC| LK[Self-hosted LiveKit]
+    U -->|upload / microphone| API[FastAPI backend]
+    LK -->|room audio| ASR[FunASR local recognition]
+    API --> ASR
     ASR --> LEX[Domain lexicon correction]
     LEX --> CLS[Scene detection<br/>evidence gate + model review]
     CLS --> LLM[Local LLM via Ollama]
@@ -23,7 +25,7 @@ flowchart LR
 |---|---|
 | `frontend/` | React + TypeScript workbench: upload, live recording, human review, export, history, meetings |
 | `backend/main.py` | FastAPI routes, authentication, rate limiting, job queue, static assets |
-| `backend/meetings.py` | Real-time meeting lifecycle (optional LiveKit), history archival |
+| `backend/meetings.py` | Real-time meeting lifecycle, LiveKit grants, local streaming ASR, history archival |
 | `backend/auth.py` | Local accounts, CAPTCHA, signed sessions, guest quotas |
 | `jkinco_asr.py` | FunASR local speech recognition, duration gate, domain correction |
 | `jkinco_llm.py` | OpenAI-compatible calls, primary/fallback model degradation, retries |
@@ -36,7 +38,7 @@ flowchart LR
 
 ## Data flow
 
-1. The user uploads a recording, or records live in the browser.
+1. The user uploads a recording, or joins a WebRTC meeting through the self-hosted LiveKit service.
 2. ffmpeg probes the duration; oversized inputs are rejected before decoding.
 3. FunASR transcribes locally, batching at 300-second intervals.
 4. The domain lexicon corrects industry terms, personal names, and organization names.
@@ -60,15 +62,18 @@ construction review is a document that misstates legal responsibility.
 
 ## Security perimeter
 
-- All inference happens in-process or against a local Ollama instance. Audio and text never
-  leave the machine.
-- No cloud credentials exist anywhere. CI rejects cloud-model traces and secrets.
+- All inference happens in-process or against a local Ollama instance. Audio and text stay
+  inside the user-controlled deployment; there is no third-party cloud inference dependency.
+- No cloud credentials exist anywhere. CI scans both the working tree and full Git history,
+  with redacted findings, and rejects cloud-model traces and secrets.
+- LiveKit ports bind to loopback in the default Compose setup. LAN/public deployments must
+  replace development credentials, set a reachable public URL and node IP, and terminate TLS.
 - Login rate limiting, CAPTCHA, HMAC-signed sessions, CSP and security headers.
 - Template uploads are hardened against zip bombs, path traversal, and XML entity attacks.
 - Job slots are quota-limited separately for accounts and guests.
 
 ## Testing
 
-`tests-v2/` contains 961 tests covering the API, security, concurrency, templates, export,
+`tests-v2/` contains 977 tests covering the API, security, concurrency, templates, export,
 scene rules, and module contracts. `scripts/smoke_test.py` provides an offline smoke entry
 point that exercises scene routing and every export path without needing a model.

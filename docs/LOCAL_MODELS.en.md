@@ -10,6 +10,15 @@ Default: FunASR `paraformer-zh` + `fsmn-vad` + `ct-punc`.
 - Downloaded automatically from ModelScope on first run (~1–2 GB).
 - Point `JKINCO_ASR_MODEL_DIR` at an existing model directory to skip the download.
 
+## Live captions
+
+Default: FunASR `paraformer-zh-streaming`, enabled by `JKINCO_REALTIME_LOCAL_ASR=1`.
+
+- Runs on the machine hosting the application; meeting audio is not sent to a cloud ASR.
+- The streaming model is an additional first-use download.
+- It is Mandarin-first. English/multilingual support is an adapter and benchmark contribution,
+  not a built-in accuracy claim.
+
 ## Language model (LLM)
 
 Default: Ollama `qwen2.5:7b-instruct`.

@@ -11,14 +11,35 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- The default Docker experience now starts a self-hosted LiveKit media server, enables
+  `JKINCO_REALTIME_LOCAL_ASR` by default, and exposes the real-time meeting as a first-class
+  product path instead of an FAQ item. LiveKit ports stay loopback-only unless the operator
+  explicitly configures LAN/public access.
+- README, documentation-site landing pages, and the social preview now lead with the general
+  market: live meetings, local captions, structured minutes, and filed documents. Engineering
+  is presented as the hardest benchmark and domain proof, not as the product's only audience.
+- `VERSION`, the API application version, the health endpoint, the frontend package, and the
+  Docker image now share one release identifier instead of drifting independently.
 - English is now the repository's default language. `README.md` is English; the Chinese
   version moved to `README.zh-CN.md`. Contributor-facing files (`CONTRIBUTING.md`,
   `SECURITY.md`, issue templates, `.env.example`) are bilingual, English first.
 - English translations added for the architecture, model guide, roadmap, and open-edition
   documents.
+- Public entry points now distinguish the ready-to-use Production App from the self-hosted
+  Open Edition, with direct routes to the product tour and iOS/Android/HarmonyOS downloads.
+- README branding now uses the official horizontal JKinco Listen product lockup; the social
+  preview uses the production App icon shown in the actual product.
 
 ### Added
 
+- A production-product tour captured from the public download page, including a three-device
+  composite and separate live-capture, automatic-minutes, and Sona Q&A clips.
+- Promotion of the official iOS / Android / HarmonyOS app and 筑听 Z1 capture hardware
+  alongside the self-hosted Open Edition.
+- A rebuilt `docs/production-app-demo.gif` from the public product tour: live recording →
+  automatic minutes → Sona meeting Q&A, plus a poster image and reproducible build script.
+- A global-release package for `v0.2.0`: English-first positioning, a live-meeting quick
+  start, and a bilingual release note draft under `docs/launch/`.
 - **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)** — the benchmark as a published page, with the
   raw JSON output alongside it, so the number can be checked without reading code.
 - **`scripts/benchmark_domain_accuracy.py`** — the benchmark as a runnable script rather than
@@ -48,6 +69,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+- The hygiene scanner now permits only the exact public product/download URLs, while any
+  other path on the production host is still rejected as a potential infrastructure leak.
 - **The secret scanner missed OpenAI, Anthropic, Google, and Slack keys.** Its pattern
   required an underscore after the prefix (`sk_`), so `sk-proj-…`, `sk-…`, `sk-ant-…`,
   `AIza…`, and `xoxb-…` all passed straight through — two of seven common formats were

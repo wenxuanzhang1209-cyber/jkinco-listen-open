@@ -1,21 +1,60 @@
+<p align="center">
+  <a href="https://jkincolisten.cloud">
+    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/jkinco-listen-open/main/frontend/public/jkinco-listen-logo.png"
+         width="480" alt="JKinco Listen | 筑听" />
+  </a>
+</p>
+
 # JKinco Listen · 筑听（开源本地版）
 
-本地优先的 AI 会议纪要工作台：**录音转写 → 场景识别 → 结构化纪要 → DOCX/PDF 导出**，
-全流程 100% 本地运行，数据不出本机。
+一个能直接开会的私有会议工作台：**自托管实时会议 → 本机流式字幕 → 场景识别 →
+结构化纪要 → DOCX/PDF 导出**。不调用云端模型，不依赖云端 API Key。
 
 *[English](en.md)*
+
+> **正式产品已经上线。**<br>
+> [打开筑听](https://jkincolisten.cloud) ·
+> [产品演示、三端下载与筑听 Z1](https://jkincolisten.cloud/download/ios)
+
+![正式产品：现场采集、自动成稿与会议问答](production-download-tour.gif)
+
+<sub>动图录制自公开下载页；公开产品介绍目前以中文为主，本开源仓库与贡献文档采用英文优先。
+[静态海报](production-download-tour.png) · [全流程总览](production-app-demo.gif)</sub>
+
+### 随身录音卡：筑听 Z1
+
+正式产品同时支持 **筑听 Z1**：约 44 g、磁吸随身，双全向麦克风加 1 个骨传导麦克风，
+8 / 16 / 32 / 64 GB 存储，支持 Android / iOS，并可识别 120+ 种语言和方言。在正式 App
+中，Z1 与手机录音并列，作为一等的采集入口。
+
+[![官方筑听 Z1 产品卡](jkinco-z1-product-card.png)](https://jkincolisten.cloud/download/ios)
+
+<sub>具体在售状态、配置与价格以正式产品页为准。</sub>
 
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">
   你的浏览器不支持内嵌视频，<a href="demo.mp4">点这里下载演示</a>。
 </video>
 
+- 🎥 自托管实时会议：LiveKit 房间、屏幕共享、聊天与本机流式字幕
 - 🎙 本地语音识别：FunASR `paraformer-zh`
 - 🧠 本地大模型：Ollama（默认 `qwen2.5:7b-instruct`）
 - 🏗 规则证据门控的场景识别：工程例会 / 通用 / 个人 / 面试 / 客户拜访
 - 📄 原版式 DOCX/PDF 导出
 - 🔒 零 API Key、零云端、零遥测
 - 🐳 Docker 一条命令部署
+
+## 一个产品，两种用法
+
+| | 正式 App | 开源本地版 |
+|---|---|---|
+| 适合谁 | 想立即使用成熟产品的人 | 需要自托管、扩展和审计的人 |
+| 使用入口 | iOS、Android、鸿蒙 | 浏览器 + Docker Compose |
+| 核心流程 | 一键录音、自动成稿、Sona 会议问答 | LiveKit 实时会议、本地字幕、本地大模型、DOCX/PDF |
+| 数据边界 | 以正式产品服务及其条款为准 | 运行在你控制的基础设施上 |
+
+正式移动端与开源仓库共享同一个产品方向：现场记录要实时有用，散会后要留下结构化、
+可检索、可导出的会议资产。
 
 ## 产出物长这样
 
@@ -34,9 +73,12 @@ docker compose up -d --build
 
 访问 <http://localhost:8080>。
 
-> ⚠️ **接到网络上之前先改口令。** `.env.example` 里预置了 `JKINCO_AUTH=admin:123456`，
-> 是为了让本地试用能立刻跑起来。容器监听的是 `0.0.0.0`——只要能访问到端口的人，都能用
-> 这组默认口令登录。除 localhost 之外的任何绑定，请先改掉 `.env` 里的 `JKINCO_AUTH`。
+从实时会议大厅创建第一场会议。首次打开本地字幕会下载流式 ASR 模型，之后识别在运行
+服务的机器上完成。
+
+> ⚠️ **本地试用凭据故意写成一眼可见。** 网页登录默认是 `admin:123456`，LiveKit 使用
+> 开发模式。开放局域网或公网前必须更换两套凭据、配置可达的 `LIVEKIT_PUBLIC_URL`，
+> 并在前置代理启用 TLS。
 
 想先体验界面、不下载模型？设置 `JKINCO_DEMO_DATA=1` 即可获得两条示例纪要，
 导出、历史检索、模板都能直接玩。

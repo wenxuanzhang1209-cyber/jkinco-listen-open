@@ -87,6 +87,32 @@ def test_the_repository_itself_is_clean():
     assert result.returncode == 0, result.stdout + result.stderr
 
 
+@pytest.mark.parametrize("url", [
+    "https://jkincolisten.cloud",
+    "https://jkincolisten.cloud/download/ios",
+    "https://jkincolisten.cloud/download/android",
+    "https://jkincolisten.cloud/download/harmony/app.hap",
+    "https://jkincolisten.cloud/icon-512.png",
+    "jkincolisten.cloud/download/ios",
+    "https%3A%2F%2Fjkincolisten.cloud%2Fdownload%2Fios",
+])
+def test_approved_public_product_urls_are_not_production_leaks(url):
+    """公开产品入口要能进 README，但不能顺手放过整个生产域名。"""
+    module = _module()
+    assert url not in module.without_public_product_urls(url)
+
+
+@pytest.mark.parametrize("text", [
+    "https://jkincolisten.cloud/internal-admin",  # hygiene:allow-secret
+    "https://jkincolisten.cloud/download/private-build",  # hygiene:allow-secret
+    "jkincolisten.cloud/api/internal",  # hygiene:allow-secret
+])
+def test_unapproved_production_paths_still_trip_the_scanner(text):
+    module = _module()
+    sanitized = module.without_public_product_urls(text).lower()
+    assert module.PRODUCTION_HOST in sanitized
+
+
 def test_inline_allow_marker_is_line_scoped(tmp_path, monkeypatch):
     """豁免标记只放过它所在的那一行。
 
