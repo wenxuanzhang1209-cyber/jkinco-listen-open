@@ -13,9 +13,10 @@ DOCX/PDF pipeline.
 
 - Self-hosted LiveKit meeting rooms: audio, video, screen sharing, and chat.
 - Local streaming captions enabled by default; no cloud ASR dependency.
-- Prominent links from the open repository to the live production app and its iOS, Android,
-  and HarmonyOS download page.
-- A rebuilt production-app demo for GitHub: one-tap recording → automatic minutes → Sona Q&A.
+- Prominent links from the open repository to the live production app, its iOS, Android, and
+  HarmonyOS downloads, and the 筑听 Z1 capture hardware.
+- A production tour captured from the public download page, plus separate live-capture,
+  automatic-minutes, and Sona Q&A clips.
 - A clear Production App / Open Edition boundary, so “ready to use” and “runs on your own
   infrastructure” do not get conflated.
 - The official JKinco Listen product lockup in the README and the production App icon in the
@@ -33,6 +34,7 @@ DOCX/PDF pipeline.
 - Production app: <https://jkincolisten.cloud>
 - Product tour + iOS / Android / HarmonyOS downloads:
   <https://jkincolisten.cloud/download/ios>
+- 筑听 Z1 capture card: <https://jkincolisten.cloud/download/ios>
 
 The Open Edition below remains fully self-hosted, MIT licensed, and independent of the
 production service.
