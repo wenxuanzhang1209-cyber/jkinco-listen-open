@@ -6,10 +6,11 @@
 
 # JKinco Listen · 筑听（开源本地版）
 
-**会议还在开，字幕已经在本地生成；会议一结束，纪要已经能归档。**
+**会议驱动的 AI 工作执行平台。会议结束，AI 继续把事办完。**
 
 用自托管会议房间开视频会、共享屏幕、实时生成本地字幕，再把整场会议变成结构化
-纪要和 **DOCX/PDF**。不调用云端模型，会议音频留在你控制的基础设施里。
+纪要和 **DOCX/PDF**。不调用云端模型，会议音频留在你控制的基础设施里。产品进一步通过
+Personal Agent 与办公生态承接会后工作，WorkBuddy 连接已经完成。
 
 **正式产品已上线：** [打开筑听](https://jkincolisten.cloud) ·
 [产品演示、三端下载与筑听 Z1](https://jkincolisten.cloud/download/ios)
@@ -19,6 +20,7 @@
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 [![正式 App](https://img.shields.io/badge/App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
 [![筑听 Z1](https://img.shields.io/badge/Capture_Hardware-JKinco_Z1-38bdf8.svg)](https://jkincolisten.cloud/download/ios)
+[![WorkBuddy 已连接](https://img.shields.io/badge/WorkBuddy-已连接-7c3aed.svg)](https://open.workbuddy.cn)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
@@ -37,7 +39,8 @@
 
 公开的 **筑听 App** 把同一套“会议现场 → 可归档文档”的产品链路做成了可直接使用的移动端：
 一键录音、边说边出转写、会后自动生成结构化纪要、导出 Word/PDF，并可通过
-**Sona 妙思**基于纪要与原文继续追问。
+**Sona 妙思**基于纪要与原文继续追问。WorkBuddy 连接已经完成，可把授权会议上下文带入
+已连接的工作流。
 
 [**打开正式版筑听**](https://jkincolisten.cloud) ·
 [**产品演示与三端下载**](https://jkincolisten.cloud/download/ios)
@@ -54,8 +57,20 @@
 [自动成稿](docs/production-generation.gif) · [妙思问答](docs/production-sona.gif)</sub>
 
 它面向管理层会议、客户沟通、项目周会、面试、培训、研究访谈和合规要求高的会议。
-工程监理则是最严苛的压力测试：多责任主体、密集术语、正式交付物，以及转错一个责任主体
+建筑领域则是最严苛的压力测试：多责任主体、密集术语、正式交付物，以及转错一个责任主体
 就可能改变文件含义的真实后果。
+
+### 不止会议纪要
+
+产品品类不只是转写：一场会议会变成经过授权、结构化的上下文，并继续承接会后工作。
+
+| 层级 | 状态 | 能力 |
+|---|---|---|
+| 会议智能 | **已上线** | 采集、实时转写、结构化纪要、决策与责任人、DOCX/PDF |
+| Sona 问答 | **已上线** | 基于会议上下文追问、补齐信息并支持后续事项 |
+| WorkBuddy 连接 | **已上线** | 授权会议上下文可进入 WorkBuddy 工作流 |
+| Personal Agent 任务编排 | **产品方向** | 经授权拆解任务、起草文档、提醒跟进与更新状态 |
+| MCP/API 互操作 | **下一层** | 更多连接能力，只在真实上线后公布 |
 
 ### 随身录音卡：筑听 Z1
 
@@ -111,7 +126,7 @@
 | 培训 / 工作坊 | 可检索笔记，让没参会的人也能快速补上下文 |
 | 研究 / 田野访谈 | 本地存储、可编辑转写、便携 DOCX/PDF 产出 |
 
-### 工程场景是最严苛的压力测试
+### 建筑领域是最严苛的压力测试
 
 工程例会涉及多责任主体、密集术语、正式交付物；一个责任主体写错，就可能改变文件的
 法律含义。我们从这个最难的环境开始打磨通用流水线：领域词库、证据门控、原版式导出，

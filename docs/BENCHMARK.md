@@ -20,7 +20,7 @@ prints the table below. Raw results: [`benchmark-results.json`](benchmark-result
 ## What it measures
 
 Ten Chinese meeting sentences, each carrying domain terms that a general-purpose model tends
-to mishear — construction supervision, HR, commercial, and platform vocabulary. 36 target
+to mishear — construction, HR, commercial, and platform vocabulary. 36 target
 terms in total.
 
 | Clip | Domain | Raw | Corrected |
@@ -98,7 +98,7 @@ python3 scripts/benchmark_domain_accuracy.py
 
 ## 它测的是什么
 
-十段中文会议语句，每段携带若干通用模型容易听错的领域词——工程监理、人事、商务、
+十段中文会议语句，每段携带若干通用模型容易听错的领域词——建筑、人事、商务、
 平台建设，共 36 个目标词。
 
 **五处失误全部落在工程术语上**，这正是纠错层存在的理由。

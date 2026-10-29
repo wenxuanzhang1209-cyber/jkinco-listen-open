@@ -6,11 +6,12 @@
 
 # JKinco Listen (Open Edition)
 
-**Live captions in the room. Filed minutes on your machine.**
+**Meeting-to-Action AI Platform. The meeting ends. AI keeps the work moving.**
 
 Start a browser meeting with self-hosted media, watch captions stream from a local ASR model,
 and finish with structured minutes plus **DOCX/PDF**. No cloud model calls. Your meeting audio
-stays on infrastructure you control.
+stays on infrastructure you control. The product direction extends that context into a Personal
+Agent and connected office workflows, with a completed WorkBuddy connection.
 
 **The finished product is live:** [Open 筑听](https://jkincolisten.cloud) ·
 [Product tour, iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
@@ -21,6 +22,7 @@ stays on infrastructure you control.
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
 [![Production App](https://img.shields.io/badge/Production_App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
 [![Capture Hardware](https://img.shields.io/badge/Capture_Hardware-JKinco_Z1-38bdf8.svg)](https://jkincolisten.cloud/download/ios)
+[![WorkBuddy connected](https://img.shields.io/badge/WorkBuddy-connected-7c3aed.svg)](https://open.workbuddy.cn)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
@@ -39,7 +41,8 @@ stays on infrastructure you control.
 
 The public **筑听 App** turns the same conversation-to-document workflow into a ready-to-use
 mobile product: one-tap recording, live transcript while the room is speaking, automatic
-structured minutes, Word/PDF export, and **Sona 妙思** meeting Q&A.
+structured minutes, Word/PDF export, and **Sona 妙思** meeting Q&A. The WorkBuddy connection is
+already complete, extending authorized meeting context into connected office workflows.
 
 [**Open the production app**](https://jkincolisten.cloud) ·
 [**Product tour & three-platform downloads**](https://jkincolisten.cloud/download/ios)
@@ -58,9 +61,22 @@ are English-first. [Static poster](docs/production-download-tour.png) ·
 [Sona clip](docs/production-sona.gif)</sub>
 
 Built for management reviews, customer calls, project weeklies, interviews, training,
-research, and regulated meetings. Engineering supervision is the stress test — multiple
-accountable parties, dense vocabulary, formal deliverables, and consequences when a
-responsibility is transcribed incorrectly.
+research, and regulated meetings. Construction is the stress test — multiple accountable
+parties, dense vocabulary, formal deliverables, and consequences when a responsibility is
+transcribed incorrectly.
+
+### Beyond meeting notes
+
+The product category is broader than transcription: a meeting becomes structured, permissioned
+context that can continue into post-meeting work.
+
+| Layer | Status | Capability |
+|---|---|---|
+| Meeting intelligence | **Live** | Capture, live transcript, structured minutes, decisions, owners, DOCX/PDF |
+| Sona Q&A | **Live** | Meeting-grounded questions, context, and follow-up support |
+| WorkBuddy connection | **Live** | Authorized meeting context can connect to WorkBuddy workflows |
+| Personal Agent action orchestration | **Direction** | Approved task breakdown, document drafting, reminders, and status tracking |
+| MCP/API interoperability | **Next layer** | Additional connector surfaces, announced only when live |
 
 ### A voice-first capture card: 筑听 Z1
 
@@ -125,7 +141,7 @@ Industry vocabulary and templates are extensions, not the front door.
 | Training / workshop | Searchable notes and a durable summary for people who could not attend |
 | Research / field interview | Local storage, editable transcript, and portable DOCX/PDF output |
 
-### Engineering is our stress test, not our ceiling
+### Construction is our stress test, not our ceiling
 
 A construction site review has multiple accountable parties, dense domain terms, formal
 deliverables, and legal consequences if a responsibility is transcribed incorrectly. We use
