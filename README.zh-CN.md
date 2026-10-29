@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="assets/jkinco_logo_cropped.png" width="140" alt="JKinco Listen" />
+<a href="https://jkincolisten.cloud">
+  <img src="frontend/public/jkinco-listen-logo.png" width="520" alt="JKinco Listen | 筑听" />
+</a>
 
 # JKinco Listen · 筑听（开源本地版）
 
@@ -9,9 +11,13 @@
 用自托管会议房间开视频会、共享屏幕、实时生成本地字幕，再把整场会议变成结构化
 纪要和 **DOCX/PDF**。不调用云端模型，会议音频留在你控制的基础设施里。
 
+**正式 App 已上线：** [打开筑听](https://jkincolisten.cloud) ·
+[产品演示与 iOS / Android / 鸿蒙三端下载](https://jkincolisten.cloud/download/ios)
+
 [English](README.md) · [文档站](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/) · [架构](docs/ARCHITECTURE.md) · [模型指南](docs/LOCAL_MODELS.md) · [路线图](docs/ROADMAP.md) · [更新日志](CHANGELOG.md) · [支持](SUPPORT.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
+[![正式 App](https://img.shields.io/badge/App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
@@ -19,12 +25,47 @@
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
 ![Docker](https://img.shields.io/badge/Docker-一键部署-2496ED.svg)
 ![Live captions](https://img.shields.io/badge/实时字幕-本机生成-3fb950.svg)
-![Tests](https://img.shields.io/badge/tests-965%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-977%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
 
 ---
+
+## 正式产品已经上线
+
+公开的 **筑听 App** 把同一套“会议现场 → 可归档文档”的产品链路做成了可直接使用的移动端：
+一键录音、边说边出转写、会后自动生成结构化纪要、导出 Word/PDF，并可通过
+**Sona 妙思**基于纪要与原文继续追问。
+
+[**打开正式版筑听**](https://jkincolisten.cloud) ·
+[**产品演示与三端下载**](https://jkincolisten.cloud/download/ios)
+
+[iOS](https://jkincolisten.cloud/download/ios) ·
+[安卓](https://jkincolisten.cloud/download/android) ·
+[鸿蒙](https://jkincolisten.cloud/download/harmony/app.hap)
+
+![正式 App：录音实时转写、自动成稿与会议问答](docs/production-app-demo.gif)
+
+<sub>正式 App 演示：**录音 → 自动成稿 → 基于会议追问**。公开产品介绍目前以中文为主；
+本开源仓库与贡献文档采用英文优先。</sub>
+
+它面向管理层会议、客户沟通、项目周会、面试、培训、研究访谈和合规要求高的会议。
+工程监理则是最严苛的压力测试：多责任主体、密集术语、正式交付物，以及转错一个责任主体
+就可能改变文件含义的真实后果。
+
+### 正式 App 和开源版怎么选？
+
+| | 正式 App | 本仓库的开源本地版 |
+|---|---|---|
+| 适合谁 | 想立即使用成熟产品的人 | 需要自托管、扩展和审计技术栈的人 |
+| 使用入口 | iOS、Android、鸿蒙 | 浏览器 + Docker Compose |
+| 核心流程 | 一键录音、自动成稿、Sona 会议问答 | 自托管 LiveKit、本地实时字幕、本地大模型、DOCX/PDF |
+| 数据边界 | 以正式产品服务及其条款为准 | 运行在你控制的基础设施上 |
+| 可定制项 | 产品体验与模板 | 源码、模型、词库、模板和部署方式 |
+
+两条路径共享同一个产品原则：**会议还在进行时，记录就要有用；人离开会议室时，纪要
+就应该已经能归档。**
 
 ## 为什么会有这个项目
 
@@ -120,10 +161,10 @@ python3 scripts/benchmark_domain_accuracy.py
 | 📄 **原版式导出** | 工程例会、面试记录、客户拜访等 DOCX/PDF，保留真实模板排版 |
 | 🔐 **隐私第一** | 无云端 AI Key、无云端调用、无遥测；模型下载完成后完全离线可用 |
 | 🚀 **一键部署** | `docker compose up` 全家桶：Web + 后端 + 本地 ASR + Ollama + 自托管 LiveKit |
-| 🧪 **工程级质量** | 965 个自动化测试、安全头、限流、防注入、审计日志全覆盖 |
+| 🧪 **工程级质量** | 977 个自动化测试、安全头、限流、防注入、审计日志全覆盖 |
 | 🗃️ **历史知识库** | 会议历史检索 + “问筑听”本地问答，跨会议追待办不丢上下文 |
 
-## 🖥️ 界面预览
+## 🖥️ 开源版界面预览
 
 ![演示](docs/demo.gif)
 
@@ -298,7 +339,7 @@ flowchart LR
 ## 🧪 测试与质量
 
 ```bash
-python -m pytest tests-v2             # 965 个测试
+python -m pytest tests-v2             # 977 个测试
 python scripts/smoke_test.py          # 离线冒烟：场景路由 + 全场景导出
 python scripts/check_open_source_hygiene.py  # 开源版红线扫描
 ```

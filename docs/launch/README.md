@@ -3,12 +3,25 @@
 这里存放的是把 `jkinco-listen-open` 推向 1000 star/天量级的全部弹药。
 所有文案都可以直接复制粘贴，占位符用 `[...]` 标出。
 
+## 两条固定入口
+
+每条公开内容都要让人一眼看懂下一步去哪里：
+
+- **正式 App / 产品介绍：** <https://jkincolisten.cloud>
+- **三端下载与产品动效：** <https://jkincolisten.cloud/download/ios>
+- **开源本地版：** <https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open>
+
+正式 App 面向“现在就想用”的人；开源版面向“要自托管、扩展和审计”的人。两个入口同时出现，
+但不要混写数据边界。
+
 ## 发射前检查单（D-3）
 
-- [ ] 仓库 CI 全绿（工作区与 Git 历史密钥扫描 / 965 测试 / 前端构建 / Docker 镜像构建）
+- [ ] 仓库 CI 全绿（工作区与 Git 历史密钥扫描 / 977 测试 / 前端构建 / Docker 镜像构建）
 - [ ] Release v0.2.0 已发布且含实时会议截图
 - [ ] 60 秒通用演示已上传 YouTube / Bilibili：实时字幕 → 结论/待办 → 导出
-- [ ] 社交预览图已上传：仓库 Settings → Social preview（`docs/social-preview.png`）
+- [ ] 仓库 Homepage 已设为正式产品演示与三端下载页
+- [ ] 正式 App 图标社交预览已上传：仓库 Settings → Social preview（`docs/social-preview.png`）
+- [ ] README 首屏的正式站、三端下载、开源版三个入口都点得通
 - [ ] GitHub Discussions 已开启
 - [ ] 已把仓库置顶到个人主页（Settings → Pinned）
 - [ ] 提前联系 5–10 位 KOL，确认发射日转发

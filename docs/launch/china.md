@@ -27,6 +27,10 @@
 ## 快速体验
 docker compose up -d --build
 
+## 正式 App / 三端下载
+想直接在手机上使用，可安装正式版筑听（iPhone / Android / 鸿蒙）：
+https://jkincolisten.cloud/download/ios
+
 ## 仓库
 https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
 （MIT，欢迎 Star / Issue / PR）

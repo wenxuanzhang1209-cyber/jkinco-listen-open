@@ -58,3 +58,13 @@ def test_public_surfaces_do_not_claim_realtime_is_unavailable():
         text = path.read_text(encoding="utf-8")
         for claim in stale_claims:
             assert claim not in text, f"{path.relative_to(ROOT)} still says: {claim}"
+
+
+def test_public_readmes_route_users_to_the_finished_product_and_downloads():
+    for name in ("README.md", "README.zh-CN.md"):
+        text = (ROOT / name).read_text(encoding="utf-8")
+        assert "https://jkincolisten.cloud" in text
+        assert "https://jkincolisten.cloud/download/ios" in text
+        assert "https://jkincolisten.cloud/download/android" in text
+        assert "https://jkincolisten.cloud/download/harmony/app.hap" in text
+        assert "docs/production-app-demo.gif" in text

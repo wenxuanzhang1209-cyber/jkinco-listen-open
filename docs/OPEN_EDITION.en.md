@@ -2,6 +2,10 @@
 
 *[中文版 / Chinese version](OPEN_EDITION.md)*
 
+> Want the ready-to-use mobile product instead?
+> [Open 筑听](https://jkincolisten.cloud) ·
+> [iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
+
 This repository is the **Open Edition** of JKinco Listen:
 
 - Runs 100% locally, with no API key required.

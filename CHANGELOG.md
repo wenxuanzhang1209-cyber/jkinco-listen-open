@@ -25,9 +25,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `SECURITY.md`, issue templates, `.env.example`) are bilingual, English first.
 - English translations added for the architecture, model guide, roadmap, and open-edition
   documents.
+- Public entry points now distinguish the ready-to-use Production App from the self-hosted
+  Open Edition, with direct routes to the product tour and iOS/Android/HarmonyOS downloads.
+- README branding now uses the official horizontal JKinco Listen product lockup; the social
+  preview uses the production App icon shown in the actual product.
 
 ### Added
 
+- A rebuilt `docs/production-app-demo.gif` from the public product tour: live recording →
+  automatic minutes → Sona meeting Q&A, plus a poster image and reproducible build script.
 - A global-release package for `v0.2.0`: English-first positioning, a live-meeting quick
   start, and a bilingual release note draft under `docs/launch/`.
 - **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)** — the benchmark as a published page, with the
@@ -59,6 +65,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+- The hygiene scanner now permits only the exact public product/download URLs, while any
+  other path on the production host is still rejected as a potential infrastructure leak.
 - **The secret scanner missed OpenAI, Anthropic, Google, and Slack keys.** Its pattern
   required an underscore after the prefix (`sk_`), so `sk-proj-…`, `sk-…`, `sk-ant-…`,
   `AIza…`, and `xoxb-…` all passed straight through — two of seven common formats were

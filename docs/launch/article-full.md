@@ -15,6 +15,9 @@
 
 所以我把整套流程做成了**可自托管**的版本：开会时本地出字幕，散会后直接得到能归档的纪要。
 
+如果你现在就想在手机上用，正式版筑听已经上线，iPhone、Android、鸿蒙可以直接安装：
+<https://jkincolisten.cloud/download/ios>。下面讲的是可自托管、可修改模型和模板的开源版。
+
 ## 它解决什么问题
 
 一个完整的会议纪要工作流通常要五步：
@@ -66,7 +69,7 @@ docker compose up -d --build
 
 ## 工程化程度
 
-- 965 个自动化测试：API、安全、并发、模板、导出、场景规则全覆盖；
+- 977 个自动化测试：API、安全、并发、模板、导出、场景规则全覆盖；
 - CI 四道流水线：工作区与 Git 历史密钥扫描、后端测试、前端构建、Docker 镜像构建；
 - 登录限流、验证码、会话签名、CSP 安全头、模板上传防 Zip 炸弹；
 - MIT 开源，可商用。
@@ -78,6 +81,8 @@ docker compose up -d --build
 仓库地址：<https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open>
 
 ![demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif)
+
+正式 App 与三端下载：<https://jkincolisten.cloud/download/ios>
 
 ---
 

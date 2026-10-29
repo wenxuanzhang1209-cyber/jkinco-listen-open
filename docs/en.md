@@ -1,3 +1,10 @@
+<p align="center">
+  <a href="https://jkincolisten.cloud">
+    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/jkinco-listen-open/main/frontend/public/jkinco-listen-logo.png"
+         width="480" alt="JKinco Listen | 筑听" />
+  </a>
+</p>
+
 # JKinco Listen (Open Edition)
 
 *[简体中文](index.md)*
@@ -6,12 +13,33 @@
 local streaming captions, then turn the room into structured minutes and DOCX/PDF. No cloud
 model call and no cloud API key.
 
+> **The finished product is live.**<br>
+> [Open 筑听](https://jkincolisten.cloud) ·
+> [Product tour + iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
+
+![Production App: recording, automatic minutes, and meeting Q&A](production-app-demo.gif)
+
+<sub>The public product tour is Chinese-first; this repository and its contributor
+documentation are English-first.</sub>
+
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">
   Your browser cannot play embedded video — <a href="demo.mp4">download the demo</a>.
 </video>
 
 ---
+
+## One product, two ways to use it
+
+| | Production App | Open Edition |
+|---|---|---|
+| Best for | Using the polished product now | Self-hosting, extending, and auditing |
+| Platforms | iOS, Android, HarmonyOS | Browser + Docker Compose |
+| Workflow | One-tap recording, auto minutes, Sona Q&A | LiveKit rooms, local live captions, local LLM, DOCX/PDF |
+| Data boundary | Governed by the production service and its terms | Runs on infrastructure you control |
+
+The public mobile product and this repository share the same product direction: useful live
+capture, reliable structured minutes, and a file that is ready when the meeting ends.
 
 ## The general problem
 

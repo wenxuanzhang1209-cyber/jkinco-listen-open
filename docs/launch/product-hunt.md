@@ -10,6 +10,13 @@
 - URL: https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
 - Topics: Artificial Intelligence, Developer Tools, Productivity
 
+## 首图与使用入口
+
+- 首图：`docs/production-app-demo-poster.png`
+- 产品动效：`docs/production-app-demo.gif`
+- 正式产品：<https://jkincolisten.cloud>
+- 三端下载：<https://jkincolisten.cloud/download/ios>
+
 ## 首条评论（置顶）
 
 ```text
@@ -29,9 +36,16 @@ JKinco Listen is a private meeting workspace that runs on infrastructure you con
 
 Docker one-command: docker compose up -d --build
 
-MIT licensed, 965 tests, fully offline after the first model download.
+MIT licensed, 977 tests, fully offline after the first model download.
 Management reviews, customer calls, interviews, training sessions, research,
 and regulated meetings can all use the same local pipeline.
+
+Want the finished mobile product instead of self-hosting? The public 筑听 App
+is available for iOS, Android, and HarmonyOS:
+https://jkincolisten.cloud/download/ios
+
+Choose the production app for immediate use, or this repository for source,
+self-hosting, and local model control.
 ```
 
 ## 运营动作

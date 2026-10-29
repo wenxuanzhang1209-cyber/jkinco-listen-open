@@ -1,18 +1,24 @@
 <div align="center">
 
-<img src="assets/jkinco_logo_cropped.png" width="140" alt="JKinco Listen" />
+<a href="https://jkincolisten.cloud">
+  <img src="frontend/public/jkinco-listen-logo.png" width="520" alt="JKinco Listen | 筑听" />
+</a>
 
 # JKinco Listen (Open Edition)
 
 **Live captions in the room. Filed minutes on your machine.**
 
 Start a browser meeting with self-hosted media, watch captions stream from a local ASR model,
-and finish with structured minutes plus **DOCX/PDF**. No cloud model calls. Your meeting
-audio stays on infrastructure you control.
+and finish with structured minutes plus **DOCX/PDF**. No cloud model calls. Your meeting audio
+stays on infrastructure you control.
+
+**The finished mobile product is live:** [Open 筑听](https://jkincolisten.cloud) ·
+[Product tour + iOS / Android / HarmonyOS downloads](https://jkincolisten.cloud/download/ios)
 
 [简体中文](README.zh-CN.md) · [Docs site](https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/en.html) · [Architecture](docs/ARCHITECTURE.en.md) · [Model guide](docs/LOCAL_MODELS.en.md) · [Roadmap](docs/ROADMAP.en.md) · [Changelog](CHANGELOG.md)
 
 [![CI](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml/badge.svg)](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/actions/workflows/ci.yml)
+[![Production App](https://img.shields.io/badge/Production_App-iOS_%7C_Android_%7C_HarmonyOS-2478ff.svg)](https://jkincolisten.cloud/download/ios)
 ![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
 ![GitHub Stars](https://img.shields.io/github/stars/wenxuanzhang1209-cyber/jkinco-listen-open?style=social)
 ![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)
@@ -20,12 +26,48 @@ audio stays on infrastructure you control.
 ![React](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61dafb.svg)
 ![Live captions](https://img.shields.io/badge/Live_captions-local-3fb950.svg)
 ![Self-hosted](https://img.shields.io/badge/Meetings-self--hosted-1f6feb.svg)
-![Tests](https://img.shields.io/badge/tests-965%20passing-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-977%20passing-brightgreen.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 </div>
 
 ---
+
+## The finished product is live
+
+The public **筑听 App** turns the same conversation-to-document workflow into a ready-to-use
+mobile product: one-tap recording, live transcript while the room is speaking, automatic
+structured minutes, Word/PDF export, and **Sona 妙思** meeting Q&A.
+
+[**Open the production app**](https://jkincolisten.cloud) ·
+[**Product tour & three-platform downloads**](https://jkincolisten.cloud/download/ios)
+
+[iOS](https://jkincolisten.cloud/download/ios) ·
+[Android](https://jkincolisten.cloud/download/android) ·
+[HarmonyOS](https://jkincolisten.cloud/download/harmony/app.hap)
+
+![Production app: live recording, automatic minutes, and meeting Q&A](docs/production-app-demo.gif)
+
+<sub>Production App tour: **record → automatic minutes → ask the meeting**. The public product
+tour is Chinese-first; this repository and its contributor documentation are English-first.</sub>
+
+Built for management reviews, customer calls, project weeklies, interviews, training,
+research, and regulated meetings. Engineering supervision is the stress test — multiple
+accountable parties, dense vocabulary, formal deliverables, and consequences when a
+responsibility is transcribed incorrectly.
+
+### Production App or Open Edition?
+
+| | Production App | Open Edition in this repository |
+|---|---|---|
+| Best for | Using the polished product now | Self-hosting, extending, and auditing the stack |
+| Entry point | iOS, Android, HarmonyOS | Browser + Docker Compose |
+| Core flow | One-tap recording, auto minutes, Sona Q&A | Self-hosted LiveKit room, local live captions, local LLM, DOCX/PDF |
+| Data boundary | Governed by the production service and its terms | Runs on infrastructure you control |
+| Customization | Product experience and templates | Source, models, vocabularies, templates, and deployment |
+
+Both paths start from the same product principle: **the record should be useful while the
+meeting is still happening, and filed by the time everyone leaves.**
 
 ## Why this exists
 
@@ -135,10 +177,10 @@ lexicon, run it again, and the delta is trustworthy.
 | **Original-layout export** | DOCX/PDF that match the real corporate templates, not a generic markdown dump |
 | **Privacy by construction** | No cloud AI keys, no telemetry, no outbound model calls; CI scans the working tree and Git history |
 | **One-command deploy** | `docker compose up` brings up web, backend, local ASR, Ollama, and a self-hosted LiveKit room |
-| **965 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
+| **977 automated tests** | Plus security headers, rate limiting, injection defenses, and an audit log |
 | **Local knowledge base** | Search past meetings and ask questions across them, without anything leaving the machine |
 
-## Screenshots
+## Open Edition screenshots
 
 ![Demo](docs/demo.gif)
 
@@ -335,7 +377,7 @@ construction review on the strength of generic words like "project", "schedule",
 ## Testing
 
 ```bash
-python -m pytest tests-v2                    # 965 tests
+python -m pytest tests-v2                    # 977 tests
 python scripts/smoke_test.py                 # offline smoke: scene routing + every export
 python scripts/check_open_source_hygiene.py  # open-edition boundary scan
 ```

@@ -10,7 +10,7 @@
 - [x] Five scenes: construction review / general minutes / personal notes / interview record / customer visit
 - [x] DOCX and PDF export with original layout, plus custom templates
 - [x] Local history knowledge base and "Ask JKinco" Q&A
-- [x] One-command Docker deploy with CI (boundary scan / 965 tests / frontend build)
+- [x] One-command Docker deploy with CI (boundary scan / 977 tests / frontend build)
 
 ## v0.3
 

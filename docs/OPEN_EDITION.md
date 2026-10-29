@@ -1,5 +1,9 @@
 # 开源版说明
 
+> 想直接使用成熟移动端产品？
+> [打开筑听](https://jkincolisten.cloud) ·
+> [iOS / Android / 鸿蒙三端下载](https://jkincolisten.cloud/download/ios)
+
 本仓库是筑听的**开源本地版（Open Edition）**，定位是：
 
 - 100% 本地运行，无需任何 API Key；

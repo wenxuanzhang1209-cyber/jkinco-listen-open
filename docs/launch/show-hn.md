@@ -18,6 +18,14 @@ Hi HN,
 I built JKinco Listen (Open Edition): a self-hosted meeting workspace
 where live captions and the document pipeline run on infrastructure you control.
 
+There is also a finished mobile product for people who do not want to run a
+stack themselves. Same workflow — record, automatic minutes, then ask the
+meeting — on iOS, Android, and HarmonyOS:
+https://jkincolisten.cloud/download/ios
+
+The source edition below is separate and fully self-hosted: no hosted meeting
+service, no cloud ASR dependency, no cloud model API key.
+
 What it does:
 - Browser meeting through self-hosted LiveKit (audio, video, screen share, chat)
 - Local streaming captions (FunASR paraformer-zh-streaming)
@@ -42,7 +50,7 @@ transcribed incorrectly.
 Docker one-command:
 docker compose up -d --build  →  http://localhost:8080
 
-965 automated tests, MIT license, CI green (backend tests, frontend build,
+977 automated tests, MIT license, CI green (backend tests, frontend build,
 Docker image build, working-tree red-line scan, and redacted full-history
 secret scanning).
 

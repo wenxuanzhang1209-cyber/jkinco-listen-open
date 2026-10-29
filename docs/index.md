@@ -1,9 +1,24 @@
+<p align="center">
+  <a href="https://jkincolisten.cloud">
+    <img src="https://raw.githubusercontent.com/wenxuanzhang1209-cyber/jkinco-listen-open/main/frontend/public/jkinco-listen-logo.png"
+         width="480" alt="JKinco Listen | 筑听" />
+  </a>
+</p>
+
 # JKinco Listen · 筑听（开源本地版）
 
 一个能直接开会的私有会议工作台：**自托管实时会议 → 本机流式字幕 → 场景识别 →
 结构化纪要 → DOCX/PDF 导出**。不调用云端模型，不依赖云端 API Key。
 
 *[English](en.md)*
+
+> **正式产品已经上线。**<br>
+> [打开筑听](https://jkincolisten.cloud) ·
+> [产品演示与 iOS / Android / 鸿蒙三端下载](https://jkincolisten.cloud/download/ios)
+
+![正式 App：录音、自动成稿与会议问答](production-app-demo.gif)
+
+<sub>公开产品介绍目前以中文为主；本开源仓库与贡献文档采用英文优先。</sub>
 
 <video src="demo.mp4" controls muted loop playsinline width="100%" poster="demo-minutes.png"
        style="border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,.18);margin:20px 0">
@@ -17,6 +32,18 @@
 - 📄 原版式 DOCX/PDF 导出
 - 🔒 零 API Key、零云端、零遥测
 - 🐳 Docker 一条命令部署
+
+## 一个产品，两种用法
+
+| | 正式 App | 开源本地版 |
+|---|---|---|
+| 适合谁 | 想立即使用成熟产品的人 | 需要自托管、扩展和审计的人 |
+| 使用入口 | iOS、Android、鸿蒙 | 浏览器 + Docker Compose |
+| 核心流程 | 一键录音、自动成稿、Sona 会议问答 | LiveKit 实时会议、本地字幕、本地大模型、DOCX/PDF |
+| 数据边界 | 以正式产品服务及其条款为准 | 运行在你控制的基础设施上 |
+
+正式移动端与开源仓库共享同一个产品方向：现场记录要实时有用，散会后要留下结构化、
+可检索、可导出的会议资产。
 
 ## 产出物长这样
 

@@ -1,8 +1,9 @@
 # Reddit 发布文案（吸引人版本）
 
 原则：**先讲真实痛点，再给方案**；标题像“用户在抱怨”，不像“开发者在推销”。
-每条都带演示 GIF（`https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif`），
-正文不超过 8 行核心内容，结尾给一个具体问题请人回答（评论数 = 传播权重）。
+自托管版带 `docs/demo.gif`；面向普通用户和行业用户的帖子优先带正式 App 动效
+（`docs/production-app-demo.gif`）。正文不超过 8 行核心内容，结尾给一个具体问题请人回答
+（评论数 = 传播权重）。
 
 ---
 
@@ -40,11 +41,15 @@ first model download.
 Docker one-command:
 docker compose up -d --build   →   http://localhost:8080  (admin/123456)
 
-MIT, 894 automated tests, CI green (tests + frontend + docker image build).
+MIT, 977 automated tests, CI green (tests + frontend + docker image build).
 
 What would make you actually switch from your current workflow?
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+
+Prefer a ready-to-use mobile product instead of running Docker?
+The public 筑听 app is available for iOS, Android, and HarmonyOS:
+https://jkincolisten.cloud/download/ios
 
 ![demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif)
 ```
@@ -74,7 +79,7 @@ Posting because this sub helped me choose the stack:
 • Fallbacks: model failover, per-chunk resilience (one bad chunk doesn't kill
   the whole 3-hour meeting)
 
-965 tests, MIT, docker one-command, fully offline after model download.
+977 tests, MIT, docker one-command, fully offline after model download.
 
 Open questions for you:
 1. Which local model gives you the best Chinese meeting-minutes quality on 16GB?
@@ -82,6 +87,9 @@ Open questions for you:
    production? That's our next milestone.
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+
+The finished product is live on iOS, Android, and HarmonyOS:
+https://jkincolisten.cloud/download/ios
 ```
 
 ---
@@ -90,7 +98,7 @@ Open questions for you:
 
 ### 标题（三选一）
 
-- I just open-sourced (MIT) a local-first meeting minutes tool with 965 tests and a CI that even builds the Docker image
+- I just open-sourced (MIT) a local-first meeting minutes tool with 977 tests and a CI that even builds the Docker image
 - Open-sourcing my local AI meeting minutes workbench — no SaaS, no keys, no telemetry
 - MIT-licensed local meeting minutes: the full pipeline in one repo (FastAPI + React + FunASR + Ollama)
 
@@ -107,7 +115,7 @@ What's inside:
   interview / customer visit)
 - Original-layout DOCX/PDF export + custom templates
 - Local history search + meeting Q&A
-- 894 automated tests; CI runs red-line scans, tests, frontend build and a
+- 977 automated tests; CI runs red-line scans, tests, frontend build and a
   real Docker image build
 
 MIT. No API keys. No cloud calls. No telemetry. Works offline after the first
@@ -117,6 +125,9 @@ Looking for contributors on: streaming realtime subtitles, speaker
 diarization, desktop installers.
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+
+Want the product experience without self-hosting? The production app is here:
+https://jkincolisten.cloud/download/ios
 ```
 
 ---
@@ -140,6 +151,9 @@ what was inspected, what must be submitted by when.
 Cloud AI tools won't touch this: contract numbers, acceptance criteria and
 people's names shouldn't sit on a third-party server.
 
+If you want the finished mobile experience first, install 筑听 on iOS, Android,
+or HarmonyOS: https://jkincolisten.cloud/download/ios
+
 I built a fully local tool:
 
 • Recordings → local Chinese ASR (FunASR)
@@ -150,14 +164,14 @@ I built a fully local tool:
   resources / actions with owners and dates
 • Original-layout Word/PDF export
 
-Docker one-command, MIT, 965 tests, works offline.
+Docker one-command, MIT, 977 tests, works offline.
 
 If you deal with 工地例会 / 监理例会, try it and tell me what the template
 gets wrong — real-domain feedback is the fastest way to make it better.
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
 
-![demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/demo.gif)
+![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-app-demo.gif)
 ```
 
 ---
@@ -182,12 +196,17 @@ the actual site-meeting template, not a generic summary.
 Key difference from every SaaS: audio and text never leave the computer.
 No API key, no account, no telemetry. It even works with the Wi-Fi off.
 
-Docker one-command. MIT. 965 tests.
+For the one-tap mobile version, 筑听 is live on iOS, Android, and HarmonyOS:
+https://jkincolisten.cloud/download/ios
+
+Docker one-command. MIT. 977 tests.
 
 Curious: how do your projects handle meeting minutes today? By hand, by
 recording app, or does someone just "have it in their head"?
 
 [repo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+
+![product demo](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/raw/main/docs/production-app-demo.gif)
 ```
 
 ---
@@ -217,11 +236,14 @@ recording app, or does someone just "have it in their head"?
 • 零 API Key、零云端、零遥测，模型下载完可断网使用
 
 Docker 一条命令：docker compose up -d --build
-MIT 开源，894 个自动化测试。
+MIT 开源，977 个自动化测试。
 
 如果你们项目也是“录音一时爽，纪要火葬场”，欢迎试试，顺便告诉我模板哪里不对。
 
 [仓库](https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open)
+
+想直接在手机上用，正式版筑听支持 iPhone / 安卓 / 鸿蒙：
+https://jkincolisten.cloud/download/ios
 ```
 
 ---

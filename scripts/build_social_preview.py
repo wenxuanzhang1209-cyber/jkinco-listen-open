@@ -13,8 +13,9 @@
 从图上直接能看出来，但没人能修，因为没有任何生成方式。
 
 为什么 SPECS 里放着全家族六个仓库：因为它们本来就是一个产品。
-同一套版式、同一个 logo、同一条页脚，读到任何一个仓库的这个文件，
-都能看到另外五个是什么。改版式只改这一个文件，六张卡一起变。
+同一套版式、同一条页脚，读到任何一个仓库的这个文件，都能看到另外五个是什么。
+Listen 的社交卡使用正式 App 图标，其余仓库沿用集团品牌组合标；改版式只改这一个文件，
+六张卡一起变。
 
 尺寸固定 1280×640 —— GitHub 的推荐值，也是各家卡片的安全比例。
 文案英文在前：这张图出现的场合以英文读者为主，中文放副标题。
@@ -25,6 +26,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -34,6 +36,7 @@ OWNER = "wenxuanzhang1209-cyber"
 #: 本仓库在 SPECS 里的键。同一份脚本发到六个仓库，只有这两行不同。
 REPO = "jkinco-listen-open"
 LOGO_RELATIVE = "assets/jkinco_logo_cropped.png"
+DEFAULT_LOGO_RELATIVE = LOGO_RELATIVE
 
 W, H = 1280, 640
 BG_TOP = (13, 17, 23)          # GitHub 深色底，卡片贴在深色 UI 上不突兀
@@ -75,16 +78,19 @@ MAX_TEXT_WIDTH = W - MARGIN * 2
 SPECS: dict[str, dict] = {
     "jkinco-listen-open": {
         "name": "JKinco Listen",
-        "cjk_sub": "筑听 · 开源本地版",
+        "cjk_sub": "筑听 · 正式 App + 开源本地版",
+        "logo": "assets/jkinco-listen-app-icon.png",
+        "logo_tile": True,
         "headline": [
             [("Meetings stay live.", WHITE)],
             [("Minutes stay ", WHITE), ("private.", AMBER)],
         ],
-        "cjk_line": "本地实时字幕，结构化纪要，数据留在你控制的部署里。",
+        "cjk_line": "正式 App 已上线 iOS / Android / 鸿蒙；开源版可自托管。",
         "flow": ["Live captions", "structured minutes", "DOCX / PDF"],
-        # 965: pytest --collect-only；434: jkinco_lexicon 去重词条数
-        "chips": [("Local live captions", True), ("Self-hosted", False),
-                  ("No cloud API key", True), ("965 tests", False), ("MIT", False)],
+        # 977: pytest --collect-only；434: jkinco_lexicon 去重词条数
+        "chips": [("Self-hosted live captions", True), ("No cloud API key", False),
+                  ("Production app: 3 platforms", True), ("977 tests", False),
+                  ("MIT", False)],
     },
     "jkinco-slides": {
         "name": "JKinco Slides",
@@ -201,9 +207,15 @@ def fingerprint(spec: dict, repo: str) -> str:
     DejaVu，字宽完全不同，字节自然对不上 —— 第一版就是这么把 CI
     弄红的。字体不同不代表图过期，但文案不同一定代表。
     """
+    root = _repo_root()
+    logo = _logo_for_spec(spec)
     payload = {
         "repo": repo,
         "size": [W, H],
+        "logo": {
+            "path": str(logo.relative_to(root)),
+            "sha256": hashlib.sha256(logo.read_bytes()).hexdigest() if logo.exists() else None,
+        },
         "spec": {
             "name": spec["name"],
             "cjk_sub": spec["cjk_sub"],
@@ -216,8 +228,19 @@ def fingerprint(spec: dict, repo: str) -> str:
     return json.dumps(payload, ensure_ascii=False, sort_keys=True)
 
 
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parent.parent
+
+
+def _logo_for_spec(spec: dict) -> Path:
+    return _repo_root() / spec.get("logo", DEFAULT_LOGO_RELATIVE)
+
+
 def render(spec: dict, repo: str, logo_path: Path, output: Path) -> Path:
     from PIL import Image, ImageDraw
+
+    if spec.get("logo"):
+        logo_path = _logo_for_spec(spec)
 
     image = Image.new("RGB", (W, H), BG_TOP)
     draw = ImageDraw.Draw(image)
@@ -253,10 +276,20 @@ def render(spec: dict, repo: str, logo_path: Path, output: Path) -> Path:
     x0 = MARGIN
     if logo_path.exists():
         logo = Image.open(logo_path).convert("RGBA")
-        logo = logo.resize((140, max(1, round(logo.height * 140 / logo.width))),
-                           Image.LANCZOS)
-        image.paste(logo, (x0, 118 - logo.height // 2), logo)
-        x0 += logo.width + 26
+        if spec.get("logo_tile"):
+            tile = Image.new("RGBA", (104, 104), (0, 0, 0, 0))
+            ImageDraw.Draw(tile).rounded_rectangle(
+                (0, 0, 103, 103), radius=25, fill=(255, 255, 255, 255)
+            )
+            logo = logo.resize((88, 88), Image.LANCZOS)
+            tile.alpha_composite(logo, (8, 8))
+            image.paste(tile, (x0, 118 - tile.height // 2), tile)
+            x0 += tile.width + 22
+        else:
+            logo = logo.resize((140, max(1, round(logo.height * 140 / logo.width))),
+                               Image.LANCZOS)
+            image.paste(logo, (x0, 118 - logo.height // 2), logo)
+            x0 += logo.width + 26
 
     if latin_bold:
         draw.text((x0, 112), spec["name"], font=latin_bold, fill=WHITE)
@@ -337,12 +370,15 @@ def main() -> int:
     if args.all:
         out_dir = Path(args.all)
         for repo, spec in SPECS.items():
-            path = render(spec, repo, logo, out_dir / f"{repo}.png")
+            selected_logo = root / spec.get("logo", LOGO_RELATIVE)
+            path = render(spec, repo, selected_logo, out_dir / f"{repo}.png")
             print(f"  {path}")
         return 0
 
     output = root / "docs" / "social-preview.png"
-    path = render(SPECS[args.repo], args.repo, logo, output)
+    spec = SPECS[args.repo]
+    selected_logo = root / spec.get("logo", LOGO_RELATIVE)
+    path = render(spec, args.repo, selected_logo, output)
     size = path.stat().st_size / 1024
     print(f"已生成 {path.relative_to(root)}  {W}x{H}  {size:.0f} KB")
     print("\n这张图不会自动生效 —— GitHub 的社交预览只能在网页上设置：")

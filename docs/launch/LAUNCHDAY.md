@@ -3,10 +3,16 @@
 > 目标：今天把 `jkinco-listen-open` 推到全网视野。
 > 规则：每条评论都回、每个 Issue 当天清、每次转发都带演示视频或截图。
 
+## 固定宣传入口
+
+- 正式产品：<https://jkincolisten.cloud>
+- iOS / Android / 鸿蒙下载与产品动效：<https://jkincolisten.cloud/download/ios>
+- 开源仓库：<https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open>
+
 ## 当前状态
 
 - [x] 仓库公开 + Release v0.1.0
-- [x] CI 全绿（红线扫描 / 894 测试 / 前端构建 / Docker 镜像构建）
+- [x] CI 全绿（红线扫描 / 977 测试 / 前端构建 / Docker 镜像构建）
 - [x] GitHub Discussions 已开启，发射公告已发：
   <https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open/discussions/1>
 - [x] 文档站已上线：<https://wenxuanzhang1209-cyber.github.io/jkinco-listen-open/>
@@ -14,8 +20,9 @@
 - [x] Awesome 列表：awesome-llm 收录 PR 已提交
   <https://github.com/Hannibal046/Awesome-LLM/pull/794>
 - [ ] Awesome 列表：awesome-selfhosted 待修复 fork 后提交（见文末）
-- [ ] 社交预览图上传：仓库 Settings → Social preview →
+- [ ] 使用正式 App 图标的社交预览图上传：仓库 Settings → Social preview →
   上传 `docs/social-preview.png`（1280×640）
+- [ ] 仓库 Homepage 指向 <https://jkincolisten.cloud/download/ios>
 - [ ] 仓库置顶：个人主页 → Customize your pins → 勾选 jkinco-listen-open
 - [ ] 60 秒演示视频录制并上传（Bilibili + YouTube）
 
@@ -35,7 +42,7 @@
 
 ### X / Twitter
 
-<https://twitter.com/intent/tweet?text=Meeting%20recordings%20in%20%E2%86%92%20structured%20Word%2FPDF%20out.%20100%25%20local.%20Zero%20API%20keys.%20Zero%20cloud.%20FunASR%20ASR%20%2B%20Ollama%20LLM%20%2B%20rule-gated%20scene%20recognition%20for%20engineering%20meetings.%20Docker%20one-command.%20MIT%2C%20open%20source.&url=https%3A%2F%2Fgithub.com%2Fwenxuanzhang1209-cyber%2Fjkinco-listen-open>
+<https://twitter.com/intent/tweet?text=One-tap%20recording%20%E2%86%92%20automatic%20minutes%20%E2%86%92%20meeting%20Q%26A.%20Use%20the%20finished%20%E7%AD%91%E5%90%AC%20app%20on%20iOS%2C%20Android%2C%20or%20HarmonyOS.%20Need%20self-hosted%20LiveKit%20%2B%20local%20ASR%2FLLM%3F%20The%20MIT%20Open%20Edition%20is%20in%20the%20repository.&url=https%3A%2F%2Fjkincolisten.cloud%2Fdownload%2Fios>
 
 ### 微博
 

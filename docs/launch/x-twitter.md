@@ -5,18 +5,24 @@
 ## X（英文）
 
 ```text
-Self-hosted meetings. Local live captions. Filed minutes.
-No cloud AI API key. No cloud model calls.
+Record once. Get live words. Leave with filed minutes. Then ask the meeting.
 
-LiveKit rooms + local FunASR streaming ASR + Ollama + evidence-gated scene
-recognition. End the meeting with editable DOCX/PDF. Docker one-command. MIT.
+The finished 筑听 app is live on iOS, Android, and HarmonyOS:
+https://jkincolisten.cloud/download/ios
 
+Need self-hosted LiveKit + local ASR/LLM? The MIT Open Edition is here:
 https://github.com/wenxuanzhang1209-cyber/jkinco-listen-open
+
+Production app for immediate use. Open Edition for control and source.
 ```
 
 ## 微博 / 即刻（中文）
 
 ```text
+正式版筑听已上线：手机一键录音，边说边出转写，散会自动成稿，
+还能基于纪要和原文继续追问。iPhone / 安卓 / 鸿蒙都能直接下载：
+https://jkincolisten.cloud/download/ios
+
 自托管会议房间 + 本机实时字幕 + 结构化纪要 + Word/PDF。
 LiveKit、本地 FunASR 流式识别、Ollama 和证据门控场景识别。
 不依赖云端 AI API Key，数据留在你控制的部署里，Docker 一条命令。
